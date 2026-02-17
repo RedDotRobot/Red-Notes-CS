@@ -1,0 +1,244 @@
+%! TEX root = /home/lucas/Desktop/uni/COMP1511/COMP1511\ \-\ Programming Fundamentals.tex
+
+\documentclass{article}
+
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{minted}
+\usemintedstyle{native}
+\setminted{xleftmargin=4em, autogobble}
+\usepackage{xcolor}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+% Colors
+\definecolor{yorhabg}{HTML}{131314}
+\definecolor{yorhafg}{HTML}{C9C7CD}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{mred}{HTML}{D67069}
+\definecolor{mblue}{HTML}{6887A1}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{pastel_red}{RGB}{255, 173, 173}
+\definecolor{pastel_orange}{RGB}{255, 214, 165}
+\definecolor{pastel_yellow}{RGB}{253, 255, 182}
+\definecolor{pastel_green}{RGB}{176, 217, 176}
+\definecolor{pastel_blue}{RGB}{167, 199, 231}
+\definecolor{pastel_purple}{RGB}{222, 218, 244}
+
+
+\pagecolor{yorhabg}		% Set background color
+\color{yorhafg}
+
+\import{preamble.sty}
+
+\usepackage[T1]{fontenc}			% Font package
+
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[skins, most]{tcolorbox}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg,%
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{shortcut}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg, coltitle=yorhabg, title=\texttt{Shortcut.}, 
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{question}{
+    enhanced, 
+    colback=yorhabg,
+    colframe=mblue,
+    coltext=yorhafg,
+    coltitle=yorhabg,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=\texttt{Question.},
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=5pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+
+
+\title{\textbf{COMP1511: Programming Fundamentals}}
+\author{L. Cheung}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Lecture 1}
+	\subsection{What is COMP1511}
+		\begin{itemize}
+			\item Introduction to programming
+			\item Learning how to write precise instructions to operate computers
+			\item Assumption of no programming knowledge
+		\end{itemize}
+
+	\subsection{Introduction to C}
+		\begin{minted}{c}
+			#include <stdio.h>
+
+			int main(void) {
+				printg("Hello world!"\n);
+				return 0;
+			}
+		\end{minted}
+
+\section{Lecture 2}
+	\subsection{How does a computer remember things?}
+		\begin{itemize}
+			\item Computer memory is a big pile of on-off switches, called bits (a choice between a 1 or a 0)
+			\item These bits are usually bunched into sets of 8, a byte
+			\item When executing code, the CPU processes the instructions and performs basic arithmetic, but the RAM keeps track of all the data needed in those instructions and operations
+		\end{itemize}
+
+	\subsection{Variables}
+		\begin{itemize}
+			\item A variable is a certain allocation of bits that can be used to store information
+				\begin{itemize}
+					\item \textcolor{pastel_blue}{int} $\rightarrow$ integer, a whole number
+						\begin{itemize}
+							\item A whole number, no fractions or decimals
+							\item Most commonly uses 32 bits (4 bytes)
+							\item Exactly $2^{32}$ different values
+							\item Finite range
+						\end{itemize}
+					\item \textcolor{pastel_blue}{char} $\rightarrow$ a single character
+						\begin{itemize}
+							\item The character holds an ASCII value, allowing characters to be read as integers
+							\item Lowercase letters are only 32 numbers away from their uppercase variant (flipping one bit)
+							\item Enclosed using single apostrophes
+						\end{itemize}
+					\item \textcolor{pastel_blue}{double} $\rightarrow$ floating point number
+						\begin{itemize}
+							\item A double-sized floating point number (64 bits, hence double the size of integers)
+							\item Floating point means the point can be anywhere in the number
+						\end{itemize}
+				\end{itemize}
+			\item Names are a description of what the variable is
+			\item C is case sensitive, "ansWer" \textcolor{pastel_red}{$\neq$} "answer"
+			\item C also reserves some words (eg. "return", "int", "double")
+			\item Variables are printed using a format specifier (eg. \textcolor{pastel_green}{\%d} formats the variable in base 10, \textcolor{pastel_green}{\%lf} formats it in a double, \textcolor{pastel_green}{\%c} formats it as a character)
+			\item When printing variables, they appear in the order of the specifiers given
+				\begin{itemize}
+					\item eg. \mintinline{c}{printf("Age: &d\n Name: %d\n", name, age)}
+				\end{itemize}
+		\end{itemize}
+
+		\begin{minted}[autogobble]{c}
+			#include <stdio.h>
+
+			int main(void) {
+				double grade = 99.9;
+				int age = 18;			// dcc throws an error for unused variables
+				char first_initial = "H";
+				grade = 97.5;
+				age = 67;
+				printf("%d\n", age);	// "%d" formats the variable as a decimal
+			}
+		\end{minted}
+
+	\subsection{Input}
+		\begin{itemize}
+			\item \mintinline{c}{scanf} can be used to get an input
+		\end{itemize}
+
+		\begin{minted}[autogobble=true]{c}
+			#include <stdio.h>
+
+			int main(void) {
+				int age;
+				printf("Enter your age: ")
+				scanf("&d", &age);
+				printf("Your age is %d!\n", age);
+				return 0;
+				}
+		\end{minted}
+
+		\begin{itemize}
+			\item The \mintinline{c}{&} symbol tells \mintinline{c}{scanf} the address of the variable in memory and where to place the given value
+			\item Inserting a space before the specifier in \mintinline{scanf} tells it to ignore all preceding whitespace
+		\end{itemize}
+
+	\subsection{Constants}
+		\begin{itemize}
+			\item Constants are usually defined at the start of the script using \mintinline{c}{#define CONST VALUE}
+		\end{itemize}
+
+	\subsection{Maths}
+		\begin{itemize}
+			\item Very familiar functions
+				\begin{itemize}
+					\item Adding +
+					\item Subtracting -
+					\item Multiplication *
+					\item Division /
+				\end{itemize}
+
+				\begin{minted}[autogobble]{C}
+					#include <stdio.h>
+
+					int main(void) {
+						int age = 12;
+						age = age + 15 * 3;
+						printf("\%d", age);
+						return 0;
+					}
+				\end{minted}
+
+			\item BODMAS applies to maths in C
+			\item Math can be done to characters since they are just integers
+			\item Adding two large integers may roll over the maximum value and produce a very small or negative number (dcc will throw warning if this occurs)
+			\item There is no infinite precision when encoding a number (eg, a third cannot be represented in binary)
+			\item C will maintain variable types when doing arithmetic
+			\item Integers will drop whatever fraction exists, ie. rounding down
+			\item \% is called the modulus and will provide the remainder from the division between two integers, eg. \verb+5 % 3 = 2+ since $\frac{5}{3} = 1 \text{ rem } 2$
+		\end{itemize}
+
+
+\end{document}
