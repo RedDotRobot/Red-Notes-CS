@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{condition}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{k}{do}\PYG{+w}{ }\PYG{n}{something}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{do}\PYG{+w}{ }\PYG{n}{something}\PYG{+w}{ }\PYG{k}{else}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}
