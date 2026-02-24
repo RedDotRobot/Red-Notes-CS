@@ -10,7 +10,7 @@
 \usepackage{hyperref}
 \usepackage{minted}
 \usemintedstyle{native}
-\setminted{xleftmargin=4em, autogobble}
+\setminted{xleftmargin=4em, autogobble, tabsize=4}
 \usepackage{xcolor}
 
 % Custom perms and combs commands
@@ -471,4 +471,205 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 					}
 				}
 			\end{minted}
+
+\section{Lecture 4}
+	
+	\subsection{Examples of if statements and loops}
+
+		\begin{question}{Simple If Statement}
+			\begin{minted}[autogobble]{c}
+
+				#include <stdio.h>
+
+				int main(void) {
+					int x = 42;
+					if(x == 42 || x % 2 == 0) {
+						printf("That's even, or might be the meaning of life\n");
+					} else {
+						printf("%d is not he meaning of life\n", x);
+					}
+					return 0;
+				}
+
+			\end{minted}
+		\end{question}
+
+		\begin{question}{Sentinel While Loop}
+			\begin{minted}[autogobble]{c}
+
+				#include <stdio.h>
+
+				int main(void) {
+					int beverage_number;
+					int valid_order = 0;
+					while (valid_order == 0) {
+						printf("What beverage would you like? 0 for tea, 1 for coffee: ");
+						scanf("%d", &beverage_number);
+						if (beverage_number == 0) {
+							printf("Enjoy your green tea!\n");
+							valid_order = 1;
+						} else if (beverage_number == 1) {
+							printf("Enjoy your coffee!\n");
+							valid_order = 1;
+						} else {
+							printf("That is neither tea nor coffee\n");
+						}
+					}
+					return 0;
+				}
+
+			\end{minted}
+		\end{question}
+
+		\begin{question}{Loop de Loop}
+			\begin{minted}{c}
+				
+				#include <stdio.h>
+
+				int main(void) {
+					int i = 0;
+					int j = 0;
+					while (i < 5) {
+						while (j < 5) {
+							printf("I am printing!\n");
+							j++
+						}
+						i++
+					}
+					return 0;
+				}
+
+			\end{minted}
+			
+		\end{question}
+
+		\begin{question}{Grid of Numbers}
+
+			Goal: Print a grid of numbers as such:
+
+			\begin{minted}{c}
+				1 2 3 4 5
+				1 2 3 4 5
+				1 2 3 4 5
+				1 2 3 4 5
+			\end{minted}
+
+			Solution:
+
+			\begin{minted}{c}
+
+				#include <stdio.h>
+
+				int main(void) {
+					int i = 0;
+					while (i < 5) {
+						int j = 0;
+						while (j < 5) {
+							printf("%d ", j + 1);	// Print the value of j
+							j++;
+						}
+						i++;
+						printf("\n");				// Loop this 5 times
+					}
+					return 0;
+				}
+
+			\end{minted}
+
+		\end{question}
+
+	\subsection{Structures}
+		
+		\begin{itemize}
+			\item Structures can be used to organise related bu different components into one structure
+			\item Useful in defining real world problems
+			\item To create a struct:
+				\begin{enumerate}
+					\item Define the struct (outside the main)
+					\item Declare the struct (inside the main)
+					\item Initialise the struct (inside the main)
+				\end{enumerate}
+		\end{itemize}
+
+		\begin{minted}{c}
+				
+			#include <stdio.h>
+
+			// Define the struct
+			struct coordinate {
+				int x_coordinate;
+				int y_coordinate;
+			};
+
+			int main(void) {
+				// Declare the struct
+				struct coordinate my_base;
+				my_base.x_coordinate = -12;		// Initialising the struct by using its values
+				my_base.y_coordinate = 65;
+
+				struct coordinate looking;
+				looking.x_coordinate = -10;
+				looking.y_coordinate = 60;
+
+				if (looking.x_coordinate > -15 && looking.x_coordinate < -10) {
+					if (looking.y_coordinate >= 55 && looking.y_coordinate <= 70) {
+						printf("You're getting close to my base!\n");
+					} else {
+						printf("You're y coordinate is off\n")
+					}
+				}
+
+				printf("My base is located at x=%d, y=&d\n", my_base.x_coordinate, my_base.y_coordinate);
+				return 0;
+			}
+
+		\end{minted}
+
+	\subsection{Enumerations}
+
+		\begin{itemize}
+			\item Integer data types with a limited range of values (enumerated constants)
+			\item Used to assign names to integral constants
+			\item The index can be modified using flags
+		\end{itemize}
+
+		\begin{minted}{c}
+			
+			#include <stdio.h>
+
+			// Declaration, NOT assignment (no equal sign)
+			enum weekdays {MON, TUE, WED, THU, FRI, SAT, SUN};
+
+			int main(void) {
+				enum weekdays day;
+				day = SAT;
+				printf("%d", day);
+				return 0;
+			}
+
+			// Output: 5
+			// Explanation: Since SAT occupies the fifth index
+			// of the enum (starting at 0) it returns 5
+
+		\end{minted}
+
+		\begin{question}{Using flags}
+			\begin{minted}{c}
+				
+				#include <stdio.h>
+
+				enum states {SUCCESS, FAILURE = 2, UNKNOWN}
+				main(void) {
+					enum states flag = UNKNOWN;
+					printf("%d\n", flag);
+					return = 0;
+				}
+
+				// Output: UNKNOWN = 3
+				// Explanation: C will fill in the remaining constants with appropriate flags
+
+			\end{minted}
+			
+		\end{question}
+
 \end{document}
