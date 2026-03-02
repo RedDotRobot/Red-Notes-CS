@@ -167,6 +167,9 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\item C is case sensitive, "ansWer" \textcolor{pastel_red}{$\neq$} "answer"
 			\item C also reserves some words (eg. "return", "int", "double")
 			\item Variables are printed using a format specifier (eg. \textcolor{pastel_green}{\%d} formats the variable in base 10, \textcolor{pastel_green}{\%lf} formats it in a double, \textcolor{pastel_green}{\%c} formats it as a character)
+				\begin{itemize}
+					\item When using \mintinline{c}{%c}, a space can be used (\mintinline{c}{" %c"}) to "swallow" leading whitespace
+				\end{itemize}
 			\item When printing variables, they appear in the order of the specifiers given
 				\begin{itemize}
 					\item eg. \mintinline{c}{printf("Age: &d\n Name: %d\n", name, age)}
@@ -212,7 +215,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 		\begin{itemize}
 			\item The \mintinline{c}{&} symbol tells \mintinline{c}{scanf} the address of the variable in memory and where to place the given value
-			\item Inserting a space before the specifier in \mintinline{scanf} tells it to ignore all preceding whitespace
+			\item Inserting a space before the specifier in \mintinline{c}{scanf} tells it to ignore all preceding whitespace
 		\end{itemize}
 
 	\subsection{Constants}
@@ -671,5 +674,144 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\end{minted}
 			
 		\end{question}
+
+\section{Lecture 5}
+
+	\subsection{Functions}
+		
+		\begin{itemize}
+			\item A function is a way of breaking down code into smaller functional parts
+				\begin{itemize}
+					\item Each function performs some sort of operation
+					\item Each function has inputs and an output (these may be empty)
+					\item The function can be called from anywhere in the code
+						\begin{minted}{c}
+							int add (int number_one, int number_two) {
+								int sum;
+								sum = number_one + number_two;
+								return sum;
+							}
+						\end{minted}
+					\item In the above code, the \textbf{return type} is specified before the name of the function, in this case \mintinline{c}{int}
+					\item The style guide specifies that the \mintinline{c}{main()} function must come first in the code, however the functions called come after the main. Hence a "prototype" must be initialised before the main function
+				\end{itemize}
+		\end{itemize}
+
+		\begin{question}{dice\_roll\_functions.c}
+			\begin{minted}{c}
+				
+				#include <stdio.h>
+
+				#define TARGET 11
+
+				// Function prototype
+				// A prototype tells the program that the function exists
+				void print_intro(void);		
+				int sum_dice(int die_one, int die_two);
+				int win_check(int sum);
+
+				int main(void) {
+					int die_one;
+					int die_two;
+					int sum;
+					char playing = 'y';
+
+					print_intro();
+
+					while (playing == 1) {
+
+						printf("Enter the first die roll: ");
+						scanf("%d", &die_one);
+
+						printf("Enter the second die roll: ");
+						scanf("%d", &die_two);
+
+						sum = sum_dice(die_one, die_two);
+
+						if (win_check(sum)) {
+							printf("You win!\n")
+						} else {
+							printf("You lose!\n")
+						}
+
+						printf("Roll again? y/n ");
+						scanf(" %c", &playing);
+					}
+					return 0;
+				}
+
+
+			\end{minted}
+
+		\end{question}
+		\begin{question}{dice\_roll\_functions.c (continued)}
+			\begin{minted}{c}
+
+				// Function that prints the intro
+				// INPUT: void
+				// OUTPUT: void
+				// NAME: print_intro
+				void print_intro(void) {
+					printf("==== Lucky Dice Game ====\n");
+					printf("If you get the target number you win!\n");
+				}
+				
+				// Function that sums two dice rolls
+				// INPUT: int, int
+				// OUTPUT: int
+				// NAME: sum
+				int sum_dice(int die_one, int die_two) {
+					return die_one + die_two;
+				}
+
+				// Function that sees if the sum is the target number
+				// INPUT: int
+				// OUTPUT: int
+				// NAME: win_check
+				int win_check(int sum) {
+					if (sum == TARGET) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+				
+			\end{minted}
+			
+		\end{question}
+
+	\subsection{Style}
+
+		\begin{itemize}
+			\item Code should be written with readability in mind
+			\item Neat code makes it easier to read and understand
+		\end{itemize}
+
+		\subsubsection{Shorthands}
+		
+			\begin{itemize}
+				\item Increments by 1
+					\begin{minted}{c}
+						count = count + 1;
+						count++;
+					\end{minted}
+				\item Decrements by 1
+					\begin{minted}{c}
+						count = count - 1;
+						count--;
+					\end{minted}
+				\item Decrement by 5
+					\begin{minted}{c}
+						count += 5;
+					\end{minted}
+				\item Multiply by 5
+					\begin{minted}{c}
+						count *= 5
+					\end{minted}
+				\item \mintinline{c}{scanf()} returns \textbf{the number of things it has successfully scanned in}
+					\begin{minted}{c}
+						if (scanf("%d", &size) != 1)
+					\end{minted}
+			\end{itemize}
 
 \end{document}
