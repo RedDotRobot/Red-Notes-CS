@@ -94,7 +94,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 \newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
 
-\title{\textbf{MATH1141: Higher Mathematics 1A}}
+\title{\textbf{MATH1141: Higher Mathematics 1A - Algebra}}
 \author{L. Cheung}
 \date{\today}
 
@@ -103,4 +103,62 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 \maketitle
 \tableofcontents
 \newpage
+
+\chapter{Introduction to Vectors}
+
+\section{Vector quantities}
+
+	\begin{itemize}
+		\item A \textbf{scalar} quantity is anything that can be specified by a single number
+		\item A \textbf{vector} quantity is specified by both a magnitude and direction
+	\end{itemize}
+
+	\subsection{Geometric vectors}
+	
+		\begin{itemize}
+			\item A geometric vector is often represented by an arrow or a directed line segment
+			\item The length of the arrow represents the magnitude of the vector and the arrow points in the direction of the vector
+			\item In these notes, vectors will be denoted as $\textbf{v}$
+			\item Two vectors are equal if they share the same direction and magnitude. Hence, a translation of a vector would be the same vector.
+		\end{itemize}
+
+		Vectors $\textbf{u}$ and $\textbf{v}$ can be added "head to tail" to produce a new vector $\textbf{u} + \textbf{v}$
+
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width=0.8\textwidth]{images/vector_addition.png}
+			\end{center}
+		\end{figure}
+		\\ \\
+		The zero vector $\textbf{0}$ has no length and is the only vector with no specific direction. Adding the zero vector to a vector does not change it.
+		\\ \\
+		Scalar multiplication is the process of multiplying a vector $\textbf{v}$ by a scale $\lambda \in \mathbb{R}$. If $\lambda \geq 0$, then $\lambda \textbf{v}$ denotes the vector with the same direction, but magnitude is scaled by $\lambda$, ie. $|\lambda \textbf{v}| = \lambda |\textbf{v}|$.
+
+		\subsubsection{Properties of vector arithmetic}
+
+			Vector manipulation is defined similarly to regular numbers (the names of these laws should be memorised):
+			
+				\begin{itemize}
+					\item \textbf{Commutative law}: $\textbf{v} + \textbf{w} = \textbf{w} = \textbf{v}$
+					\item \textbf{Additive Associative law}: $(\textbf{u} + \textbf{v}) + \textbf{w} = \textbf{u} + (\textbf{v} = \textbf{w})$
+					\item \textbf{Multiplicative Associative law}: $\lambda (\mu \textbf{v}) = (\lambda \mu) \textbf{v} \coloneq \lambda \mu \textbf{v}$
+					\item \textbf{Distributive law}:
+						\begin{itemize}
+							\item Vector $\rightarrow$ $\lambda (\textbf{v} + \textbf{w}) = \lambda \textbf{v} + \lambda \textbf{w}$
+							\item Scalar $\rightarrow$ $(\lambda + \mu) \textbf{v} = \lambda \textbf{v} + \mu \textbf{v}$
+						\end{itemize}
+				\end{itemize}
+
+			Two vectors $\textbf{a}$, $\textbf{b}$ are parallel if there exists a scalar $\lambda$ such that either $\textbf{a} = \lambda \textbf{b}$ or $\textbf{b} = \lambda \textbf{a}$.
+
+		\subsubsection{Coordinates}
+			
+			The place coordinates on a plane the following must be specified:
+				\begin{itemize}
+					\item an origin point $O$
+					\item a pair of vectors $\textbf{i}$ and $\textbf{j}$ that both have a unit length and are at right angles to each other (it is conventional to choose $\textbf{j}$ at $\frac{\pi}{2}$) anticlockwise from $\textbf{i}$
+				\end{itemize}
+			\\ \\
+			Every geometric vector $\textbf{a}$ in the plane can be written as $\textbf{a} = a_1 \textbf{i} + a_2 \textbf{j}$
+
 \end{document}

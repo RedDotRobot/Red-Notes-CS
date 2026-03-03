@@ -8,6 +8,8 @@
 \usepackage{hyperref}
 \usepackage{setspace}
 \usepackage{float}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
 
 % Custom perms and combs commands
 \newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
@@ -452,9 +454,9 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\end{alignat*}
 		\end{question}
 
-	\subsection{Proofs of basic limit results}
-		
-		Not assessable.
+\section{Proofs of basic limit results}
+	
+	Not assessable.
 
 \section{Limits of functions at a point}
 	
@@ -590,19 +592,154 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 				\end{align*}
 
 				Discuss the limiting behaviour of $f(x)$ as $x$ approaches 3.
-
+				\\
+				\\
+				Limit from left hand side
 				\begin{alignat*}{2}
 					& \text{For } x \in (-3,3), \qquad && \frac{|x^2 -9|}{x-3} = \frac{|x+3||x-3|}{x-3} = -(x+3)	\\
 					&								  && \Rightarrow \lim_{x\to 3^-} f(x) = \lim_{x\to 3^-} -(x+3) = -6 = f(3)
 				\end{alignat*}
+
+				Limit from right hand side
 				\begin{align*}
 					\text{For } x > 3, & \qquad \frac{|x^2 -9|}{x-3} = x+3	\\
 									   & \qquad \Rightarrow \lim_{x\to 3^+} f(x) = \lim_{x\to 3^+} x+3 = 6
 				\end{align*}
-				\begin{align*}
-					& \text{Since } \lim_{x\to 3^+} f(x) \neq \lim_{x\to 3^-} f(x), \text{ two-sided limit does not exist at } x = 3	\\
-					& \text{So, } f \text{ is not continuous at } x = 3
-				\end{align*}
+				Since $\displaystyle\lim_{x\to 3^+} f(x) \neq \lim_{x\to 3^-} f(x)$, two-sided limit does not exist at $x = 3$
+
+				So, $f$ is not continuous at $x = 3$
+
 			\end{question}
+
+\chapter{Properties of continuous functions}
+
+\section{Combining continuous functions}
+	
+	Suppose that the functions $f$ and $g$ are continuous at a point $a$. Then
+	\begin{enumerate}
+		\item $f+g$, $f-g$ and $fg$ are continuous at $a$
+		\item $\frac{f}{g}$ is continuous at $a$, provided that $g(a) \neq 0$
+	\end{enumerate}
+	\begin{alignat*}{2}
+		\lim_{x\to a} (f+g)(x) &= \lim_{x\to a} (f(x) + g(x)) \qquad \qquad 	&& (\text{by definition of } f+g)	\\
+							   &= \lim_{x\to a} f(x) + \lim_{x\to a} g(x) 		&& (\text{by "limit of sum = sum of limits"})	\\
+							   &= f(a) + g(a)									&& (\text{by continuity of } f \text{ and } g \text{ at } a)	\\
+							   &= (f+g)(a)
+	\end{alignat*}
+
+	Supose that the function $f$ is continuous at $a$, and $g$ is continuous at $f(a)$. Then $g \circ g$ is continuous at $a$.
+	\begin{alignat*}{2}
+		\lim_{x \to a} (g \circ f)(x) &= \lim_{x \to a} g(f(x)) \\
+									  &= g\!\left( \lim_{x \to a} f(x) \right) \qquad \qquad	&& (\text{by limit rule of function composition}) \\
+									  &= g(f(a))												&& (\text{by continuity of $f$ at $a$}) \\
+									  &= (g \circ f)(a)
+	\end{alignat*}
+
+	\begin{question}{Example}
+		Every polynomial $p: \mathbb{R} \rightarrow \mathbb{R}$ is continuous at every $a \in \mathbb{R}$.
+		\begin{align*}
+			\Leftarrow \text{for any } n \in \mathbb{N}, \quad p(x) &= a_n x^n + a_{n-1} x^{n-1} + \dots + a_0	\\
+																	&= \text{product \& sum of } g(x) = x \text{ and contant functions, ie. continuous by (i)}
+		\end{align*}
+	\end{question}
+
+\section{Continuity on intervals}
+
+	For a real-valued function $f$ defined on an open interval $(a,b)$, we say that $f$ is continuous on $(a,b)$ if it is continuous at every $x \in (a,b)$.
+
+	For a real-valued function $f$ defined on a closed interval $[a,b]$, we say that
+		\begin{itemize}
+			\item $f$ is continuous at the endpoint $a$ if $\displaystyle\lim_{x\to a^+} f(x) = f(a)$
+			\item $f$ is continuous at the endpoint $b$ if $\displaystyle\lim_{x\to b^-} f(x) = f(b)$
+			\item $f$ is continuous on $[a,b]$ if it is continuous on $(a,b)$ and at endpoints $a$ and $b$.
+		\end{itemize}
+
+\section{The intermediate value theorem}
+
+	Suppose that $f$ is continuous on $[a,b]$, and $f(b) < z < f(a)$ for some $z$. The graph of $f$ from $(a, f(a))$ to $(b, f(b))$ without lifting the pen. We must cross a point $(c,z)$ along the way for some $c \in (a,b)$.
+
+	Let $f: [a,b] \rightarrow \mathbb{R}$ be a continuous function. If either $f(a) < z < f(b)$ or $f(b) < z < f(a)$ for some $z \in \mathbb{R}$, then there is at least one $c \in (a,b)$ such that $f(c) = z$
+
+	\begin{itemize}
+		\item In general, $c$ is not unique
+		\item The continuity of $f$ is necessary
+		\item Only for continuous functions defined on (subsets of) $\mathbb{R}$, no analogue for $\mathbb{Q}$
+			\begin{alignat*}{2}
+				& f: \mathbb{R} \rightarrow \mathbb{R}, \quad f(x) = x^2 - 2 \qquad && f \text{ is continuous on Dom}(f) = \mathbb{R}	\\
+				&																	&& = \in \left(f(0),f(2)\right),\;f(c) = 0 \text{ at } c = \sqrt{2} \in (0,2)	\\
+				& f: \mathbb{Q} \rightarrow \mathbb{Q}, \quad g(x) = x^2 - 2 \qquad && g \text{ is continuous on Dom}(g) = \mathbb{Q}	\\
+				&																	&& = \in \left(g(0),g(2)\right),\;g(c) = 0 \text{ at } c = \sqrt{2} \notin \mathbb{Q}	\\
+			\end{alignat*}
+		\item Since infinity is not part of $\mathbb{R}$, a definite bound must be defined before using IVT
+	\end{itemize}
+
+	\begin{question}{Example}
+		Show that there exists a solution $c \in [1,2]$ of the equation $\sqrt{c} = c^2 - 1$ and approximate its value.
+		\\ \\
+		Define a function $f: [1,2] \rightarrow \mathbb{R}$ by $f(x) = x^2 - 1 - \sqrt{x}$. Then,
+			\begin{itemize}
+				\item $f$ is continuous on [1,2]
+				\item $f(1) = -1$  and $f(2) = 3 - \sqrt{2} > 0$.
+			\end{itemize}
+
+		Since $f(1) < 0 < f(2)$, by \textcolor{pastel_orange}{IVT}, there is a number $c \in (1,2)$ such that $f(c) = c^2 - 1 - \sqrt{c} = 0$
+		\\ \\
+		Approximation:
+		\begin{itemize}
+			\item take $c_1 = 1.5 \Rightarrow f(c_1) = 0.0253$, by IVT, $\exists$ a solution $c \in (1, c_1)$
+			\item take $c_2 = 1.25 \Rightarrow f(c_2) = -0.5555$, by IVT, $\exists$ a solution $c \in (1, c_2)$
+		\end{itemize}
+
+	\end{question}
+
+\section{The maximum-minimum theorem}
+
+	Let $f$ be a real-valued function defined on a closed interval $[a,b]$.
+	\begin{itemize}
+		\item A point $c \in [a,b]$ is a global minimum point for $f$ on $[a,b]$ if
+			\begin{align*}
+				f(c) \leq f(x), \quad \forall x \in [a,b].
+			\end{align*}
+		\item A point $d \in [a,b]$ is a global minimum point for $f$ on $[a,b]$ if
+			\begin{align*}
+				f(d) \geq f(x), \quad \forall x \in [a,b].
+			\end{align*}
+	\end{itemize}
+
+	If $f$ is continuous on $[a,b]$, then $f$ attains its minimum and maximum on $[a,b]$, ie. there exists points $c,d \in [a,b]$ such that
+		\begin{align*}
+			f(c) \leq f(x) \leq f(d), \quad \forall x \in [a,b].
+		\end{align*}
+
+	\begin{itemize}
+		\item Closed intervals are necessary
+		\item Continuity of $f$ is necessary
+	\end{itemize}
+
+	\begin{question}{Example}
+		Let $f$ be a function defined by $f(x) = \begin{cases} \frac{1}{x^2+1} \sin{\frac{1}{x}}, \quad & \text{ if } x \neq 0 \\	1, & \text{ if } x=0 \end{cases}$
+
+		\begin{enumerate}
+			\item Is $f$ bounded on $[-2,2]$?
+				\begin{align*}
+					\text{Yes. } \quad & \text{For } x \neq 0, \quad \left|f(x)\right| = \left| \frac{1}{x^2 + 1} \sin{\frac{1}{x}} \right| \leq \frac{1}{x^2 _ 1} \leq 1.	\\
+									   & \text{For } x = 0, \quad f(x) = 1.	\\
+									   & \Rightarrow \left|f(x)\right| \leq 1, \quad \forall \; x \in [-2,2]
+				\end{align*}
+			\item Does it attain a minimum or maximum on $[-2,2]$
+				\begin{itemize}
+					\item $f$ on $[-2,2]$ attains a maximum at $x=0$.
+					\item $f$ does not have a minimum value on $[-2,2]$
+				\end{itemize}
+				\begin{align*}
+					& \text{For } x_n = \left(\frac{-\pi}{2} + 2n \pie\right)^{-1}, \quad n \in \mathbb{Z}	\\
+					& \qquad \sin{\frac{1}{x_n}} = -1	\\
+					& \qquad f(x_n) = - \frac{1}{\left(\frac{- \pi}{2} + 2n \pi\right)^{-2} + 1}	\\
+					& \text{Then as } n \rightarrow \infty, \quad x_n \rightarrow 0 \text{ and } f(x_n) \rightarrow -1	\\
+					& \text{Note: } f(x) > -1	\\
+					& \Rightarrow \text{as } x \rightarrow 0, f(x) \text{ oscillates between (not touching) } -1 \text{ and } 1
+				\end{align*}
+		\end{enumerate}
+	\end{question}
 
 \end{document}
