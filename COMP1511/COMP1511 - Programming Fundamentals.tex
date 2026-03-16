@@ -814,4 +814,212 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 					\end{minted}
 			\end{itemize}
 
+\section{Lecture 6}
+	
+	\subsection{Arrays}
+
+		\begin{itemize}
+			\item A collection of variables that are all of the same time
+			\item Indexed data structure, therefore accessing and changing variables are simple
+			\item Index starts at 0
+		\end{itemize}
+
+		\begin{minted}{c}
+			// Declaring an array
+			int sample_array[7];	// An array of ints with 7 objects, indexes 0-6
+			
+			// Declaring and initialising an array
+			int sample_array[7] = {1, 2, 3, 4, 5, 6, 7}
+		\end{minted}
+
+		\begin{question}{demo\_array.c}
+			\begin{minted}{c}
+				
+			#include <stdio.h>
+
+			#define SIZE 10
+
+			// Prototype
+			int find_max(int array[], int size)
+
+			int main(void) {
+				// 1. Declare an array of size 10, with type ints
+				int array_energy[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+				for (int i = 0; i < SIZE; i++) {
+					printf("Enter a number: ");
+					scanf("%d", &array_energy[i])
+				}
+				printf("The maximum of the array is: %d\n", find_max(array_energy, 10))
+				return 0;
+			}
+
+			// Function to find the maximum of the array
+			// INPUTS: int array, int size
+			// OUTPUT: int maximum_number
+			int find_max(int array[], int size) {
+				int max = array[0];
+				for (int i = 1; i < size; i++) {
+					if (array[i] > max) {
+						max = array[i];
+					}
+				}
+				return max;
+			}
+
+			\end{minted}
+		\end{question}
+
+\section{Lecture 7}
+
+	\subsection{Strings}
+
+		\begin{itemize}
+			\item A string is a collection of characters joined together (an array of chars)
+			\item The array finishes with a null terminating character located at the end of the array
+			\item Not displayed, act as a placeholder
+			\item Can be declared using double quotation marks
+			\item \mintinline{c}{fgets(array, MAX_LENGTH, stdin)} is a function used to read strings
+				\begin{itemize}
+					\item \mintinline{c}{scanf} shouldn't be used as it does not account for buffer overflows or spaces
+				\end{itemize}
+		\end{itemize}
+
+		\begin{question}{Example}
+			\begin{minted}{c}
+				
+				#include <stdio.h>
+				// Special string functions
+				#include <string.h>
+
+				#define SIZE 10
+
+				int main(void) {
+
+					// Declare an array of chars of size 10
+					char name[SIZE];
+					printf("Enter a name: ");
+
+					// name - name of the array
+					// SIZE - maximum size of the array
+					// stdin - standard input (scan in from terminal)
+					fgets(name, SIZE, stdin);
+
+					// To clear the newline at the end of the buffer
+					for (int i = 0; name[i] != '\0'; i++) {
+						if (name[i] == '\n') {
+							name[i] = '\0'
+						}
+					}
+
+					// Function strlen()
+					// Length of the string (not including the null operator)
+					printf("The length of the string: %lu\n", strlen(name))
+
+					// Function strcpy()
+					// Copy from one string to another
+					char string2[SIZE] = "Hi";
+					strcpy(string2, name);
+					printf("Copied text is: %s\n", string2);
+
+					// Function strcat()
+					// Concatenate two strings
+					// Ensure that there is enough space allocated
+					strcat(string2, name);
+					printf("string2: %s\n", string2);
+
+					// Function strcmp()
+					// Compares strings
+					if (strcmp(name, "Sasha") == 0) {
+						printf("Match!\n");
+					} else {
+						printf("No match!\n")
+					}
+
+					printf("The string is: %s\n", name)
+					return 0;
+				}
+
+			\end{minted}
+		\end{question}
+
+\section{Lecture 8}
+	
+	\subsection{Arrays (continued)}
+
+		\begin{itemize}
+			\item To continue an \mintinline{c}{fget()} until no input is detected, create a while loop that repeats until \mintinline{c}{fget(...) == NULL}
+
+			\begin{question}{Example}
+				\begin{minted}{c}
+					
+					#include <stdio.h>
+
+					#define SIZE 10
+
+					int main(void) {
+						
+						char string[SIZE];
+						printf("Type a string here: ");
+
+						while (fgets(string, SIZE, stdin) != NULL) {
+							printf("Echo: %s\n", string);
+						}
+
+						printf("You exited with Ctrl + D\n");
+						return 0;
+					}
+
+				\end{minted}
+			\end{question}
+
+			\item An array of structs can be created, however each struct must be manipulated as an item of the array
+			\item Eg. \mintinline{c}{team[i].name} rather than \mintinline{c}{team_member.name}
+			\item \mintinline{c}{getchar()} gets one character
+			\item Arrays of arrays
+				\begin{itemize}
+					\item \mintinline{c}{type array_name[num of rows][num of columns]}
+				\end{itemize}
+		\end{itemize}
+	
+\section{Lecture 9}
+
+	nothingburger lecture...
+
+	\begin{question}{Example}
+		\begin{minted}{c}
+
+			#include <stdio.h>
+
+			#define ROWS 3
+			#define COLS 4
+
+			int max_number(int array[ROWS][COLS]);
+
+			int main(void) {
+				int array[ROWS][COLS] ={
+					{101, 2, 3, 4},
+					{5, 6, 7, 8},
+					{7, 8, 9, 10}
+				};
+				int max_num = max_number(array);
+				printf("The highest number is %d\n", max_num);
+				return 0;
+			}
+
+			int max_number(int array[ROWS][COLS]) {
+				int max_num = array[0][0];
+				for (int i = 0; i < ROWS; i++) {
+					for (int j = 0; j < COLS; j++) {
+						if (array[i][j] > max_num) {
+						max_num = array[i][j];
+						}
+					}
+				}
+				return max_num;
+			}
+
+		\end{minted}
+	\end{question}
+
 \end{document}

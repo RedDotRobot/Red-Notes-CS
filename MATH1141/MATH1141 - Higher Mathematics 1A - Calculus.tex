@@ -170,9 +170,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 		\end{question}
 
 		\begin{figure}[H]
-			\begin{center}
-				\includegraphics[width=0.6\textwidth]{images/fig1}
-			\end{center}
+			\centering
+			\includegraphics[width=0.6\textwidth]{images/fig1}
 		\end{figure}
 
 	\subsection{Absolute Values}
@@ -392,7 +391,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 												   &= \frac{2x^2 + 3x - \left(2x^2 -x\right)}{\sqrt{2x^2 + 3x} + \sqrt{2x^2 -x}}	\\
 												   &= \frac{4x}{\sqrt{2x^2 + 3x} + \sqrt{2x^2 - x}}	\\
 												   &= \frac{x}{\sqrt{2 + \frac{3}{x}} + \sqrt{2 - \frac{1}{x}}}	\\
-												   & \rightarrow \frac{4}{\sqrt{2} + \sqrt{2}}	\\
+												   & \Rightarrow \frac{4}{\sqrt{2} + \sqrt{2}}	\\
 												   &= \sqrt{2} \quad \text{as } x \rightarrow \infty
 			\end{align*}
 		\end{question}
@@ -406,7 +405,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\item $0 \times \infty$ if $f(x) \rightarrow 0$ and $g(x) \rightarrow \infty$ as $x \rightarrow \infty$, \quad $f(x)g(x) \rightarrow ?$
 		\end{itemize}
 
-\section{The definition of $\displaystyle\lim_{x\to\inf} f(x)$}
+\section{The definition of $\displaystyle\lim_{x\to\infty} f(x)$}
 
 	Suppose that $b, L \in \mathbb{R}$, and $f$ is a real-valued function defined on $(b, \infty)$. It is said:
 		\begin{align*}
@@ -732,7 +731,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 					\item $f$ does not have a minimum value on $[-2,2]$
 				\end{itemize}
 				\begin{align*}
-					& \text{For } x_n = \left(\frac{-\pi}{2} + 2n \pie\right)^{-1}, \quad n \in \mathbb{Z}	\\
+					& \text{For } x_n = \left(\frac{-\pi}{2} + 2n \pi\right)^{-1}, \quad n \in \mathbb{Z}	\\
 					& \qquad \sin{\frac{1}{x_n}} = -1	\\
 					& \qquad f(x_n) = - \frac{1}{\left(\frac{- \pi}{2} + 2n \pi\right)^{-2} + 1}	\\
 					& \text{Then as } n \rightarrow \infty, \quad x_n \rightarrow 0 \text{ and } f(x_n) \rightarrow -1	\\
@@ -742,4 +741,313 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 		\end{enumerate}
 	\end{question}
 
+\chapter{Differentiable functions}
+
+	\section{Gradients of tangents and derivatives}
+
+		Suppose that $f$ is defined on some open interval containing the point $x$. It is said that $f$ is differentiable at $x$ if
+
+			\begin{align*}
+				\lim_{h\to 0} \frac{f(x + h) - f(x)}{h} \quad \text{exists}
+			\end{align*}
+
+		This limit is denoted by $f'(x)$, $\frac{df}{dx} (x)$ or $\frac{d}{dx} f(x)$ and is called the derivative of $f$ at $x$.
+
+		\begin{question}{Example}
+			\begin{enumerate}
+				\item Show that $\displaystyle\lim_{h\to 0} \frac{\cos(h) - 1}{h} = 0$. \quad (Hint: $\cos(h) - 1 = \frac{\cos^2 (h) - 1}{\cos (h) + 1} = -\frac{\sin^2 (h)}{\cos (h) + 1}$)
+					\begin{align*}
+						\lim_{h\to 0} \frac{\cos (h) - 1}{h} &= - \lim_{h\to 0} \frac{\sin(h)}{\cos(h) + 1} \frac{\sin(h)}{h}	\\
+															 &= - \frac{\displaystyle\lim_{h\to 0} \sin(h)}{\displaystyle\lim_{h\to 0} \cos(h) + 1} \lim_{h\to 0} \frac{\sin(h)}{h} \qquad \left(\lim_{h\to 0} \frac{\sin(h)}{h} = 1\right)	\\
+															 &= - \frac{0}{2} \times 1 = 0
+					\end{align*}
+				\item For which $n \in \mathbb{N}$ is the function $f$ defined by
+					\begin{align*}
+						f(x) = \begin{cases} x^n \sin\left(\frac{1}{x}\right) \quad & \text{if } x \neq 0	\\	0 & \text{if } x = 0 \end{cases}
+					\end{align*}
+					continuous and differentiable at $x = 0$
+					\\ \\
+
+					For continuity, $\displaystyle\lim_{x\to 0} x^n \sin\left(\frac{1}{x}\right) = f(0) = 0$.
+					\begin{alignat*}
+						-1 \leq \sin \left(\frac{1}{x}\right) \leq 1, \; \forall x\neq 0 \quad &\Rightarrow \quad -|x^n| \leq x^n \sin \left(\frac{1}{x}\right) \leq |x^n|, \; \forall x \neq 0, \; \forall n \in \mathbb{N}	\\
+						\text{(Pinching theorem)} \quad &\Rightarrow \quad \lim_{x\to 0} x^n \sin\left(\frac{1}{x}\right) = 0, \quad \text{ie. continuous at } x=0,\; \forall n \in \mathbb{N} \textbackslash \{0\}
+					\end{alignat*}
+
+					For differentiability, $\displaystyle\lim_{h\to 0} \frac{1}{h} \left[f(0+h) - f(0) \right]$ exists.
+					\begin{align*}
+						&= \frac{1}{h} \left[ h^n \sin\left(\frac{1}{h}\right) - 0 \right]	\\
+						&= h^{n-1} \sin \left(\frac{1}{h}\right) \rightarrow 0, \quad \forall n-1 \in \mathbb{N} \textbackslash \{0\}
+					\end{align*}
+					ie. $n \in \mathbb{N}, \; n \neq 0, 1$
+			\end{enumerate}
+		\end{question}
+
+	\section{Rules for differentiation}
+			
+		Suppose that $f$ and $g$ are differentiable at $x$. Then $f+g$, $f-g$ and $fg$ are differentiable at $x$, and $\frac{f}{g}$ is also differentiable at $x$, provided $g(x) \neq 0$.
+
+			\begin{enumerate}
+				\item $(f+g)'(x) = f'(x) + g'(x)$
+				\item $(Cf)'(x) = Cf'(x)$ where $C$ is any constant
+				\item $(fg)'(x) = f'(x)g(x) + f(x)g'(x)$, (product rule)
+				\item $\left(\frac{f}{g}\right)'(x) = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}$, provided that $g(x) \neq 0$ (quotient rule)
+			\end{enumerate}
+
+		Suppose that $g$ is differentiable at $x$, and $f$ is differentiable at the point $g(x)$. Then $f \circ g$ is differentiable at $x$ and
+		
+		\begin{align*}
+			(f \circ g)'(x) = f'(g(x))g'(x)
+		\end{align*}
+
+	\section{Proofs of results}
+		
+		lol no
+
+	\section{Implicit differentiation}
+
+		A function defined by an equation relating $x$ and $y$ is implicitly defined.
+
+		\begin{question}{Example}
+			Determine the tangent to the curve $x^4 - x^2 y^2 + y^4 = 13$ at $(2,1)$
+
+			\begin{flalign*}
+				y \text{ depends on } x: & y(x)		&\\
+										 & \text{ in a neighbourhood of } (2,1)
+			\end{flalign*}
+			\begin{flalign*}
+				& \text{Differentiate both sides of the equation with respect to x: }	&\\
+				& \qquad 4x^3 - 2xy^2(x) - 2x^2 y(x) y'(x) + 4y^3(x)y'(x) = 0
+			\end{flalign*}
+
+			At $(x,y) = (2,1)$,
+			\begin{flalign*}
+				\qquad 32 - 4 - 8y'(2) + 4y'(2) &= 0	&\\
+				28 - 4y'(2) &= 0						&\\
+				y'(2) &= 7								&\\
+			\end{flalign*}
+
+			Tangent line at $(2,1)$:
+			\begin{flalign*}
+				& \qquad y - 1 = 7(x - 2)		&
+			\end{flalign*}
+		\end{question}
+
+	\section{Differentiation, continuity and split functions}
+		
+		\begin{itemize}
+			\item If $f$ is differentiable at $a$, then $f$ is continuous at $a$
+			\item If $f$ is not continuous at $a$, then it is not differentiable at $a$
+			\item If $f$ is continuous at $a$, it may not be differentiable at $a$
+				\begin{itemize}
+					\item eg. $f: \mathbb{R} \rightarrow \mathbb{R}, \; f(x) = |x|$ and $a=0$
+				\end{itemize}
+		\end{itemize}
+
+		Suppose $a \in \mathbb{R}$ and the function $f$ is defined by 
+		\begin{align*}
+			f(x) = \begin{cases} p(x) \quad & \text{if } x \geq a	\\ q(x) & \text{if } x < a \end{cases}
+		\end{align*}
+		where $p$ and $q$ are differentiable in some open interval containing $a$. If
+		
+		\begin{itemize}
+			\item $f$ is continuous at $a$ ($\Leftrightarrow p(a) = q(a)) and
+			\item $p'(a) = q'(a)$,
+		\end{itemize}
+
+		then $f$ is differentiable at $x = a$.
+
+	\section{Derivatives and function approximation}
+
+		If $f$ is differentiable at $a$, then
+		\begin{align*}
+			f'(a) = \lim_{x\to a} \frac{f(x) - f(a)}{x-a}
+		\end{align*}
+		By the definition of a limit, $\frac{f(x) - f(a)}{x-a}$ gets close to $f'(a)$ as $x$ gets close to $a$. This statement is equivalent to
+		\begin{align*}
+			\frac{f(x) - f(a)}{x-a} \approx f'(a)	\\
+			f(x) \approx f(a) + f'(a)(x-a)
+		\end{align*}
+
+		\begin{question}{Example}
+			Estimate $\sin(0.51 \pi)$
+			\begin{alignat*}{2}
+				& \sin(0.51 \pi) &&\approx \sin(0.5 \pi) + \cos(0.5 \pi)(0.51 \pi - 0.5 \pi)	\\
+				& &&= 1 + 0 \times (0.01 \pi)	\\
+				& &&= 1		\\
+				&\Rightarrow \sin(0.51 \pi) &&\approx 1
+			\end{alignat*}
+		\end{question}
+
+	\section{Derivatives and rates of change}
+
+		ext 1 content
+
+	\section{Local maximum, local minimum and stationary points}
+
+		Let $f$ be defined on some interval $I$.
+		\begin{itemize}
+			\item A point $c \in I$ is a local minimum if there exists a $h > 0$ such that
+				\begin{align*}
+					f(x) \geq f(c), \; x \in (c-h, c+h) \cap I
+				\end{align*}
+			\item A point $d \in I$ is a local maximum point if there exists a $h > 0$ such that
+				\begin{align*}
+					f(x) \leq f(d), \; x \in (d-h, d+h) \cap I
+				\end{align*}
+		\end{itemize}
+
+\chapter{The mean value theorem and applications}
+
+	\section{The mean value theorem}
+
+		Suppose that $f$ is
+		\begin{enumerate}
+			\item continuous on $[a,b]$, and
+			\item differentiable on $(a,b)$
+		\end{enumerate}
+
+		Then there is at least one $c \in (a,b)$ such that
+		\begin{align*}
+			\frac{f(b) - f(a)}{b-a} = f'(c)
+		\end{align*}
+
+		The mean value theorem cannot be applied if
+		\begin{itemize}
+			\item $f$ is not continuous on $[a,b]$
+			\item $f$ is not differentiable on $(a,b)$
+		\end{itemize}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{images/mean_value.png}
+		\end{figure}
+
+		\begin{question}{Example}
+			A car enters a tunnel at a speed of 30km/h and after 1 minute leaves the tunnel at a speed of 40km/h. The length of the tunnel is 1km. Did the driver break thespeed limit of 50km/h?
+			\\ \\
+			Let $x: [t_{in}, t_{out}] \rightarrow \mathbb{R}, \; x(t) = \text{ position of the car at time }t$
+
+			Assume $x$ is continuous on $[t_{in}, t_{out}]$ and differentiable on $(t_{in}, t_{out})$
+
+			$\Rightarrow$ By MVT, $\exists T \in (t_{in}, t_{out})$ such that
+			\begin{align*}
+				x'(t) = \frac{x(t_{out}) - x(t_{in})}{t_{out} - t_{in}} = \frac{1}{\frac{1}{60}} \text{km/h} = 60 \text{km/h}
+			\end{align*}
+			Therefore, the driver broke the speed limit
+		\end{question}
+
+	\section{Proof of the mean value theorem}
+
+		Suppose that $g$
+		\begin{itemize}
+			\item is continuous on $[a,b]$
+			\item differentiable on $(a,b)$
+			\item $g(a) = g(b) = 0$ (optional)
+		\end{itemize}
+		Then there is $c \in (a,b)$ such that $g'(c) = 0$
+
+		\begin{question}{Proof of Rolle's theorem}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.7\textwidth]{images/rolles.png}
+			\end{figure}
+
+			\textbf{Case 1}: $g(x) = 0, \;\forall x \in [a,b]$
+
+			\quad $\Rightarrow g'(c) = 0$ for any $c \in (a,b)$
+			\\ \\
+			\textbf{Case 2}: $g(d) > 0$ for some $d \in (a,b)$
+
+			\quad By continuity and MMT, $g$ attains a maxmimum value at some $c \in [a,b]$
+			\begin{flalign*}
+				\quad \text{Then } & g(c) \geq g(d) > 0 = g(a) = g(b)	&\\
+							& \Rightarrow c \neq a, c \neq b, \text{ so } c \in (a,b)	&\\
+							& \Rightarrow g'(c) = 0
+			\end{flalign*}
+	
+			\textbf{Case 3:} $g(x) \leq 0, \; \forall x \in [a,b]$, and $g$ is not a constant on $[a,b]$
+
+			\quad Since $g(a) = g(b)$, Case 3 $\Leftrightarrow g(d) < 0$ for some $d \in (a,b)$
+
+			\quad Similar to Case 2, $g$ attains a minimum value atsome $c \in (a,b)$, $g'(c) = 0$
+
+		\end{question}
+
+		\\ \\
+		To prove MVT, a function $f$ is "deformed" such that it looks like $g$ in Rolle's theorem.
+		\begin{flalign*}
+			\text{Define } g: & [a,b] \rightarrow \mathbb{R} \text{ by}		&\\
+							  & g(x) = f(x) - \frac{f(b) - f(a)}{b-a} x		&\\
+		\end{flalign*}
+		Hence
+		\begin{flalign*}
+			\exists c \in (a,b) \text{ such that } g'(c) = 0 \quad \Leftrightarrow \quad f'(c) - \frac{f(b) - f(a)}{b-a} = 0
+		\end{flalign*}
+
+	\section{Proving inequalities using the mean value theorem}
+
+		From the equality $\frac{f(b) - f(a)}{b-a} = f'(c)$ in MVT,
+		\begin{align*}
+			m \leq f'(c) \leq M \quad \Leftrightarrow \quad m \leq \frac{f(b) - f(a)}{b-a} \leq M
+		\end{align*}
+
+		\begin{question}{Example}
+			Use MVT to show that $e^x > 1+x$ for all $x > 0$
+			\\ \\
+			For any $x > 0$, define a function
+			\begin{align*}
+				f: [0,x] \rightarrow \mathbb{R}, \quad f(t) = e^t
+			\end{align*}
+			\begin{itemize}
+				\item $f$ is continuous on $[0,x]$
+				\item $f$ is differentiable on $(0,x)$
+			\end{itemize}
+			\begin{flalign*}
+				\text{Hence, by MVT, } \exists c \in (0,x) \text{ such that } \frac{f(x) - f(0)}{x - 0} &= f'(c)	&\\
+																										& \Updownarrow	&\\
+										\frac{e^x - 1}{x} &= e^c > 1	&\\
+										e^x - 1 &> x	&\\
+										e^x &> 1+x
+			\end{flalign*}
+		\end{question}
+
+		\begin{question}{Example}
+			Use MVT to show that $\ln (x) < x-1$ for all $x > 1$
+			\\ \\
+			For any $x > 1$, define a function
+			\begin{align*}
+				f: [1,x] \rightarrow \mathbb{R}, \; f(t) = \ln(t)
+			\end{align*}
+
+			\begin{flalign*}
+				\text{By MVT, } \exists c \in (1,x) \text{ such that } \frac{f(x) - f(1)}{x-1} &= f'(c)	&\\
+																							   &\Updownarrow	&\\
+																		\frac{\ln(x) - 0}{x-1} & = \frac{1}{c} < 1	&\\
+																						\ln(x) &< x-1	&
+			\end{flalign*}
+		\end{question}
+
+	\section{Error bounds}
+
+		From the equality $\frac{f(b) - f(a)}{b-a} = f'(c)$ in MVT,
+		\begin{align*}
+			|f(b) - f(a)| \leq M \quad \Longleftrightarrow \quad |f'(c)||b-a| \leq M
+		\end{align*}
+
+		\begin{question}{Example}
+			How good an approximation of $\cos 1$ is $\cos \frac{\pi}{3}$
+
+			By MVT, $\exists c \in \left(1, \frac{\pi}{3}\right)$ such that
+			\begin{align*}
+				\frac{\cos(1) - \cos\left(\frac{\pi}{3}\right)}{1 - \frac{\pi}{3}} = f'(c) = -\sin(c)
+			\end{align*}
+			\begin{alignat*}{2}
+				&\Rightarrow 0 < \cos(1) - \cos \left(\frac{\pi}{3}\right) &&= -\sin(c) \left(1 - \frac{\pi}{3}\right)	\\
+				& &&= \sin(c) \left(\frac{\pi}{3}-1\right)	\\
+				&\Rightarrow 0.5 < \cos(1) < 0.55
+			\end{alignat*}
+			The error of approximation $\cos(1)$ by $\cos(\frac{\pi}{3})$ is at most 0.05
+		\end{question}
 \end{document}
