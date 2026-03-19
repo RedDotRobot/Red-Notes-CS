@@ -50,6 +50,11 @@ enum direction {
 	RIGHT
 };
 
+enum boolean {
+	FALSE,
+	TRUE
+};
+
 // Structs
 struct tile {
 	enum entity entity;
@@ -67,7 +72,7 @@ struct position {
 void print_welcome(void);
 void initialise_board(struct tile board[ROWS][COLS]);
 void print_board(
-	struct tile (board)[ROWS][COLS],
+	struct tile board[ROWS][COLS],
 	struct position *player_pos,
 	int curr_score,
 	int target_score
@@ -75,26 +80,28 @@ void print_board(
 void print_board_line(void);
 void print_board_footer(int curr_score, int target_score);
 
-char setup_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, int *target_points);
-void set_coin(struct tile (board)[ROWS][COLS], struct position *player_pos);
-void set_tree(struct tile (board)[ROWS][COLS], struct position *player_pos);
-void set_road(struct tile (board)[ROWS][COLS], struct position *player_pos);
-void set_car(struct tile (board)[ROWS][COLS], struct position *player_pos);
+char setup_phase(struct tile board[ROWS][COLS], struct position *player_pos, int *target_points);
+void set_coin(struct tile board[ROWS][COLS], struct position *player_pos);
+void set_tree(struct tile board[ROWS][COLS], struct position *player_pos);
+void set_road(struct tile board[ROWS][COLS], struct position *player_pos);
+void set_car(struct tile board[ROWS][COLS], struct position *player_pos);
 void set_target(int *target_points);
 
-void gameplay_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, int *target_points, char mode, int driving);
+void gameplay_phase(struct tile board[ROWS][COLS], struct position *player_pos, int *target_points, char mode, int driving);
 int in_bounds(int row, int col);
 int touching_player(struct position *player_pos, int row, int col);
 int is_shocked(struct tile board[ROWS][COLS], struct position *player_pos);
-int is_dead(struct tile (board)[ROWS][COLS], struct position *player_pos);
-int can_move(struct tile (board)[ROWS][COLS], int row, int col);
-void move_player(struct tile (board)[ROWS][COLS], struct position *player_pos, char player_input, int *turns_taken, int *step_count);
-void has_coin(struct tile (board)[ROWS][COLS], struct position *player_pos, int *points, int *coins);
-int check_win_loss(struct tile (board)[ROWS][COLS], struct position *player_pos, int score, int target_points, int *playing, int turns_taken, int step_count, int coins);
+int is_dead(struct tile board[ROWS][COLS], struct position *player_pos);
+int can_move(struct tile board[ROWS][COLS], int row, int col);
+void move_player(struct tile board[ROWS][COLS], struct position *player_pos, char player_input, int *turns_taken, int *step_count);
+void has_coin(struct tile board[ROWS][COLS], struct position *player_pos, int *points, int *coins);
+int check_win_loss(struct tile board[ROWS][COLS], struct position *player_pos, int score, int target_points, int *playing, int turns_taken, int step_count, int coins);
 
-void buffer_board(struct tile (board)[ROWS][COLS], struct tile (temp_board)[ROWS][COLS]);
-void move_cars(struct tile (board)[ROWS][COLS]);
-void add_headlights(struct tile (board)[ROWS][COLS]);
+void buffer_board(struct tile board[ROWS][COLS], struct tile (temp_board)[ROWS][COLS]);
+void buffer_board_no_cars(struct tile board[ROWS][COLS], struct tile next_board[ROWS][COLS]);
+void save_cars(struct tile board[ROWS][COLS], struct tile empty_board[ROWS][COLS]);
+void move_cars(struct tile board[ROWS][COLS]);
+void add_headlights(struct tile board[ROWS][COLS]);
 
 void print_game_statistics(
     int turns_taken, 
@@ -125,9 +132,9 @@ int main(void) {
 	print_board(
 		board,
 		&player_pos,
-		0, 
+		0,
 		target_points
-    );
+	);
 
 	gameplay_phase(board, &player_pos, &target_points, mode, 1);
 
@@ -179,7 +186,7 @@ void initialise_board(struct tile board[ROWS][COLS]) {
 // OUTPUT:
 // 		void
 void print_board(
-	struct tile (board)[ROWS][COLS],
+	struct tile board[ROWS][COLS],
 	struct position *player_pos,
 	int curr_score,
 	int target_score
@@ -198,19 +205,19 @@ void print_board(
 				} else {
 					printf("^_^");
 				}
-			} else if ((board)[row][col].entity == EMPTY) {
+			} else if (board[row][col].entity == EMPTY) {
 				printf("   ");
-			} else if ((board)[row][col].entity == COIN) {
+			} else if (board[row][col].entity == COIN) {
 				printf(" c ");
-			} else if ((board)[row][col].entity == TREE) {
+			} else if (board[row][col].entity == TREE) {
 				printf(" T ");
-			} else if ((board)[row][col].entity == ROAD) {
+			} else if (board[row][col].entity == ROAD) {
 				printf("___");
-			} else if ((board)[row][col].entity == CAR_FACING_RIGHT) {
+			} else if (board[row][col].entity == CAR_FACING_RIGHT) {
 				printf("[_0");
-			} else if ((board)[row][col].entity == CAR_FACING_LEFT) {
+			} else if (board[row][col].entity == CAR_FACING_LEFT) {
 				printf("0_]");
-			} else if ((board)[row][col].entity == HEADLIGHTS) {
+			} else if (board[row][col].entity == HEADLIGHTS) {
 				printf("###");
 			} else {
 				printf("   ");
@@ -309,7 +316,7 @@ void print_game_lost(void) {
 // 		pointer to int target_points
 // OUTPUT:
 // 		char
-char setup_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, int *target_points) {
+char setup_phase(struct tile board[ROWS][COLS], struct position *player_pos, int *target_points) {
 
 
 	printf("============== Setup Phase ==============\n");
@@ -337,7 +344,7 @@ char setup_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, i
 		player_pos,
 		INITIAL_POINTS, 
 		DEFAULT_POINT_TARGET
-    );
+	);
 
 	char command;
 	// Setup commands
@@ -366,16 +373,16 @@ char setup_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, i
 // 		pointer to struct player_pos
 // OUTPUT:
 // 		void
-void set_coin(struct tile (board)[ROWS][COLS], struct position *player_pos) {
+void set_coin(struct tile board[ROWS][COLS], struct position *player_pos) {
 	int row;
 	int col;
 	scanf(" %d %d", &row, &col);
 	if (in_bounds(row, col)) {
 		if (
 			!touching_player(player_pos, row, col) &&
-			(board)[row][col].entity == EMPTY
+			board[row][col].entity == EMPTY
 		) {
-			(board)[row][col].entity = COIN;
+			board[row][col].entity = COIN;
 		} else {
 			printf("Invalid location: tile is occupied!\n");
 		}
@@ -390,16 +397,16 @@ void set_coin(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 // 		pointer to struct player_pos
 // OUTPUT:
 // 		void
-void set_tree(struct tile (board)[ROWS][COLS], struct position *player_pos) {
+void set_tree(struct tile board[ROWS][COLS], struct position *player_pos) {
 	int row;
 	int col;
 	scanf(" %d %d", &row, &col);
 	if (in_bounds(row, col)) {
 		if (
 			!touching_player(player_pos, row, col) &&
-			(board)[row][col].entity == EMPTY
+			board[row][col].entity == EMPTY
 		) {
-			(board)[row][col].entity = TREE;
+			board[row][col].entity = TREE;
 		} else {
 			printf("Invalid location: tile is occupied!\n");
 		}
@@ -414,7 +421,7 @@ void set_tree(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 // 		pointer to struct player_pos
 // OUTPUT:
 // 		void
-void set_road(struct tile (board)[ROWS][COLS], struct position *player_pos) {
+void set_road(struct tile board[ROWS][COLS], struct position *player_pos) {
 	int row;
 	int col = 0;
 	scanf(" %d", &row);
@@ -424,11 +431,11 @@ void set_road(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 		for (int i = 0; i < COLS; i++) {
 			if (
 				touching_player(player_pos, row, col) &&
-				(board)[row][i].entity != EMPTY &&
-				(board)[row][i].entity != TREE
+				board[row][i].entity != EMPTY &&
+				board[row][i].entity != TREE
 			) {
 				available = 0;
-			} else if ((board)[row][i].entity == TREE) {
+			} else if (board[row][i].entity == TREE) {
 				deforesting = 1;
 			}
 		}
@@ -437,7 +444,7 @@ void set_road(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 		}
 		if (available == 1) {
 			for (int i = 0; i < COLS; i++) {
-				(board)[row][i].entity = ROAD;
+				board[row][i].entity = ROAD;
 			}
 		} else {
 			printf("Invalid location: road cannot be built.\n");
@@ -453,7 +460,7 @@ void set_road(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 // 		pointer to struct player_pos
 // OUTPUT:
 // 		void
-void set_car(struct tile (board)[ROWS][COLS], struct position *player_pos) {
+void set_car(struct tile board[ROWS][COLS], struct position *player_pos) {
 	int row;
 	int col;
 	char direction;
@@ -461,15 +468,13 @@ void set_car(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 	if (in_bounds(row, col)) {
 		if (
 			!touching_player(player_pos, row, col) &&
-			((board)[row][col].entity == ROAD ||
-			(board)[row][col].entity == HEADLIGHTS)
+			(board[row][col].entity == ROAD ||
+			board[row][col].entity == HEADLIGHTS)
 		) {
 			if (direction == 'r') {
-				(board)[row][col].entity = CAR_FACING_RIGHT;
-				(board)[row][col+1].entity = HEADLIGHTS;
+				board[row][col].entity = CAR_FACING_RIGHT;
 			} else if (direction == 'l') {
-				(board)[row][col].entity = CAR_FACING_LEFT;
-				(board)[row][col-1].entity = HEADLIGHTS;
+				board[row][col].entity = CAR_FACING_LEFT;
 			}
 		} else {
 			printf("Invalid location: car must be on a road.\n");
@@ -505,7 +510,7 @@ void set_target(int *target_points) {
 // 		pointer to int target_points
 // OUTPUT:
 // 		void
-void gameplay_phase(struct tile (board)[ROWS][COLS], struct position *player_pos, int *target_points, char mode, int driving) {
+void gameplay_phase(struct tile board[ROWS][COLS], struct position *player_pos, int *target_points, char mode, int driving) {
 
 	printf("============ Gameplay Phase =============\n");
 
@@ -522,7 +527,6 @@ void gameplay_phase(struct tile (board)[ROWS][COLS], struct position *player_pos
 		if (command == 'w' || command == 'a' || command == 's' || command == 'd') {
 			move_player(board, player_pos, command, &turns_taken, &step_count);
 			has_coin(board, player_pos, &score, &coins);
-			playing = check_win_loss(board, player_pos, score, *target_points, &playing, turns_taken, step_count, coins);
 		} else if (command == 'r' || command == 'R') {
 			turns_taken += 1;
 		} else if (command == 'p') {
@@ -533,7 +537,7 @@ void gameplay_phase(struct tile (board)[ROWS][COLS], struct position *player_pos
 		}
 
 		if (playing == 1 && command != 'q' && command != 'p') {
-			if (mode == 'd') {
+			if (mode == 'd' && !is_dead(board, player_pos)) {
 				move_cars(board);
 			}
 			print_board(board, player_pos, score, *target_points);
@@ -542,52 +546,86 @@ void gameplay_phase(struct tile (board)[ROWS][COLS], struct position *player_pos
 	}
 }
 
+// Check if a tile is valid for a car to move onto (empty road or headlights)
+// INPUT: pointer to board, row, col
+// OUTPUT: int (1 for true, 0 otherwise)
+int is_valid_car_dest(struct tile board[ROWS][COLS], int row, int col) {
+	if (!in_bounds(row, col)) {
+		return FALSE;
+	}
+	enum entity entity = board[row][col].entity;
+	return (entity == ROAD || entity == HEADLIGHTS);
+}
+
 // Handle car movement on car turn
 // INPUT: pointer to board
 // OUTPUT: void
-void move_cars(struct tile (board)[ROWS][COLS]) {
-	struct tile temp_board[ROWS][COLS];
-	buffer_board(board, temp_board);
-	for (int i = 0; i < ROWS; i++) {
-		for (int j = 0; j < COLS; j++) {
-			if ((board)[i][j].entity == CAR_FACING_LEFT) {
-				if (j == 0 || (board)[i][j-1].entity == CAR_FACING_RIGHT) {
-					temp_board[i][j].entity = CAR_FACING_RIGHT;
-				} else {
-					temp_board[i][j].entity = ROAD;
-					temp_board[i][j-1].entity = CAR_FACING_LEFT;
+void move_cars(struct tile board[ROWS][COLS]) {
+	struct tile next_board[ROWS][COLS];
+	buffer_board_no_cars(board, next_board);
+
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			if (board[row][col].entity == CAR_FACING_LEFT) {
+				int front_col = col;
+				while (front_col > 0 && board[row][front_col - 1].entity == CAR_FACING_LEFT) {
+					front_col--;
 				}
-			} else if ((board)[i][j].entity == CAR_FACING_RIGHT) {
-				if (j == COLS - 1 || (board)[i][j+1].entity == CAR_FACING_LEFT) {
-					temp_board[i][j].entity = CAR_FACING_LEFT;
+				int blocked = !is_valid_car_dest(board, row, front_col - 1);
+				if (blocked) {
+					next_board[row][col].entity = CAR_FACING_RIGHT;
 				} else {
-					temp_board[i][j].entity = ROAD;
-					temp_board[i][j+1].entity = CAR_FACING_RIGHT;
+					next_board[row][col - 1].entity = CAR_FACING_LEFT;
+				}
+			} else if (board[row][col].entity == CAR_FACING_RIGHT) {
+				int front_col = col;
+				while (front_col < COLS - 1 && board[row][front_col + 1].entity == CAR_FACING_RIGHT) {
+					front_col++;
+				}
+				int blocked = !is_valid_car_dest(board, row, front_col + 1);
+				if (blocked) {
+					next_board[row][col].entity = CAR_FACING_LEFT;
+				} else {
+					next_board[row][col + 1].entity = CAR_FACING_RIGHT;
 				}
 			}
 		}
 	}
-	buffer_board(temp_board, board);
+
+	buffer_board(next_board, board);
 }
 
-void buffer_board(struct tile (board)[ROWS][COLS], struct tile (temp_board)[ROWS][COLS]) {
+void buffer_board(struct tile board[ROWS][COLS], struct tile (temp_board)[ROWS][COLS]) {
 	for (int i = 0; i < ROWS; i++) {
 		for (int j = 0; j < COLS; j++) {
-			temp_board[i][j].entity = (board)[i][j].entity;
+			temp_board[i][j].entity = board[i][j].entity;
 		}
 	}
 }
 
-void add_headlights(struct tile (board)[ROWS][COLS]) {
+void buffer_board_no_cars(struct tile board[ROWS][COLS], struct tile next_board[ROWS][COLS]) {
 	for (int i = 0; i < ROWS; i++) {
 		for (int j = 0; j < COLS; j++) {
-			if ((board)[i][j].entity == CAR_FACING_LEFT) {
-				if (in_bounds(i, j-1) && (board)[i][j-1].entity == ROAD) {
-				(board)[i][j-1].entity = HEADLIGHTS;
+			if (board[i][j].entity != CAR_FACING_LEFT && board[i][j].entity != CAR_FACING_RIGHT && board[i][j].entity != HEADLIGHTS) {
+				next_board[i][j].entity = board[i][j].entity;
+			} else {
+				next_board[i][j].entity = ROAD;
+			}
+		}
+	}
+}
+
+void add_headlights(struct tile board[ROWS][COLS]) {
+	
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if (board[i][j].entity == CAR_FACING_LEFT) {
+				if (in_bounds(i, j-1) && board[i][j-1].entity == ROAD) {
+					board[i][j-1].entity = HEADLIGHTS;
 				}
-			} else if ((board)[i][j].entity == CAR_FACING_RIGHT) {
-				if (in_bounds(i, j+1) && (board)[i][j+1].entity == ROAD) {
-				(board)[i][j+1].entity = HEADLIGHTS;
+			} else if (board[i][j].entity == CAR_FACING_RIGHT) {
+				if (in_bounds(i, j+1) && board[i][j+1].entity == ROAD) {
+					board[i][j+1].entity = HEADLIGHTS;
 				}
 			} 
 		}
@@ -605,16 +643,14 @@ void add_headlights(struct tile (board)[ROWS][COLS]) {
 // 		int coins
 // OUTPUT:
 // 		int (0 for game end, 1 for still playing)
-int check_win_loss(struct tile (board)[ROWS][COLS], struct position *player_pos, int score, int target_points, int *playing, int turns_taken, int step_count, int coins) {
+int check_win_loss(struct tile board[ROWS][COLS], struct position *player_pos, int score, int target_points, int *playing, int turns_taken, int step_count, int coins) {
 	
 	if (score >= target_points) {
 		*playing = 0;
-		print_board(board, player_pos, score, target_points);
 		print_game_statistics(turns_taken, step_count, coins, score);
 		print_game_won();
 	} else if (is_dead(board, player_pos)) {
 		*playing = 0;
-		print_board(board, player_pos, score, target_points);
 		print_game_statistics(turns_taken, step_count, coins, score);
 		print_game_lost();
 	} else {
@@ -631,9 +667,9 @@ int check_win_loss(struct tile (board)[ROWS][COLS], struct position *player_pos,
 // 		int (1 for true, 0 for false)
 int in_bounds(int row, int col) {
 	if ((0 <= row) && (row < ROWS) && (0 <= col) && (col < COLS)) {
-		return 1;
+		return TRUE;
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -647,9 +683,9 @@ int in_bounds(int row, int col) {
 // 		int (1 for true, 0 for false)
 int touching_player(struct position *player_pos, int row, int col) {
 	if (player_pos->row == row && player_pos->col == col) {
-		return 1;
+		return TRUE;
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -660,11 +696,11 @@ int touching_player(struct position *player_pos, int row, int col) {
 // 		int col
 // OUTPUT:
 // 		int (1 for true, 0 for false)
-int touching_tree(struct tile (board)[ROWS][COLS], int row, int col) {
-	if ((board)[row][col].entity == TREE) {
-		return 1;
+int touching_tree(struct tile board[ROWS][COLS], int row, int col) {
+	if (board[row][col].entity == TREE) {
+		return TRUE;
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -679,9 +715,9 @@ int is_shocked(struct tile board[ROWS][COLS], struct position *player_pos) {
 		board[player_pos->row][player_pos->col].entity == CAR_FACING_LEFT ||
 		board[player_pos->row][player_pos->col].entity == CAR_FACING_RIGHT
 	) {
-		return 1;
+		return TRUE;
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -691,14 +727,14 @@ int is_shocked(struct tile board[ROWS][COLS], struct position *player_pos) {
 // 		pointer to struct player_pos
 // OUTPUT:
 // 		int (1 for true, 0 for false)
-int is_dead(struct tile (board)[ROWS][COLS], struct position *player_pos) {
+int is_dead(struct tile board[ROWS][COLS], struct position *player_pos) {
 	if (
-		(board)[player_pos->row][player_pos->col].entity == CAR_FACING_LEFT ||
-		(board)[player_pos->row][player_pos->col].entity == CAR_FACING_RIGHT
+		board[player_pos->row][player_pos->col].entity == CAR_FACING_LEFT ||
+		board[player_pos->row][player_pos->col].entity == CAR_FACING_RIGHT
 	) {
-		return 1;
+		return TRUE;
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -709,15 +745,15 @@ int is_dead(struct tile (board)[ROWS][COLS], struct position *player_pos) {
 // 		int col
 // OUTPUT:
 // 		int (1 for true, 0 for false)
-int can_move(struct tile (board)[ROWS][COLS], int row, int col) {
+int can_move(struct tile board[ROWS][COLS], int row, int col) {
 	if (in_bounds(row, col)) {
 		if (!touching_tree(board, row, col)) {
-			return 1;
+			return TRUE;
 		} else {
-			return 0;
+			return FALSE;
 		}
 	} else {
-		return 0;
+		return FALSE;
 	}
 }
 
@@ -731,7 +767,7 @@ int can_move(struct tile (board)[ROWS][COLS], int row, int col) {
 // 		pointer to int step_count
 // OUTPUT:
 // 		void
-void move_player(struct tile (board)[ROWS][COLS], struct position *player_pos, char player_input, int *turns_taken, int *step_count) {
+void move_player(struct tile board[ROWS][COLS], struct position *player_pos, char player_input, int *turns_taken, int *step_count) {
 	if (player_input == 'w') {
 		if (can_move(board, player_pos->row - 1, player_pos->col)) {
 			player_pos->row -= 1;
@@ -768,9 +804,9 @@ void move_player(struct tile (board)[ROWS][COLS], struct position *player_pos, c
 // 		pointer to int coins
 // OUTPUT:
 // 		void
-void has_coin(struct tile (board)[ROWS][COLS], struct position *player_pos, int *points, int *coins) {
-	if ((board)[player_pos->row][player_pos->col].entity == COIN) {
-		(board)[player_pos->row][player_pos->col].entity = EMPTY;
+void has_coin(struct tile board[ROWS][COLS], struct position *player_pos, int *points, int *coins) {
+	if (board[player_pos->row][player_pos->col].entity == COIN) {
+		board[player_pos->row][player_pos->col].entity = EMPTY;
 		*points += 5;
 		*coins += 1;
 	}
