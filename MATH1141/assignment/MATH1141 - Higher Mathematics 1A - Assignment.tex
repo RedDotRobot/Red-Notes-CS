@@ -1,0 +1,289 @@
+\documentclass{amsart}
+
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage[margin=0.75in]{geometry}
+\setlength{\parindent}{0pt}
+
+\usepackage{scalerel}
+
+\renewcommand{\vec}{\mathbf}
+\DeclareMathOperator{\vectorprojection}{proj}
+\NewDocumentCommand{\proj}{s e{_} m}{%
+    \IfBooleanTF{#1}{#3_{\stretchrel*{\parallel}{\perp}#2}}{\vectorprojection_{#2}#3}
+}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Arg}{\operatorname{Arg}}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+% Custom column vector command
+\newcommand{\cvec}[1]{ \begin{pmatrix} #1 \end{pmatrix} }
+% Custom determinant command
+\newcommand{\det}[1]{ \begin{vmatrix} #1 \end{vmatrix} }
+
+% Colors
+% \usepackage[T1]{fontenc}			% Font package
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+\setlength{\jot}{1.5em}
+\setlength{\thickmuskip}{10}
+\setlength{\medmuskip}{7}
+\setlength{\thinmuskip}{5}
+\setstretch{1.35}
+
+\title{%
+	MATH1141: Higher Mathematics 1A \\
+	Assignment (Pure Mathematics Flavour)}
+\author{L. Cheung (z5763342)}
+\date{April 7, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{\LARGE{Question 1}}
+Let $\Pi_1, \Pi_2$ be a pair of planes in $\mathbb{R}^3$,
+	\begin{align*}
+		& \Pi_1 : \cvec{x_1\\x_2\\x_3} = \cvec{1\\-2\\1} + \lambda_1 \cvec{2\\-1\\2} + \mu_1 \cvec{3\\-2\\1}	\\
+		& \Pi_2 : \cvec{x_1\\x_2\\x_3} = \cvec{0\\1\\-3} + \lambda_2 \cvec{1\\2\\-2} + \mu_2 \cvec{2\\1\\-3},
+	\end{align*}
+where $x_1,x_2,x_3,\lambda_1,\lambda_2,\mu_1,\mu_2 \in \mathbb{R}$. Let $L$ be the line of intersection of $\Pi_1$ and $\Pi_2$.
+\\ \\
+It is given that $\vec{n_1} = \cvec{-3\\-4\\1}$ and $\vec{n_2} = \cvec{4\\1\\3}$ are vectors normal to $\Pi_1$ and $\Pi_2$ respectively.
+\begin{enumerate}[(a)]
+	\item Explain,
+		\begin{enumerate}[(i)]
+			\item how cross products can be used to find $\vec{n_1}$ and $\vec{n_2}$, and
+				\\ \\
+				The cross product of two vectors in $\mathbb{R}^3$ results in a vector orthogonal to both of the vectors (in the direction given by the right hand rule). Hence, the cross product of the direction vectors of each plane yields $\vec{n_1}$ and $\vec{n_2}$ as follows:
+				\begin{align*}
+					\vec{n_1} &= \cvec{3\\-2\\1} \times \cvec{2\\-1\\2} = \cvec{-4-(-1)\\-(6-2)\\-3-(-4)} = \cvec{-3\\-4\\1}, \quad \text{and}	\\
+					\vec{n_2} &= \cvec{2\\1\\-3} \times \cvec{1\\2\\-2} = \cvec{-2-(-6)\\-(-4-(-3))\\4-1} = \cvec{4\\1\\3}.
+				\end{align*}
+				\\
+
+			\item how dot products can be used to check that $\vec{n_1}$ and $\vec{n_2}$ are indeed normal to their respective planes.
+				\\ \\
+				Since $\vec{n_1}$ is the normal to the plane $\Pi_1$, it must be orthogonal to both direction vectors of $\Pi_1$, $\cvec{2\\-1\\2}$ and $\cvec{3\\-2\\1}$. Similarly, $\vec{n_2}$ is orthogonal to both $\cvec{1\\2\\-2}$ and $\cvec{2\\1\\-3}$.
+
+				Consider two non-zero vectors $\vec{a} = \overrightarrow{OA}, \vec{b} = \overrightarrow{OB} \in \mathbb{R}^n$. The cosine rule states
+					\begin{align*}
+						|\vec{b} - \vec{a}|^2 = |\vec{a}|^2 + |\vec{b}|^2 - 2|\vec{a}||\vec{b}|\cos\theta.
+					\end{align*}
+
+				The formula for the length of a vector is
+					\begin{align*}
+						\sum_i (b_i - a_i)^2 &= \sum_i a_i^2 + \sum_i b_i^2 - 2|\mathbf{a}||\mathbf{b}| \cos\theta.
+					\end{align*}
+
+				Expanding this provides
+					\begin{align*}
+						\sum_i b_i^2 - \sum_i -2a_i b_i + \sum_i a_i^2 &= \sum_i a_i^2 + \sum_i b_i^2 - 2|\mathbf{a}||\mathbf{b}| \cos\theta,
+					\end{align*}
+				where terms $\displaystyle\Sigma_i a_i^2$ and $\displaystyle\Sigma_i b_i^2$ can be cancelled to produce
+					\begin{align*}
+						\sum_i -2a_i b_i &= -2|\vec{a}||\vec{b}|\cos\theta,
+					\end{align*}
+				and finally simplified to
+					\begin{align*}
+						\cos\theta &= \frac{\displaystyle\sum_i a_i b_i}{|\vec{a}||\vec{b}|}.
+					\end{align*}
+
+				The dot product of two vectors $a,b \in \mathbb{R}^n$ is defined to be
+					\begin{align*}
+						\vec{a} \cdot \vec{b} = \sum_i a_i b_i,
+					\end{align*}
+
+				hence the angle between two non zero vectors $\vec{a} = \overrightarrow{OA}, \vec{b} = \overrightarrow{OB} \in \mathbb{R}^n$ is
+					\begin{align*}
+						\theta = \cos^{-1} \left(\frac{\vec{a} \cdot \vec{b}}{|\vec{a}||\vec{b}|}\right).
+					\end{align*}
+
+				The vectors $\vec{a}$ and $\vec{b}$ are orthogonal when $\theta = \frac{\pi}{2}$, i.e. $\vec{a} \cdot \vec{b} = 0$
+
+				This result can be applied to the vectors $\vec{n_1}$ and $\vec{n_2}$ by verifying
+				\begin{align*}
+					& \vec{n_1} \cdot \cvec{2\\-1\\2} = \vec{n_1} \cdot \cvec{3\\-2\\1} = 0, \text{ and}	\\
+					& \vec{n_2} \cdot \cvec{1\\2\\-2} = \vec{n_2} \cdot \cvec{2\\1\\-3} = 0.
+				\end{align*}
+				\\
+
+				\end{enumerate}
+
+			\item Calculate $\vec{m} = \vec{n_1} \times \vec{n_2}$.
+				\\ \\
+				Using the formula for cross product, we have
+				\begin{align*}
+					\vec{m} = \cvec{-3\\-4\\1} \times \cvec{4\\1\\3} = \cvec{(-4)\cdot3 - 1\cdot1 \\ 4\cdot1 - (-3)\cdot3 \\ -3\cdot1 - 4\cdot(-4)} = \cvec{-13\\13\\13}.
+				\end{align*}
+				\\
+
+			\item Using $\vec{m}$ as defined in part (b), explain,
+
+				\begin{enumerate}[(i)]
+
+					\item how you can tell from $\vec{m}$ that the planes are not parallel and hence must intersect in a line, and
+						\\ \\
+						Consider two parallel vectors $\cvec{x\\y\\z}, \lambda \cvec{x\\y\\z} \in \mathbb{R}^3, \; \lambda \in \mathbb{R}$. Their cross product can be calculated as
+							\begin{align*}
+								\cvec{x\\y\\z} \times \lambda \cvec{x\\y\\z} = \lambda \left(\cvec{x\\y\\z} \times \cvec{x\\y\\z}\right) = \vec{0}.
+							\end{align*}
+
+						Therefore, two parallel vectors have a cross product of $\vec{0}$.
+						\\ \\
+						Since the cross product of the normal vectors $\vec{m} = \vec{n_1} \times \vec{n_2} \neq \vec{0}$, the two planes are not parallel. Hence, the two planes must intersect in a line.
+						\\
+
+					\item why $\vec{m}$ must be a vector parallel to the line of intersection of $\Pi_1$ and $\Pi_2$.
+						\\ \\
+						The line of intersection of the planes $\Pi_1$ and $\Pi_2$ exists on both planes, hence must be orthogonal to the normal of each plane. The vector $\vec{m}$ is the cross product of these normals and therefore must be parallel to the line of intersection of the planes.
+						\\
+
+				\end{enumerate}
+
+			\item You are given that a Cartesian equation for $\Pi_1$ is $-3x_1 - 4x_2 + x_3 = 6$. Explain how to use the point-normal form of a plane to find a Cartesian equation for $\Pi_2$, and use this method to find a Cartesian equation for $\Pi_2$.
+				\\ \\
+				A plane can be defined using the point normal form as the set of all points $\vec{x}$ such that
+					\begin{align*}
+						\vec{n} \cdot (\vec{x} - \vec{a}) = 0,
+					\end{align*}
+					where $\vec{n}$ is a vector normal to the plane and $\vec{a}$ is a point on the plane. The Cartesian equation for such plane can be obtained by defining $\vec{x} = \cvec{x_1\\x_2\\x_3}$ and computing the dot product.
+				\\ \\
+				Hence, the plane $\Pi_2$ can be written as
+					\begin{align*}
+						\cvec{4\\1\\3} \cdot \left(\cvec{x_1\\x_2\\x_3} - \cvec{0\\1\\-3}\right) = 0.
+					\end{align*}
+				\\
+				Computing the dot product yields the Cartesian form of $\Pi_2$,
+					\begin{align*}
+						4x_1 + x_2 - 1 + 3x_3 + 9 &= 0,
+					\end{align*}
+				which can be finally simplified to
+					\begin{align*}
+						4x_1 + x_2 + 3x_3 &= -8.
+					\end{align*}
+				Therefore, the Cartesian equation of the plane $\Pi_2$ is $4x_1 + x_2 + 3x_3 &= -8$.
+				\\
+
+			\item Substitute expressions for $x_1$, $x_2$ and $x_3$ from the parametric form of $\Pi_2$, and use this method to find a Cartesian equation for $\Pi_1$ given in the previous part to find a relationship between $\lambda_1$ and $\mu_2$ and use this to find a parametric vector form of the line of intersection $L$.
+				\\ \\
+				The plane $\Pi_2$ can be expressed as
+					\begin{align*}
+						\cvec{x_1\\x_2\\x_3} = \cvec{\lambda_2+2\mu_2\\1+2\lambda_2+\mu_2\\-3-2\lambda_2-3\mu_2}, \quad \lambda_2, \mu_2 \in \mathbb{R}.
+					\end{align*}
+				\\
+				Substituting the components of $\Pi_2$ into the Cartesian form of $\Pi_1$ provides
+					\begin{align*}
+						6 &= -3(\lambda_2 + 2\mu_2) - 4(1 + 2\lambda_2 + \mu_2) + (-3 - 2\lambda_2 - 3\mu_2),
+					\end{align*}
+				which can be simplified into the relation
+					\begin{align*}
+						\lambda_2 + \mu_2 &= -1.
+					\end{align*}
+				\\
+				Substituting $\mu_2 = -\lambda_2 - 1$ into $\Pi_2$ provides the parametric equation of the line $L$
+					\begin{align*}
+						L: \vec{x} &= \cvec{0\\1\\-3} + \lambda_2 \cvec{1\\2\\-2} + (-\lambda_2 - 1)\cvec{2\\1\\-3},		\\
+								&= \cvec{-2\\0\\0} + \lambda \cvec{-1\\1\\1}, \quad \lambda \in \mathbb{R}.
+					\end{align*}
+				\\ 
+
+			\item Explain how you can confirm that your parametric form for the line of intersection is correct by referring to
+				\begin{enumerate}[(i)]
+					\item part (c) to check that the direction is correct, and
+						\\ \\
+						The direction of the vector $L$ must be parallel to the vector $\vec{m}$ since it is orthogonal to the normal of both planes. Since the vector $L$ can be written as a scalar multiple of $\vec{m}$ as follows:
+							\begin{alignat*}
+								\vec{m} = \cvec{-13\\13\\13} = \mu \cvec{-1\\1\\1}, \quad \mu = 13,
+							\end{alignat*}
+						the direction of $L$ is confirmed.
+						\\
+
+					\item part (d) to check that one point on your line is correct
+						\\ \\
+						The point on the line $L$ must satisfy
+							\begin{align*}
+								\Pi_1: -3x_1 - 4x_2 + x_3 = 6,
+							\end{align*}
+						which can be verified by substituting the found point, $\cvec{-2\\0\\0}$ into $\Pi_1$, providing
+							\begin{align*}
+								-3(-2) - 4(0) + 0 &= 6,
+							\end{align*}
+						verifying the found point.
+						\\
+				\end{enumerate}
+		\end{enumerate}
+
+\newpage
+\section*{\LARGE{Question 2}}
+	Show that the equation
+		\begin{align*}
+			e^{-3x} + 7 \cos(53x) = 0,
+		\end{align*}
+		has a unique solution for $x \in \left[0, \frac{\pi}{53}\right]$.
+		\\ \\
+		Let $f:\mathbb{R} \to \mathbb{R},\,f(x) = e^{-3x} + 7 \cos(53x)$. Since $f(x)$ is continuous for $x \in [0, \frac{\pi}{53}]$, the Intermediate Value Theorem (IVT) can be used. IVT states that if a function $f$ is continuous on a closed interval $[a,b]$, it must take every value $y$ between $f(a)$ and $f(b)$ at least once within the interval. Substituting the points 0 and $\frac{\pi}{53}$ into $f$ as follows
+		\begin{align*}
+			f(0) &= 8 > 0,\; \text{and}	\\
+			f(\frac{\pi}{53}) &= e^{-\frac{7\pi}{53}} - 7 < 0,
+		\end{align*}
+		yields a positive and negative value respectively, therefore, since $f(0) < 0 < f(\frac{\pi}{53})$, by IVT there is at least one value $c \in (0,\frac{\pi}{53})$ such that
+		\begin{align*}
+			f(c) = e^{-3c} + 7 \cos(53c) = 0.
+		\end{align*}
+		Taking the derivative of $f(x)$, we obtain
+			\begin{align*}
+				f'(x) = -3e^{-3x} - (7) (53) \sin(53x).
+			\end{align*}
+		This derivative is monotonically decreasing for $x \in \left(0, \frac{\pi}{53}\right)$ and therefore there exists only one unique value $c$ such that $f(c) = e^{-3c} + 7 \cos(53c) = 0$. Therefore, the equation $e^{-3x} + 7 \cos(53x) = 0$ only has one unique solution for $x \in [0, \frac{\pi}{53}]$.
+		\\
+
+\newpage
+\section*{\LARGE{Question 3}}
+Using the Mean Value Theorem, estimate the error of the approximation of $(243.014)^{\frac{4}{5}}$ to $243^{\frac{4}{5}}$.
+		\\ \\
+		The Mean Value Theorem states that for a function $f$ that is continuous on the closed interval $[a,b]$ and differentiable on the open interval $(a,b)$, there exists at least one point $c$ in $(a,b)$ such that $f'(c)$ is equal to the average rate of change over the interval, i.e.
+			\begin{align*}
+				f'(c) = \frac{f(b) - f(a)}{b-a}.
+			\end{align*}
+		Let $f:\mathbb{R} \to \mathbb{R}$, be defined by $f(x) = x^{\frac{4}{5}}$. Since $f$ is an elementary function, it is continuous on $[243,\,243.014]$, and happens to be differentiable on $(243,\,243.014)$, MVT can be applied.
+		\\ \\
+		By MVT, there exists $c \in (243,\,243.014)$ such that
+			\begin{align*}
+				\frac{f(243.014) - f(243)}{243.014 - 243} = f'(c) = \frac{4}{5} c^{-\frac{1}{5}},
+			\end{align*}
+		which can be simplified to
+			\begin{align*}
+				(243.014)^{\frac{4}{5}} - 243^{\frac{4}{5}} = \frac{4}{5} c^{-\frac{1}{5}} (243.014 - 243).
+			\end{align*}
+		Since $f(x)$ is monotonically increasing between $[243,\,243.014]$, the error in approximation is highest at $c = 243$. Hence the approximation error is given by
+			\begin{align*}
+				\frac{4}{5} \cdot 243^{-\frac{1}{5}} \cdot (243.014 - 243) = \frac{4}{15} \cdot 0.014 = \frac{7}{1875}.
+			\end{align*}
+			Therefore, the magnitude of error in making the approximation of $(243.014)^{\frac{4}{5}}$ as $243^{\frac{4}{5}}$ is at most $\frac{7}{1875}$.
+		
+\end{enumerate}
+
+\end{document}

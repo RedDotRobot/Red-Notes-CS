@@ -110,6 +110,19 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 \newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
 
+\setlength{\jot}{1.5em}
+\setlength{\thickmuskip}{10}
+\setlength{\medmuskip}{7}
+\setlength{\thinmuskip}{5}
+\setstretch{1.25}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
 \title{\textbf{MATH1141: Higher Mathematics 1A - Algebra}}
 \author{L. Cheung}
 \date{\today}
@@ -682,4 +695,392 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 								&= 4 \cos^3 \theta - 3 \cos \theta
 				\end{align*}
 			\end{question}
+
+	\section{Triangle inequality}
+
+		\begin{question}{Example}
+			\begin{align*}
+				|z+w|^2 &= (z+w)\overline{(z+w)}	\\
+						&= (z+w)(\overline{z} + \overline{w})	\\
+						&= z\overline{z} + z\overline{w} + w\overline{z} + w\overline{w}	\\
+						&= |z|^2 + z\overline{w} + \overline{z\overline{w}} + |w|^2	\\
+						&= |z|^2 + 2\Re(z\overline{w}) + |w|^2	\\
+						&\leq |z|^2 + 2|z\overline{w}| + |w|^2	\\
+						&= \left(|z| + |w|\right)^2
+			\end{align*}
+		\end{question}
+		
+	\section{Complex polynomials}
+		
+		A function $p: \mathbb{C} \to \mathbb{C}$ of the form
+		\begin{align*}
+			p(z) = a_nz^n + a_{n-1}z^{n+1} + \dots + a_1z + a_0
+		\end{align*}
+		is called a complex polynomial.
+		\\ \\
+		A root of a polynomial $p$ is any $\alpha \in \mathbb{C}$ such that $p(\alpha) = 0$.
+		\\ \\
+		Gauss' theorem states that every complex polynomial of degree at least one has a root $\alpha \in \mathbb{C}$.
+
+		\subsection{Factorising polynomials}
+			
+			Let $p$, $q$ be complex polynomials of degree at least 1. Then $q$ is a factor of $p$ if there is a polynomial r such that $p=qr$.
+
+	\section{Roots of real polynomials}
+		
+		A polynomial is real if the coefficients are real.
+
+		Suppose that $\alpha$ is a root of a real polynomial $p$. Then $\overline{\alpha}$ is also a root of $p$. If $(z-\alpha)$ and $(z-\overline{\alpha})$ are factors of $p$ and $\alpha \notin \mathbb{R}$, then $p$ has a quadratic factor
+
+\chapter{Linear equations}
+
+	\section{Linear equations}
+
+		A linear equation in $n$ unknowns $x_1,x_2,\dots,x_n$ is an equation of the form
+			\begin{align*}
+				a_1x_1 + a_2x_2 + \cdots + a_nx_n = b
+			\end{align*}
+
+	\section{Point normal form for lines in $\mathbb{R}^2$}
+
+		Just as there are point normal forms for planes in $\mathbb{R}^3$, there are point normal forms for lines in $\mathbb{R}^2$. The solution set of two simultaneous equations is the intersection of the lines that represent each equation.
+
+	\section{Intersecting 3 planes in $\mathbb{R}^3$}
+		
+		The produce of systematically solving simultaneous equations and understanding the set is called Gaussian elimination.
+
+		To do so, the system of $m$ linear equations in $n$ variables
+
+		\begin{align*}
+			\begin{cases}
+				a_11x_1 + a_12x_2 + \cdots + a_1nx_n = b_1	\\
+				a_21x_1 + a_22x_2 + \cdots + a_2nx_n = b_2	\\
+				\cdots \\
+				a_m1x_1 + a_m2x_2 + \cdots + a_mnx_n = b_m	\\
+			\end{cases}
+		\end{align*}
+
+		is abbreviated to \textbf{augmented matrix form}
+
+		\begin{align*}
+			\begin{pmatrix}[cccc|c]
+				a_{11} & a_{12} & \cdots & a_{1n} & b_1	\\
+				a_{21} & a_{22} & \cdots & a_{2n} & b_2	\\
+				\vdots & \vdots & \ddots & \vdots & \vdots	\\
+				a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
+			\end{pmatrix}
+		\end{align*}
+
+		\begin{question}{Example}
+			Write the augmented matrix form for the system
+			\begin{align*}
+				\begin{cases}
+					6x_1 - 2x_2 + 5x_3 = 7	\\
+					3x_1 + x_2 + 2x_3 = 0	\\
+				\end{cases}
+			\end{align*}
+
+			\textbf{Solution}
+				
+			\begin{align*}
+				\begin{pmatrix}[ccc|c]
+					6 & -2 & 5 & 7	\\
+					3 & 1 & 2 & 0	\\
+				\end{pmatrix}
+			\end{align*}
+		\end{question}
+
+	\section{Matrices}
+
+		A matrix is a rectangular array of numbers, such as
+			\begin{align*}
+				\begin{pmatrix}
+					1 & 2 & 3	\\
+					0 & 7 & 5
+				\end{pmatrix}.
+			\end{align*}
+
+		This example would be a $2 \times 3$ matrix since it has 2 rows and 3 columns.
+
+		The augmented matrix consists of the coefficient matrix (on the left of the line) augmented by the right side vector.
+
+		Any system of simultaneous equations can be written as a single vector equation.
+
+		\begin{question}{Example}
+			Write a vector equation equivalent to the following augmented matrix.
+				\begin{align*}
+					\begin{pmatrix}[cc|c]
+						1 & 0 & -2	\\
+						2 & e^2 & \pi
+					\end{pmatrix}	\\
+					x_1 \cvec{1\\2} + x_2 \cvec{0\\e^2} = \cvec{-2\\\pi}
+				\end{align*}
+		\end{question}
+
+		A system of linear equations is consistent if it has at least one solution and inconsistent otherwise.
+
+		The systems of linear equations $(A|\vec{b})$, $(A'|\vec{b'})$ are equivalent if they have exactly the same set of solutions.
+
+		\subsection{Back-substitution}
+			
+			We can solve systems of linear equations if they are in row echelon form as in the following
+				\begin{align*}
+					\begin{pmatrix}[cccc|c]
+						1 & 2 & 3 & 4 & 8	\\
+						0 & 0 & 1 & 2 & 3	\\
+						0 & 0 & 0 & 1 & 2	\\
+					\end{pmatrix}.
+				\end{align*}
+
+			The solution can be written in the vector form
+			\begin{align*}
+				\cvec{x_1\\x_2\\x_3\\x_4} = \cvec{3-2\lambda\\\lambda\\-1\\2} = \cvec{3\\0\\-1\\2} + \lambda\cvec{-2\\1\\0\\0},
+			\end{align*}
+			hence representing the solution set as a line in $\mathbb{R}^4$.
+
+		\subsection{Gaussian elimination}
+			
+			\subsubsection{EROs}
+				Addition
+					\begin{enumerate}
+						\item Add/subtract rows to get zeroes in the first column of every row, except for the first row
+						\item Continue this process for each row to form row echelon form
+					\end{enumerate}
+
+				Pivot (just swap the rows)
+
+	\section{Solving simultaneous equations: functional viewpoint}
+
+		We often solve equations like $\sin x = \frac{1}{2}$, or more generally $f(x) = c$ for some $f: \mathbb{R} \to \mathbb{R}$ and constant $c \in \mathbb{R}$. This can be used to solve simultaneous equations if we allow vector valued functions $f:\mathbb{R}^n \to \mathbb{R}^m$
+
+		Consider $a_1,\dots,a_n \in \mathbb{R}$ and the function $I: \mathbb{R}^n \to \mathbb{R}$ defined by
+		\begin{align*}
+			I(x) = a_1x_1 + \dots + a_nx_n.
+		\end{align*}
+		This is a scalar valued linear function with vector inputs. $I(x) = b$ is a linear equation.
+
+		\begin{question}{Matrix-vector product}
+			Calculate
+			\begin{align*}
+			\begin{pmatrix}
+				1 & 3	\\
+				1 & 2	\\
+				4 & 0	
+			\end{pmatrix}
+			\cvec{2\\-1}
+			\end{align*}
+			\begin{align*}
+				= \cvec{1 \times 2 + 3(-1) \\ 1 \times 2 + 2(-1) \\ 4 \times 2 + 0(-1)} = \cvec{-1\\0\\8}
+			\end{align*}
+		\end{question}
+
+		\begin{itemize}
+			\item Distributive law applies
+		\end{itemize}
+
+	\section{Linearity}
+		
+		A function $$:\mathbb{R}^n \to \mathbb{R}^m$ is linear if for all $\vec{x}, \vec{y} \in \mathbb{R}^n, \lambda \in \mathbb{R}$ we have
+		\begin{align*}
+			T(\vec{x}+\vec{y}) = T(\vec{x}) + T(\vec{y}), \qquad T(\lambda \vec{x}) = \lambda T(\vec{x})
+		\end{align*}
+		\begin{question}{Example}
+			$T\cvec{x\\y} = x^2 + y$ is not linear since
+			\\ \\
+			if $\lambda = 2$ and $\vec{x} = \cvec{x\\y} = \cvec{3\\0}$ then
+			\begin{align*}
+				T\left(2\cvec{3\\0}\right) = T\left(\cvec{6\\0}\right) = 6^2 = 36,
+			\end{align*}
+			howeer this contradicts with
+			\begin{align*}
+				2T\left(\cvec{3\\0}\right) = 2\left(3^2 + 0\right) = 18
+			\end{align*}
+		\end{question}
+		This definition contradicts with the one in calculus where $f(x) = ax + b$ is linear iff
+		\begin{align*}
+			b = 0 \because 0 = 0 f(x) = f(0x) = f(0) = b
+		\end{align*}
+
+	\section{Homogeneous equations}
+
+		Let $T: \mathbb{R}^n \to \mathbb{R}^m$ be a linear function, and $\vec{b} \in \mathbb{R}^m$. We consider the linear equation $T\vec{x} = \vec{b}$ and solve for $\vec{x}$. We say $T\vec{x} = \vec{b}$ is homogeneous if $\vec{b}=\vec{0}$, and is inhomogeneous otherwise.
+
+		Suppose $\vec{x_1}, \dots, \vec{x_r}$ are solutions to the homogeneous equation $T\vec{x} = \vec{0}$.
+		\begin{itemize}
+			\item $\vec{x} = \vec{0}$ is a homogeneous solution.
+			\item $\vec{x_1} + \vec{x_2}, \lambda \vec{x_1}$ are homogeneous solutions for any $\lambda \in \mathbb{R}$.
+			\item Any linear combination $\lambda_1 \vec{x_1} + \dots + \lambda_r \vec{x_r}$ is a homogeneous solution
+		\end{itemize}
+
+		Let $\vec{x} = \vec{x_p}$ be a solution to $T\vec{x} = \vec{b}$.
+		\begin{itemize}
+			\item Then $\vec{x} = \vec{x_p} + \vec{x_h}$ is also a solution for any homogeneous solution $\vec{x_h}$ to $T\vec{x} = \vec{0}$.
+			\item Every solution to $T\vec{x} = \vec{b}$ has this form.
+		\end{itemize}
+
+	\section{Application to polynomials}
+
+		Fix real numbers $a,b,c$. Are there any polynomials of degree $\leq 2$ $p(x) = a_0 + a_1x + a_2x^2$ which satisfy the following conditions
+		\begin{align*}
+			p(1) = a, \quad p'(1) = b, \quad p''(1) = c
+		\end{align*}
+		The conditions give linear conditions on the coefficients. Now
+		\begin{align*}
+			a &= p(1) = a_0 + a_1 + a_2	\\
+			b &= p'(1) = a_1 + 2a_2		\\
+			b &= p''(1) = 2a_2
+		\end{align*}
+		which can be written as 
+		\begin{align*}
+			\begin{pmatrix}[ccc|c]
+				1 & 1 & 1 & a	\\
+				0 & 1 & 2 & b	\\
+				0 & 0 & 2 & c
+			\end{pmatrix}
+		\end{align*}
+
+\chapter{Matrices}
+
+	Recall an $m \times n$- matrix as an array of scalars (real or complex).
+	\begin{align*}
+		A = \begin{pmatrix}
+			a_{11} & a_{12} & \cdots & a_{1n}	\\
+			a_{21} & a_{22} & \cdots & a_{2n}	\\
+			\vdots & \vdots & \ddots & \vdots	\\
+			a_{m1} & a_{m2} & \cdots & a_{mn}
+		\end{pmatrix}
+	\end{align*}
+
+	\begin{itemize}
+		\item We abbreviate the above to $A = (a_{ij})$ and call $a_{ij}$ the $ij$-th entry of $A$
+		\item We also write $[A]_{ij}$ for $a_{ij}$
+		\item The size of $A$ is $m \times n$ since it has $m$ rows and $n$ columns
+		\item $M_{mn}(\mathbb{R})$ denotes the set of all $m\times n$-matrices with real entries
+	\end{itemize}
+
+	\section{Matrix-vector product}
+
+		Let $A = (a_{ij}) = (\vec{a_1}|\vec{a_2}|\dots|\vec{a_n}) \in M_{mn}$. Then
+		\begin{align*}
+			A \cvec{x_1\\x_2\\\vdots\\x_n} = \cvec{a_{11}x_1 + a_{12}x_2+\cdots+a_{1n}x_n \\ a_{21}x_1 + a_{22}x_2+\cdots+a_{2n}x_n \\ \vdots \\ a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n} = x_1 \vec{a_1} + x_2 \vec{a_2} + \dots x_n \vec{a_n}
+		\end{align*}
+
+	\section{Arithmetic of matrices}
+
+	Matrix addition and scalar multiplication is defined to be entry-wise addition and scalar multiplication.
+	\\ \\
+	For $A,B \in M_{mn}(\mathbb{R}, \; \lambda \in \mathbb{R})$, the entries of $A+B, \lambdaA \in M_{mn}(\mathbb{R})$ are
+	\begin{itemize}
+		\item $[A+B]_{ij} = [A]_{ij} + [B]_{ij}$
+		\item [\lambda A]_{ij} = \lambda [A]_{ij}
+	\end{itemize}
+	Note that the sum of matrices of different sizes is not defined.
+
+	\begin{itemize}
+		\item The zero matrix $\vec{0}$ has all entries 0, ie. $A + \vec{0} = A$
+		\item The negative of $A \in M_{mn}$ is $-A := (-1)A$. Hence $A + (-A) = \vec{0}$
+		\item The difference $A-B := A + (-B)$ if $A,B$ have the same size
+	\end{itemize}
+
+	\begin{question}{Example}
+		Suppose $n=2$ so $A = (\vec{a_1}|\vec{a_1})$, $B = (\vec{b_1}|\vec{b_1})$
+
+		Let $\vec{x} = \cvec{x_1\\x_2}$.
+
+		\begin{align*}
+			(A+B)\vec{x} = (\vec{a_1} + \vec{b_1} | \vec{a_2} + \vec{b_2}) \cvec{x_1\\x_2} &= x_1(\vec{a_1} + \vec{b_1}) = x_2(\vec{a_2} + \vec{b_2})	\\
+																						   &= x_1 \vec{a_1} + x_2 \vec{a_2} + x_1 \vec{b_1} + x_2 \vec{b_2}	\\
+																						   &= A\vec{x} + B\vec{x}
+		\end{align*}
+	\end{question}
+
+	\section{Matrix multiplication}
+
+	Let $A \in M_{mn}, B = (\vec{b_1}|\cdots|\vec{b_p}) \in M_{np}$. We define the matrix product $AB$ to be the $m\times p$-matrix
+	\begin{align*}
+		AB = (A\vec{b_1}|\cdots|A\vec{b_p}) \in M_{mp}
+	\end{align*}
+	\begin{question}{Example}
+		\begin{align*}
+			\cvec{0 & 1 \\ 2 & 3 \\ 4 & 5} \cvec{1 & -1 \\ 1 & 2} = 
+			\begin{pmatrix}[c|c]
+				\cvec{0 & 1 \\ 2 & 3 \\ 4 & 5} \cvec{1\\1} & \cvec{0 & 1 \\ 2 & 3 \\ 4 & 5} \cvec{-1\\2}
+			\end{pmatrix} = \cvec{1&2\\5&4\\9&6}
+		\end{align*}
+	\end{question}
+
+	\begin{itemize}
+		\item Matrix multiplication is associative and distributive, however not commutative
+			\begin{align*}
+				(A+B)^2 = (A+B)(A+B) = A^2 + BA + AB + B^2
+			\end{align*}
+	\end{itemize}
+
+	\section{Miscellaneous matrix definitions}
+
+	A matrix is said to be square if it has the same number of rows as columns. The diagonal of a square matrix $A = (a_{ij})$ consists of the entries $a_{ij}$. The $n\times n$ matrix $I$ is the matrix with 1's on the diagonal and 0's elsewhere. Eg.
+	\begin{align*}
+		I = \cvec{
+			1 & 0 & 0 & \cdots & 0	\\
+			0 & 1 & 0 & \cdots & 0	\\
+			0 & 0 & 1 & \cdots & 0	\\
+			\vdots & \vdots & \vdots & \ddots & \vdots	\\
+			0 & 0 & 0 & \cdots & 1	\\
+		} \in M_{nn}
+	\end{align*}
+
+	\section{Transpose}
+
+	The transpose of an $m \times n$-matrix $A$ is the $n\times m$-matrix $A^T$ obtained by turning all the rows of $A$ into columns, ie. flipping the matrix about the row $i$ = column $j$ diagonal.
+	\begin{question}{Example}
+		\begin{align*}
+			\cvec{2&5&1\\1&3&2}^T = \cvec{2&1\\5&3\\1&2}
+		\end{align*}
+	\end{question}
+
+	Let $A,B$ be matrices and $\lambda$ a scalar. The following hold when one side is defined.
+	\begin{itemize}
+		\item $\left(A^T\right)^T$
+		\item $(A+B)^T = A^T + B^T$
+		\item $(\lambda A)^T = \lambda A^T$
+		\item $(AB)^T = B^TA^T$
+	\end{itemize}
+	
+	Let $\vec{a},\vec{b} \in \mathbb{R}^n$. Then though $\vec{ab}$ is not defined, we can define
+	\begin{align*}
+		\vec{a}^T\vec{b} = (a_1 \dots a_n) \cvec{b_1\\\vdots\\b_n} = a_1b_1 + \dots + a_nb_n = \vec{a} \cdot \vec{b}
+	\end{align*}
+
+	A square matrix is symmetric if $A^T = A$ and anti-symmetric if $A^T = -A$
+
+	\section{Matrix inverse}
+
+	To attempt matrix "division" we need the matrix inverse. A matrix $W$ is an inverse for the matrix $A$ if
+	\begin{align*}
+		AW = WA = I
+	\end{align*}
+	If such a matrix exists, we say that $A$ is invertible. A matrix can have at most one inverse, denoted as $A^{-1}$.
+
+	Since matrix multiplication is not commutative, left and right inverses can be defined. Let $A,B$ be matrices such that $AB = I_n$ for some $n$. THen we say $A$ is a left inverse for $B$ and $B$ is a right inverse for $A$.
+
+	Let $A \in M_{mn}$ be an invertible matrix. Then for any $\vec{b} \in \mathbb{R}^m$ the equation $A\vec{x} = \vec{b}$ has $\vec{x} = A^{-1}\vec{b}$ as its unique solution.
+
+	\subsubsection{Formulas involving matrix inverses}
+
+	Let $A,B \in M_{nn}$ be invertible
+
+	\begin{itemize}
+		\item $A^{-1}$ is invertible and $(A^{-1})^{-1} A$
+		\item $AB$ is invertible and $(AB)^{-1} = B^{-1}A{-1}$
+		\item $A^T$ is invertible and $(A^T)^{-1} = (A^{-1})^T$
+	\end{itemize}
+
+	Let $A \in M_{nn}$. To determine invertibility and invert $A$ if invertible we:
+	\begin{enumerate}
+		\item Form the augmented $n \times 2n$-matrix $(A|I)$.
+		\item Apply ERO's until we get row echelon form $(U|B)$.
+		\item If $U$ has non-leading columns, we stop as solutions to $A\vec{x} = \vec{0}$ are not unique so $A$ is not invertible.
+		\item If $U$ has no non-leading columns, then $A$ is invertible and we can apply ERO's to transform $(U|B)$ to the form $(I|C)$ with $C = A^{-1}$.
+	\end{enumerate}
+
 \end{document}

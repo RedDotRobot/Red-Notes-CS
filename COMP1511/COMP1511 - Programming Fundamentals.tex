@@ -132,6 +132,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			// Output: Hello world!
 		\end{minted}
 
+\newpage
+
 \section{Lecture 2}
 	\subsection{How does a computer remember things?}
 		\begin{itemize}
@@ -268,6 +270,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 				// Output: 3
 			\end{minted}
 		\end{itemize}
+
+\newpage
 
 \section{Lecture 3}
 	\subsection{If Statements}
@@ -475,6 +479,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 				}
 			\end{minted}
 
+\newpage
+
 \section{Lecture 4}
 	
 	\subsection{Examples of if statements and loops}
@@ -675,6 +681,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			
 		\end{question}
 
+\newpage
+
 \section{Lecture 5}
 
 	\subsection{Functions}
@@ -814,6 +822,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 					\end{minted}
 			\end{itemize}
 
+\newpage
+
 \section{Lecture 6}
 	
 	\subsection{Arrays}
@@ -869,6 +879,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 			\end{minted}
 		\end{question}
+
+\newpage
 
 \section{Lecture 7}
 
@@ -943,6 +955,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\end{minted}
 		\end{question}
 
+\newpage
+
 \section{Lecture 8}
 	
 	\subsection{Arrays (continued)}
@@ -981,7 +995,9 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 					\item \mintinline{c}{type array_name[num of rows][num of columns]}
 				\end{itemize}
 		\end{itemize}
-	
+
+\newpage
+
 \section{Lecture 9}
 
 	nothingburger lecture...
@@ -1021,5 +1037,324 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 		\end{minted}
 	\end{question}
+
+\newpage
+
+\section{Lecture 10}
+	
+	\subsection{Command Line Arguments}
+
+		\begin{itemize}
+			\item Allow inputs into the program from the very beginning
+			\item \mintinline{c}{int main(void)} accepts no inputs
+			\item To take inputs, \mintinline{c}{main} can be modified eg. \mintinline{c}{int main(int argc, char *argv[])}
+				\begin{itemize}
+					\item \mintinline{c}{argc} counts how many arguments were inputted
+					\item \mintinline{c}{*argv[]} is a pointer to the array of strings (the arguments given)
+				\end{itemize}
+			\item To pass \mintinline{c}{int} types to the program, they need to first be converted from strings by using \mintinline{c}{atoi()} from the \mintinline{c}{<stdlib.h>} library
+				\begin{minted}{c}
+
+					#include <stdio.h>
+					#include <stdlib.h>
+
+					int main(int argc, char*argv[]) {
+						
+						int sum = 0;
+
+						if (argc < 3) {
+							printf("There are not enough arguments to add up!\n");
+							return 1;
+						}
+
+						// Start at 1 since argv[0] is the program
+						for (int i = 1; i < argc; i++) {
+							// atoi() converts from a string to an integer
+							printf("argv[%d] = %s\n", i, argv[i]);
+							sum = sum + atoi(argv[i]);
+						}
+
+						printf("The sum is %d\n", sum);
+					}
+
+				\end{minted}
+		\end{itemize}
+
+		\begin{question}{Example}
+			\begin{minted}{c}
+				
+				#include <stdio.h>
+
+				int main (int argc, char *argv[]) {
+					printf("There are %d command line arguments in this program \n", &argc);
+
+					// argv[0] is always the program name
+					printf("The program name is %s (argv[0])\n", argv[0]);
+
+					for (int i = 0; i < argc; i++) {
+						printf("Argument %d is %s\n", i, argv[i]);
+					}
+				}
+				
+			\end{minted}
+		\end{question}
+
+	\subsection{Pointers}
+		
+		\begin{itemize}
+			\item A pointer is another variable that stores a memory address of a variable
+			\item This way, variables can be modified directly at the source
+			\item To declare a pointer, it is specified with an asterisk
+				\begin{itemize}
+					\item eg. a pointer to an \mintinline{c}{int} would be \mintinline{c}{int *pointer;}
+
+				\end{itemize}
+
+				\begin{minted}{c}
+
+					int number = 2;
+					int *number_ptr = &number;
+
+					// producing
+					number = 2
+					number_ptr = 0xFF40 // Example memory address
+						
+				\end{minted}
+		\end{itemize}
+
+		\begin{enumerate}
+			\item Declare a pointer using \mintinline{c}{*}, specifying where the pointer points to
+			\item Initialise a pointer by assigning the address to the variable using \mintinline{c}{&}
+			\item Dereference the pointer using \mintinline{c}{*}, ie. going to the address that the pointer variable is assigned to and finding what is at the address
+		\end{enumerate}
+
+	\subsection{Memory}
+
+		\begin{itemize}
+			\item Stack memory is where features of the program are stored (eg. functions created, variables declared)
+			\item When the program ends, it is removed from the stack
+			\item At compile time, stack memory can be allocated
+			\item Heap memory can be controlled and memory can be allocated and deallocated
+		\end{itemize}
+
+\newpage
+
+\section{Lecture 11}
+
+	\subsection{Multi-File Projects}
+		
+		\begin{itemize}
+			\item Big programs are often spread out over multiple files, providing benefits such as
+				\begin{itemize}
+					\item Improving readability
+					\item Separation of code
+					\item Modules can be written and tested separately
+				\end{itemize}
+			\item Header file (.h)
+				\begin{itemize}
+					\item No running code
+					\item Function prototypes for functions that will be implemented in the implementation file
+					\item #defines
+				\end{itemize}
+			\item Implementation file (.c)
+				\begin{itemize}
+					\item Implement the functions that were defined in the header file
+				\end{itemize}
+			\item main.c
+				\begin{itemize}
+					\item Call functions that may exist in other modules
+				\end{itemize}
+		\end{itemize}
+
+	\subsection{Revisiting Memory}
+		
+		\begin{itemize}
+			\item Heap storage is allocated (and deallocated) by the programmer
+			\item The \mintinline{c}{malloc()} function is used to allocate memory and \mintinline{c}{free()} deallocates the memory
+				\begin{itemize}
+					\item \mintinline{c}{malloc} returns a pointer to the address where the memory is allocated
+					\item \mintinline{c}{sizeof()} returns the size of a variable
+				\end{itemize}
+		\end{itemize}
+
+		\begin{minted}{c}
+			int *ptr = malloc(x * sizeof(int));
+		\end{minted}
+
+		where
+		\begin{itemize}
+			\item \mintinline{c}{ptr} is a pointer the to start of the allocated memory,
+			\item \mintinline{c}{x} is the number of elements,
+			\item and \mintinline{c}{int} is the type of data defined.
+		\end{itemize}
+
+	\subsection{Linked Lists}
+
+		\begin{itemize}
+			\item Linked lists are dynamically sized
+			\item Each element is called a node
+			\item The nodes can be added or removed anywhere within the list
+			\item The list does not have to be stored in contiguous memory
+			\item Each node holds some data, and a pointer to the next node
+			\item To find the first node, there is a header that points to it (this header is not a node)
+			\item The last node is a null pointer
+		\end{itemize}
+
+		\begin{question}{Example}
+			
+			\begin{minted}{c}
+				#include <stdio.h>
+				#include <stdlib.h>
+
+				// node with an int and a pointer
+				struct node {
+					int data;
+					struct node *next;
+				};
+
+				void print_list(struct node *head);
+				
+				int main(void) {
+
+					// Get memory to create a node
+					struct node *head = malloc(sizeof(struct node));
+
+					// Initialise data = 1 into the head
+					head->data = 1;
+					head->next = NULL;
+
+					struct node *second_node = malloc(sizeof(struct node));
+					second_node->data = 2;
+					second_node->next = head;
+
+					head = second_node;
+
+					print_list(head);
+
+					return 0;
+				}
+
+				void print_list(struct node *head) {
+					struct node *current = head;
+					while (current != NULL) {
+						printf("%d\n", current->data);
+						head = current->next;
+					}
+				}
+
+			\end{minted}
+
+		\end{question}
+
+\newpage
+
+\section{Lecture 12}
+
+	\subsection{Linked Lists (continued)}
+
+		\begin{question}{Example}
+			\begin{minted}{c}
+				
+				struct node *create_node(int data, struct node *next) {
+					struct node *new_node = malloc(sizeof(struct node));
+					new_node->data = data;
+					new_node->next = next;
+
+					return new_node;
+				}
+
+				struct node *append_node(int data, struct node *head) {
+					struct node *new_node = create_node(data, NULL);
+					struct node *current = head;
+
+					while(current != NULL) {
+						current = current->next;
+					}
+				}
+
+			\end{minted}
+		\end{question}
+
+\newpage
+
+\section{Lecture 13}
+
+	\subsection{Inserting into a linked list}
+
+		\begin{itemize}
+			\item Remember to handle the empty list case
+				\begin{minted}{c}
+					struct node *current = head;
+					if (current == NULL) {
+						return NULL;
+					}
+				\end{minted}
+			\item To delete one item, the head of the list must be freed
+		\end{itemize}
+
+		\begin{question}{Example}
+			\begin{minted}{c}
+				
+				struct node *insert_node(int position, int data, struct node *head) {
+
+					// Create node
+					struct node *new_node = malloc(sizeof(node));
+					new_node->data = data;
+
+					// Empty list case
+					if (head == NULL) {
+						return new_node;
+					} else {
+						struct node *current = head;
+						for (
+							int counter = 1;
+							counter != position && current != NULL;
+							counter++
+						) {
+							current = current->next;
+						}
+					}
+
+					new_node->next = current->next;
+					current->next; = new_node;
+				}
+
+			\end{minted}
+		\end{question}
+
+	\subsection{Deleting from a linked list}
+		
+		\begin{question}{Example}
+			\begin{minted}{c}
+				
+				// Delete a node with a given value
+				struct *node delete_node(int value, struct node head) {
+					struct node *current = head;
+					struct node *previous = NULL;
+
+					// Loop until value is found
+					while (current->data != value && current != NULL) {
+						previous = current;
+						current = current->next;
+					}
+
+					if (current != NULL) {
+						if (previous == NULL) {
+							head = head->next;
+						} else {
+							previous->next = current->next;
+						}
+						free(current);
+					}
+				}
+
+			\end{minted}
+		\end{question}
+
+\newpage
+
+\section{Lecture 14}
+
+	nothing...
 
 \end{document}

@@ -48,6 +48,9 @@
 
 \DeclareMathOperator{\sgn}{sgn}
 
+\DeclareMathOperator{\area}{area}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\cosech}{cosech}
 \usepackage{tikz}
 \usepackage{eso-pic}
 \usetikzlibrary{calc, shadows.blur}
@@ -105,14 +108,6 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 \maketitle
 \tableofcontents
 \newpage
-
-\section{Content Overview}
-	\begin{itemize}
-		\item Functions: continuity, differentiability, invertibility (inverse functions)
-		\item Curve sketching
-		\item Integration: area, Riemann sum (approximation), Fundamental theorems of calculus
-		\item Logarithm: exponential, hyperbolic
-	\end{itemize}
 
 \chapter{Sets, inequalities and functions}
 	\section{Sets of numbers}
@@ -990,7 +985,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 
 		From the equality $\frac{f(b) - f(a)}{b-a} = f'(c)$ in MVT,
 		\begin{align*}
-			m \leq f'(c) \leq M \quad \Leftrightarrow \quad m \leq \frac{f(b) - f(a)}{b-a} \leq M
+			m \leq f'(c) \leq M \quad \Longleftrightarrow \quad m \leq \frac{f(b) - f(a)}{b-a} \leq M
 		\end{align*}
 
 		\begin{question}{Example}
@@ -1050,4 +1045,1047 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\end{alignat*}
 			The error of approximation $\cos(1)$ by $\cos(\frac{\pi}{3})$ is at most 0.05
 		\end{question}
+
+	\section{The sign of a derivative}
+
+		Let $f$ be a function defined on an interval $I$. It is said that
+		\begin{enumerate}
+			\item $f$ is increasing on $I$ if for any $x_1,x_2 \in I$,
+				\begin{align*}
+					x_1 < x_2 \quad \Longrightarrow \quad f(x_1) < f(x_2)
+				\end{align*}
+			\item $f$ is decreasing on $I$ if for any $x_1,x_2 \in I$
+				\begin{align*}
+					x_1 < x_2 \quad \Longrightarrow \quad f(x_1) > f(x_2)
+				\end{align*}
+		\end{enumerate}
+
+		Suppose that $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$.
+		\begin{enumerate}
+			\item If $f'(x) > 0$  for all $x \in (a,b)$, then $f$ is increasing on $[a,b]$.
+			\item If $f'(x) < 0$  for all $x \in (a,b)$, then $f$ is decreasing on $[a,b]$.
+			\item If $f'(x) = 0$  for all $x \in (a,b)$, then $f$ is constant on $[a,b]$.
+		\end{enumerate}
+		\begin{question}{Proof}
+			Want: $f(x_1) < f(x_2)$ for all $a \leq x_1 < x_2 \leq b$
+			\\ \\
+			For any $x_1,x_2$ such that $a \leq x_1 < x_2 \leq b$
+			\begin{itemize}
+				\item $f$ is continuous on $[x_1,x_2]$
+				\item $f$ is differentiable on $(x_1,x_2)$
+			\end{itemize}
+
+			\\ \\
+			By MVT, $\exists c \in (x_1, x_2)$ such that
+			\begin{align*}
+				\frac{f(x_2) - f(x_1)}{x_2 - x_1} = f'(c)
+			\end{align*}
+			$f(x_2) - f(x_1) = f'(c)(x_2-x_1) > 0$, since $f'(c), (x_2-x_1) > 0$
+		\end{question}
+
+		\begin{question}{Example}
+			\setstretch{1.25}
+			Find and classify all stationary points of the function $f:\mathbb{R} \rightarrow \mathbb{R}$ whose deriative is given by
+			\begin{align*}
+				f'(x) = (x-4)(x-1)(x+5)^2
+			\end{align*}
+
+			\begin{itemize}
+				\item Stationary points (when $f'(x) = 0$): $x = 4$, $x=1$ and $x=-5$
+				\item To find inflection points, check the sign of $f'$ near the stationary point giving
+					\begin{itemize}
+						\item $x = 5$: horizontal point of inflection
+						\item $x = 1$: local maximum point
+						\item $x = 4$: local minimum point
+					\end{itemize}
+			\end{itemize}
+		\end{question}
+
+	\section{The second derivative and applications}
+
+		Suppose that a function $f$ is twice differentiable on $(a,b)$ and that $c \in (a,b)$.
+		\begin{enumerate}
+			\item If $f'(c) = 0$ and $f''(c) > 0$ then $c$ is a local minimum point of $f$.
+			\item If $f'(c) = 0$ and $f''(c) < 0$ then $c$ is a local maximum point of $f$.
+		\end{enumerate}
+		\\ \\
+
+		\textbf{Facts}
+
+			Suppose that $g$ is differentiable at a point $c$
+			\begin{enumerate}
+				\item If $g'(c) > 0$, then $g(c-h) < g(c) < g(c+h)$ for all sufficiently small $h > 0$.
+				\item If $g'(c) < 0$, then $g(c+h) < g(c) < g(c-h)$ for all sufficiently small $h > 0$.
+			\end{enumerate}
+
+		\underline{Proof of 1.}
+			\begin{align*}
+				& g'(c) = \lim_{\delta\to 0} \frac{1}{\delta} \left(g(c+\delta) - g(c)\right)		\\
+				& g(c+\delta) - g(c) \approx g'(c)\delta,\qquad \text{for sufficiently small }\delta
+			\end{align*}
+			\begin{itemize}
+				\item $\delta > 0: g'(c) \delta > 0 \quad \Rightarrow \quad g(c+|\delta|) - g(c) > 0$ if $\delta = h$ is sufficiently small
+				\item $\delta < 0: g'(c) \delta < 0 \quad \Rightarrow \quad g(c+\delta) = g(c+|\delta|) - g(c) > 0$ if $|\delta| = h$ is sufficiently small
+			\end{itemize}
+
+		If $f'(c)$ and $f''(c) = 0$, then the second derivative test cannot be applied. Here, it is best to check the sign of the derivative on either side of $c$.
+
+	\section{Critical points, maxima and minima}
+
+	Let $f$ be defined on $[a,b]$. Then $c \in [a,b]$ is a critical point for $f$ on $[a,b]$ if
+	\begin{enumerate}
+		\item $c$ is an endpoint ($c=a$ or $c=b$), or
+		\item $f$ is not differentiable at $c$, or
+		\item $f$  is differentiable at $c$ and $f'(c) = 0$
+	\end{enumerate}
+	Suppose that $f$ is continuous on $[a,b]$. Then
+	\begin{enumerate}
+		\item $f$ has a global maximum and a global minimum on $[a,b]$, and
+		\item the global maximum point and the globam minimum point are both critical points for $f$ on $[a,b]$.
+	\end{enumerate}
+
+	\begin{question}{Example}
+		Suppose that $f:\mathbb{R} \rightarrow \mathbb{R}$ is given by the rule
+		\begin{align*}
+			f(x) = |x^2 - 3x - 4|.
+		\end{align*}
+		Find the global maximum and global minimum values of $f$ on the interval $[0,5]$
+		\begin{align*}
+			f(x) = \begin{cases}
+				-(x^2-3x-4) = -(x-4)(x+1), \quad &x \in [0,4)	\\
+				x^2-3x-4 = (x-4)(x+1), \quad &x \in [4,5]	\\
+			\end{cases}
+		\end{align*}
+		\begin{itemize}
+			\item Endpoints:
+				\begin{itemize}
+					\item $f(0) = 4$
+					\item $f(5) = 6$
+				\end{itemize}
+			\item Non-differentiable points: $f(4) = 0$
+			\item Stationary points:
+				\begin{align*}
+					\frac{d}{dx} (x^2 - 3x - 4) = 2x-3 &= 0	\\
+												 	 x &= \frac{3}{2}	\\
+													 f(\frac{3}{2}) &= \frac{25}{4} = 6.25
+				\end{align*}
+			\item Global maximum at $x = \frac{3}{2}$. Global minimum at $x=4$
+		\end{itemize}
+	\end{question}
+
+	\section{Counting zeros}
+
+		\begin{question}{Example}
+			Determine the number of real zeroes of $f: \mathbb{R} \rightarrow \mathbb{R}$,
+			\begin{align*}
+				f(x) = x^4 - x^3 - 3x^2 - 8x - 5
+			\end{align*}
+			and give an approximate location for each zero.
+			\begin{enumerate}
+				\item Differentiate
+					\begin{align*}
+						f'(x) = 4x^3 - 3x^2 - 6x - 8 = (x-2)(4x^2 + 5x + 4)
+					\end{align*}
+				\item Stationary point and signs:
+					\begin{align*}
+						f'(2) = 0, \qquad & f'(x) < 0 \text{ on } (-\infty, 2)	\\
+										  & f'(x) > 0 \text{ on } (2, \infty)
+					\end{align*}
+				\item Apply IVT:
+					\begin{itemize}
+						\item At $x=2, f(2) = -25$
+						\item On $(-\infty,2)$, $f$ is decreasing $\Rightarrow$ at most one zero on $(-\infty,2)$
+
+							\qquad $f(-1) = 2$, $f(0) = -5 \Rightarrow$ at least one zero on $(-1,0)$ by IVT.
+						\item On $(2, \infty)$, $f$ is increasing $\Rightarrow$ at most one zero on $(2, \infty)$
+
+							\qquad $f(3) = -2$, $f(4) = 107 \Rightarrow$ at least one zero on $(3,4)$ by IVT.
+					\end{itemize}
+				\item Hence, $f$ has 2 real zeros
+			\end{enumerate}
+		\end{question}
+
+	\section{Antiderivatives}
+
+		Suppose that $f$ is continuous on an open interval $I$. A function $F$ is an antiderivative (or a primitive) of $f$ on $I$ if
+		\begin{align*}
+			F'(x) = f(x), \quad \forall x \in I.
+		\end{align*}
+
+		Let $f$ be a continuous function on an open interval $I$. Suppose that $F$ and $G$ are two antiderivatives of $f$ on $I$. Then there is $C \in \mathbb{R}$ such that
+		\begin{align*}
+			G(x) = F(x) + X, \quad \forall x \in I.
+		\end{align*}
+
+		\textbf{Proof for non-uniqueness of antiderivatives}
+
+		Let $H: I \rightarrow \mathbb{R}$ be given by $H(x) = G(x) - F(x)$.
+
+		Then H is differentiable on $I$, with
+		\begin{align*}
+			H'(x) &= G'(x) - F'(x)	\\
+				  &= f(x) - f(x)	\\
+				  &= 0, \quad \forall x \in I.
+		\end{align*}
+		So, $H(x)$ is a constant for all $x \in I$. Hence, $H(x) = G(x) - F(x) = C, \quad \forall x \in i$
+
+	\section{L'Hopital's rule}
+
+		Let $f$ and $g$ be both differentiable in a neighbourhood of some $a \in \mathbb{R}$. If
+		\begin{enumerate}
+			\item $f(x) \rightarrow 0$ and $g(x) \rightarrow 0$ as $x \rightarrow a$, or
+			\item $f(x) \rightarrow \infty$ and $g(x) \rightarrow \infty$ as $x \rightarrow a$, or
+		\end{enumerate}
+		then
+		\begin{align*}
+			\lim_{x\to a} \frac{f(x)}{g(x)} = \lim_{x\to a} \frac{f'(x)}{g'(x)}, \qquad \text{provided the limit } \lim_{x\to a} \frac{f'(x)}{g'(x)} \text{ exists.}
+		\end{align*}
+		The same rule applies to one-sided limits and the cases $x \rightarrow \infty$ and $x \rightarrow - \infty$
+
+		\textbf{Proof}
+
+		Since $f$ and $g$ are differentiable at $a$, they must be continuous at $a$.
+
+		\begin{flalign*}
+			& \Longrightarrow \lim_{x\to a} f(x) = 0 = f(a) \quad \text{ and } \quad \lim_{x\to a } g(x) = 0 = g(a)	&\\
+			& \Longrightarrow \frac{f(x)}{g(x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{f'(c)(x-a)}{g'(d)(x-a)} \quad \text{ for some $c$ and $d$ between $a$ and $x$.}	&\\
+			& \Longrightarrow \lim_{x\to a} \frac{f(x)}{g(x)} = \lim_{x\to a} = \frac{f'(c)}{g'(d)} = \frac{f'(a)}{g'(a)}
+		\end{flalign*}
+
+		\begin{question}{Example}
+			\begin{enumerate}
+				\item Determine $\displaystyle\lim_{x\to 0} \frac{x \sin (x)}{1 - \cos (x)}$, (indeterminate form $\frac{0}{0}$)
+					\begin{align*}
+						\lim_{x\to 0} \frac{x \sin (x)}{1 - \cos (x)} &= \lim_{x\to 0} \frac{\sin(x) + x\cos(x)}{\sin(x)} \\
+																				   &= \lim_{x\to 0} 1 + \frac{x}{\sin(x)} \cos(x)	\\
+																				   &= 1 + \lim_{x\to 0} \frac{x}{\sin(x)} \lim_{x\to 0} \cos(x) = 1 + 1 \times 1 = 2
+					\end{align*}
+				\item Determine $\displaystyle\lim_{x\to 0} \frac{\sin(x) - x \cos(x)}{x - \sin(x)}$, (indeterminate form $\frac{0}{0}$)
+					\begin{align*}
+						\lim_{x\to 0} \frac{\sin(x) - x \cos(x)}{x - \sin(x)} &= \lim_{x\to 0} \frac{\cos(x) + x \sin (x) - \cos (x)}{1 - \cos(x)}	\\
+																			  &= \lim_{x\to 0} \frac{x\sin(x)}{1 - \cos(x)}	\\
+																			  &= 2, \quad \text{by part 1}
+					\end{align*}
+				\end{enumerate}
+		\end{question}
+
+\chapter{Inverse functions}
+
+	\section{Some preliminary examples}
+
+		Given $f: A \to B$, x \mapsto f(x) = y$. Can we express $x$ in terms of $y$? $g:C \to A, y \mapsto g(y) = x$
+
+		\begin{question}{Example}
+			Can be invert $f: [0, \infty) \to \mathbb{R}$ given by $f(x) = \frac{x}{x+1}$
+			\begin{align*}
+				\text{Start from }& y = \frac{x}{x+1}	\\
+				& \Rightarrow y (x+1) = x	\\
+				& \Rightarrow xy + y = x	\\
+				& \Rightarrow x(y-1) = -y	\\
+				& \Rightarrow x = -\frac{y}{y-1}, \quad \text{ where } y \in [0,1)
+			\end{align*}
+			Since for every $y \in [0,1)$, there is only one $x$, $f$ can be inverted
+		\end{question}
+	
+	\section{One-to-one functions}
+		
+		A function $f$ is said to be one-to-one (or injective) if
+		\begin{align*}
+			f(x_1) = f(x_2) \quad \Longrightarrow \quad x_1 = x_2, \quad \forall x_1,x_2 \in \operatorname{Dom}(f),
+		\end{align*}
+		or equivalently
+		\begin{align*}
+			f(x_1) \neq f(x_2) \quad \Longrightarrow \quad x_1 \neq x_2, \quad \forall x_1,x_2 \in \operatorname{Dom}(f),
+		\end{align*}
+
+		\begin{question}{Example}
+			For which $\alpha \in \mathbb{R}$ is the function $f:\mathbb{R} \ni x \mapsto x^3 + \alpha x + 1 \in \mathbb{R}$ one-to-one?
+			\\ \\
+			Assume $f(x_1) = f(x_2)$. Show that $x_1 = x_2$
+
+			\begin{align*}
+				& x_1^3 + \alpha x_1 + 1 = x_2^3 + \alpha x_2 + 1, \quad x_1,x_2 \in \mathbb{R}	\\
+				& \Rightarrow x_1^3 - x_2^3 + \alpha (x_1 - x_2) = 0	\\
+				& \Rightarrow (x_1 - x_2) (x_1^2 + x_2^2 + x_1x_2 + \alpha) = 0	\\
+				& \frac{3}{4} (x_1+x_2)^2 + \frac{1}{4} (x_1-x_2)^2
+			\end{align*}
+
+			\begin{itemize}
+				\item Case 1: $\alpha = 0$
+
+					\quad $\Rightarrow (x_1 - x_2)\left[\frac{3}{4} (x_1 + x_2)^2 + \frac{1}{4} (x_1 - x_2)^2\right] = 0$
+
+					\quad $\Rightarrow x_1 = x_2$
+
+					\quad $\Rightarrow f$ is one-to-one
+				\item Case 2: $\alpha > 0$
+					\begin{align*}
+						\cdots
+					\end{align*}
+			\end{itemize}
+		\end{question}
+
+		\textbf{Conditions for one-to-one}
+
+			Horizontal line test
+
+			Let $A,B \subseteq \mathbb{R}$. The graph of a function $f:A \to B$ is
+			\begin{align*}
+				\big\{ (x, f(x)) | x \in A \big\}	\\
+			\end{align*}
+			\begin{align*}
+				f \text{ is one-to-one } \Longleftrightarrow \text{ every horizontal line cuts the graph of $f$ at most once}
+			\end{align*}
+
+			\begin{itemize}
+				\item Not every one-to-one function is strictly monotone, (Continuous one-to-one $f:I\to\mathbb{R}$ is strictly monotone)
+			\end{itemize}
+
+	\section{Inverse functions}
+
+		Suppose that $f$ is a one-to-one function. Then there exists a unique function $g$ such that
+			\begin{itemize}
+				\item $(g \circ f)(x) = g(f(x)) = x$, for all $x \in \operatorname{Dom}(f)$
+				\item $(f \circ g)(x) = f(g(x)) = x$, for all $y \in \operatorname{Range}(f)$
+				\item $\operatorname{Dom}(g) = \operatorname{Range}(f)$
+				\item $\operatorname{Range}(g) = \operatorname{Dom}(f)$
+				\item $g$ is one-to-one
+			\end{itemize}
+
+		Suppose that $f$ is a one-to-one function. The inverse function of $f$ is the unique function $g$ given by the above theorem, often denoted by
+			\begin{align*}
+				f^{-1}: \operatorname{Range}(f) \rightarrow \operatorname{Dom}(f).
+			\end{align*}
+
+		Note:
+			\begin{itemize}
+				\item $f^{-1}$ is not $\frac{1}{f}$
+				\item $f^{-1}$ is a function that can be graphed
+			\end{itemize}
+
+	\section{The inverse function theorem}
+
+		Let $f:\mathbb{R} \to \mathbb{R}$ be given by $f(x) - x^3$.
+		\begin{itemize}
+			\item $f$ is differentiable everywhere
+			\item its inverse $f^{-1}:\mathbb{R} \to \mathbb{R}$ is given by $f^{-1}(x) = \sqrt[3]{x}$
+		\end{itemize}
+		\begin{align*}
+			\left(f^{-1}\right)'(x) = \frac{1}{3 \sqrt[3]{x^2}} \quad \Longrightarrow \quad \text{not differentiable at } x = 0
+		\end{align*}
+
+		Let $I$ be an open interval. Suppose that $f:I \to \mathbb{R}$ is differentiable and $f'(x) \neq 0$ for all $x \in I$. THen
+			\begin{enumerate}
+				\item $f$ is one-to-one and has an inverse $g: \operatorname{Range}(f) \to \operatorname{Dom}(f)$
+				\item $g$ is differentiable at all points in $\operatorname{Range}(f)$
+			\end{enumerate}
+			\begin{align*}
+				g'(y) = \frac{1}{f'(g(y))}, \quad \forall y \in \operatorname{Range}(f).
+			\end{align*}
+
+			The derivative of an inverse function can hence be determined without finding the inverse function.
+
+			\begin{question}{Example}
+				\begin{itemize}
+					\item For the function $f:(0, \infty) \to (0, \infty)$ given by $f(x) = x^3$, its inverse is
+						\begin{align*}
+							g: (0, \infty) \to (0, \infty), \quad g(x) = \sqrt[3]{x}.
+						\end{align*}
+						Then
+						\begin{align*}
+							g'(x) = \frac{1}{f'(g(x))} = \frac{1}{3[g(x)]^2} = \frac{1}{3x^{\frac{2}{3}}}
+						\end{align*}
+					\item Determine the derivative of the inverse of the function
+						\begin{align*}
+							f: (-1, 1) \ni x \mapsto 3 + x^2 + 2 \tan(\frac{\pi}{2} x) \in \mathbb{R} \quad \text{at } x = 3.
+						\end{align*}
+						Using IFT,
+						\begin{align*}
+							&g'(x) = \frac{1}{f'(g(x))}	\\
+							& \Rightarrow g'(3) = \frac{1}{f'(g(3))} \quad \text{where } 3 = f(0) \Rightarrow g(3) = 0	\\
+							& \Rightarrow g'(3) = \frac{1}{f'(0)} = \frac{1}{2 \cdot 0 + \pi \sec^2(\frac{\pi}{2} \cdot 0)} = \frac{1}{\pi}
+						\end{align*}
+				\end{itemize}
+			\end{question}
+
+	\section{Applications to the trigonometric functions}
+
+		\begin{itemize}
+			\item Since $\sin: \mathbb{R} \to [-1,1]$ is not one to one, we restrict its domain. The restricted sine function $\sin: [-\frac{\pi}{2}, \frac{\pi}{2}] \to [-1,1]$ is one-to-one, and has an inverse $\sin^{-1}: [-1,1] \to [-\frac{\pi}{2}, \frac{\pi}{2}]$. Any restriction on sine can be used as long as it is a one-to-one function.
+			\item On $(-1,1)$, by Inverse Function Theorem,
+				\begin{align*}
+					\frac{d}{dx}\left(\sin^{-1}x\right) &= \frac{1}{\cos(\sin^{-1}x)}	\\
+														&= \frac{1}{\sqrt{1 - (\sin(\sin^{-1}x))^2}} = \frac{1}{\sqrt{1 - x^2}} \quad (\to \infty \text{ as } x \to \pm 1)
+				\end{align*}
+		\end{itemize}
+
+		\begin{question}{Example}
+			\begin{itemize}
+				\item Determine $\cos(2\sin^{-1}\frac{3}{5})$
+					\begin{alignat*}
+						\cos(2\sin^{-1}\frac{3}{5}) &= \cos^2(\sin^{-1} \frac{3}{5}) = \sin^2(\sin^{-1} \frac{3}{5})	\\
+													&= 1 - 2 \sin^2(\sin^{-1}\frac{3}{5})	\\
+													&= 1 - 2(\frac{3}{5})^2		\\
+													&= \frac{7}{25}
+					\end{alignat*}
+			\end{itemize}
+		\end{question}
+
+\chapter{Curve sketching}
+	
+	\section{Curves defined by a Cartesian equation}
+
+		\subsection{A checklist for sketching curves}
+			
+			\begin{itemize}
+				\item Identify the domain of $f$
+				\item Identify any symmetries:
+					\begin{itemize}
+						\item $f$ is \textcolor{pastel_blue}{odd} if $f(-x) = -f(x)$ for all $\pm x \in \operatorname{Dom}(f)$
+						\item $f$ is \textcolor{pastel_blue}{even} if $f(-x) = f(x)$ for all $\pm x \in \operatorname{Dom}(f)$
+						\item $f$ is \textcolor{pastel_blue}{periodic} if $f(x + T) = f(x)$ for all $\pm x, x + T \in \operatorname{Dom}(f)$ \quad (period $ = T$)
+					\end{itemize}
+				\item Find x- and y-axis intercepts
+				\item Identify vertical asymptotes
+				\item Examine the behviour of $f(x)$ as $x \to \pm \infty$
+				\item Use calculus to identify stationary points and other features.
+			\end{itemize}
+
+		\subsection{Oblique asymptotes}
+			
+			Suppose that $a,b \in \mathbb{R}$ and $a \neq 0$. We say that a straight line $y = ax+b$ is an oblique asymptote for a function $f$ if
+				\begin{align*}
+					\lim_{x\to \infy} (f(x) - (ax+b)) = 0 \quad \text{ or } \quad \lim_{x\to -\infty} (f(x) - (ax+b)) = 0.
+				\end{align*}
+
+			\begin{question}{Example}
+				Find the oblique asymptotes to the function $f$ defined by
+					\begin{align*}
+						f(x) = \frac{(x-1)|x| + x}{x - 2}, \quad \forall x \neq 2.
+					\end{align*}
+
+					\begin{itemize}
+						\item If $x > 0$, then
+							\begin{align*}
+								f(x) = \frac{(x-2)x + x}{x-2} &= x + \frac{x}{x-2}	\\
+															  &= x + 1 + \frac{2}{x-2}	\\
+															  & \text{the line } y = x+1 \text{ is an oblique asymptote}
+							\end{align*}
+						\item If $\leq 0$, then
+							\begin{align*}
+								f(x) = \frac{-(x-2)x+x}{x-2} &= -x + \frac{x}{x-2}	\\
+															 &= -x + 1 + \frac{2}{x-2}	\\
+															 & \text{the line } y = x-1 \text{ is an oblique asymptote}
+							\end{align*}
+					\end{itemize}
+			\end{question}
+
+	\section{Parametrically defined curves}
+
+		In a plane, parametrically defined curves are in the form
+			\begin{align*}
+				(x(t), \; y(t)), \quad t \in A
+			\end{align*}
+			\begin{itemize}
+				\item $t$ is the parameter
+				\item $A$ is a given domain
+			\end{itemize}
+
+		\subsection{Calculus and parametric curves}
+			
+			Given a curve $\gamma(t) = (x(t), \;y(t))$
+			\begin{itemize}
+				\item $\gamma(t)$ is a position of a particle at time $t$
+				\item $\gamma'(t) = (x'(t),\;y'(t))$ is velocity of the particle at time $t$
+				\item gradient or slope of the curve at $t:$ derive from $\frac{\text{rise}}{\text{run}}$
+			\end{itemize}
+
+		\subsection{The cycloid and curve of fastest descent}
+
+			The curve of fastest descent between two points is defined by a unique cycloid.
+	
+	\section{Curves defined by polar coordinates}
+
+		\subsection{Polar coordinates}
+
+			Every point $P$ in the plane can be specified by the distance $r$ of $P$ from $O$ and $\theta$, the angle anticlockwise between $OP$ and the positive horizontal axis. Polar coordinates $(r, \theta)$ are related to the Cartesian coordinates $(x,y)$ by
+				\begin{alignat*}{2}
+					x &= r\cos\theta, \quad y = r \sin \theta,	\\
+					r &= \sqrt{x^2 + y^2}, \quad \tan\theta = \frac{y}{x} \; (\text{provided } x \neq 0)
+				\end{alignat*}
+
+		\subsection{Basic sketches of polar curves}
+
+			Many curves can be described by equations of the form
+				\begin{align*}
+					r = f(\theta) \quad \text{or} \quad \theta = g(r)
+				\end{align*}
+			$\Longrightarrow$ parametrically defined curves:
+				\begin{align*}
+					\gamma(\theta) = (f(\theta)\cos\theta,f(\theta),\sin\theta) \quad \text{or} \quad \gamma(r) = (r\cos g(r), r \sin g(r))
+				\end{align*}
+
+			\underline{Symmetries}
+
+			Curves described by $r = f(\theta)$
+			\begin{itemize}
+				\item $f$ is an even function $\Longrightarrow$ polar is symmetric about $x$-axis
+				\item $f(\pi - \theta) = f(\theta) \Longrightarrow$ polar curve is symmetric about $y$-axis
+			\end{itemize}
+
+			\begin{question}{Example}
+				Sketch the curve described by the polar equation $r = 2\sin \theta, \; 0 \leq \theta \leq \pi$.
+					\begin{align*}
+						r = 2 \sin \theta \quad &\Rightarrow \quad r^2 = 2 r \sin \theta	\\
+											  	&\Rightarrow \quad x^2 + y^2 = 2y			\\
+											  	&\Rightarrow \quad x^2 + (y-1)^2 - 1 = 0
+					\end{align*}
+			\end{question}
+
+		\subsection{Sketching polar curves using calculus}
+
+			Given a curve in the polar form $r = f(\theta)$.
+			\begin{itemize}
+				\item Its parametric form:
+					\begin{align*}
+						\gamma(\theta) &= (x(\theta), y(\theta))	\\
+									   &= (f(\theta)\cos\theta, f(\theta)\sin\theta)
+					\end{align*}
+				\item Tangent vector:
+					\begin{align*}
+						\gamma'(\theta) &= (x'(\theta), y'(\theta))	\\
+										&= \left(f'(\theta)\cos\theta - f(\theta)\sin\theta, f'(\theta)\sin\theta+f(\theta)\cos\theta\right)
+					\end{align*}
+			\end{itemize}
+
+			\textbf{Note}: It is often convenient to allow negative values of $r$.
+			\begin{align*}
+				& x = r\cos\theta = (-r)\cos(\theta+\pi),		\\
+				& y = r\sin\theta = (-r)\sin(\theta+\pi)
+			\end{align*}
+
+\chapter{Integration}
+
+	\section{Area and the Riemann Integral}
+
+		\subsection{Area of reginos with curved boundaries}
+
+			Any definition of area should satisfy:
+				\begin{enumerate}
+					\item If $\Omega$ is a region of the plane, then
+						\begin{align*}
+							\operatorname{area}(\Omega) \geq 0.
+						\end{align*}
+					\item If one region $\Omega_1$ is contained in another region $\Omega_2$, then
+						\begin{align*}
+							\operatorname{area}(\Omega_1) \leq \operatorname{area}(\Omega_2).
+						\end{align*}
+					\item If the area of a region $\Omega$ is partitioned into two smaller disjoint regions $\Omega_1$ and $\Omega_2$, then
+						\begin{align*}
+							\operatorname{area}(\Omega) = \operatorname{area}(\Omega_1) + \operatorname{area}(\Omega_2).
+						\end{align*}
+					\item If $\Omega_1$ and $\Omega_2$ are congruent regions, then
+						\begin{align*}
+							\operatorname{area}(\Omega_1) = \operatorname{area}(\Omega_2).
+						\end{align*}
+					\item If $\Omega$ is a rectangle of length $a$ and height $b$, then
+						\begin{align*}
+							\operatorname{area}(\Omega) = ab.
+						\end{align*}
+				\end{enumerate}
+
+		\subsection{Approximations of area using Riemann sums}
+
+			Consider the function $f:\mathbb{R} \to \mathbb{R}$ given by $f(x) = x^2$.
+
+			Idea: approximate $\operatorname{area}(\Omega)$ with sums of areas of $n$ rectangles.
+			\begin{itemize}
+				\item $\area(\Omega_1) \leq \operatorname{area}(\Omega) \leq \area(\Omega_2)$
+			\end{itemize}
+			\\ \\
+			To find $\area(\Omega)$:
+			\begin{enumerate}
+				\item Divide $[0,1]$ into $n$ subintervals $\left[0,\frac{1}{n}\right], \left[\frac{1}{n}, \frac{2}{n}\right], \left[\frac{2}{n}, \frac{3}{n}\right], \dots, \left[\frac{n-1}{n}, 1\right]$>
+
+					The set $\mathcal{P}_n = \left\{0, \frac{1}{n}, \frac{2}{n}, \frac{3}{n}, \dots, \frac{n-1}{n}, 1\right\}$
+				\item Find bounds for $\area(\Omega)$.
+					An upper bound:
+					\begin{align*}
+						\overline{R}_k &= \frac{1}{n} \times f(\frac{k}{n}) = \frac{k^2}{n^3}	\\
+						\sum_{k=1}^n \overline{R}_k &= \sum_{k=1}^n \frac{k^2}{n_3}	\\
+													&= \frac{1}{n^3} \times \frac{1}{6} n (n+1) (2n+1)	\\
+													&= \frac{1}{3} + \frac{1}{2n} + \frac{1}{6n^2}
+					\end{align*}
+					$\area(\Omega) \leq \overline{S}_{\mathcal{P}_n}(f) \coloneq \displaystyle\sum_{k=1}^n \overline{R}_k$ the upper Riemann sum of $f$ with respect to $\mathcal{P}_n$
+
+					A lower bound
+					\begin{align*}
+						\underline{R}_k &= \frac{1}{n} \times f(\frac{k-1}{n}) = \frac{(k-1)^2}{n^3}		\\
+						\sum_{k=1}^n \underline{R}_k &= \sum_{k=1}^n \frac{(k-1)^2}{n^3}		\\
+													 &= \frac{1}{3} - \frac{1}{2n} + \frac{1}{6n^2}
+					\end{align*}
+					$\area(\Omega) \geq \underline{S}_{\mathcal{P}_n} (f) \coloneq \displaystyle\sum_{k=1}^n \underline{R}_k$ the lower Riemann sum of $f$ with respect to $\mathcal{P}_n$
+				\item Take the limit:
+					\begin{align*}
+						\lim_{n\to \infty} \overline{S}^{\mathcal{P}_n} = \lim_{n\to \infty} \underline{S}^{\mathcal{P}_n} = \frac{1}{3} \quad \Longrightarrow \quad A = \frac{1}{3}
+					\end{align*}
+			\end{enumerate}
+
+			The process of calculating upper and lower Riemann sums and taking a limit is called integration.
+
+		\subsection{Definitions: area under the graph of a function and the Riemann integral}
+
+			A finite set $\mathcal{P}$ of points in $\mathbb{R}$ is said to be a partition of $[a,b]$ if
+			\begin{enumerate}
+				\item $\mathcal{P} = \left\{a_0, a_1, a_2, \dots, a_n\right\}$, and
+				\item $a = a_0 <a_1<a_2<\dots<a_n = b$.
+			\end{enumerate}
+			Note that the points of $\mathcal{P}$ need not be evenly spaced.
+
+			\subsubsection{Area under graph of $f$}
+
+			Suppose that $f$ is a bounded function on $[a,b]$, and $f(x) \geq 0$ for all $x \in [a,b]$.
+			\begin{itemize}
+				\item An upper bound:
+					\begin{itemize}
+						\item $\overline{f}_k = \text{Maximum value of $f$ on the subinterval } [a_{k-1}, a_k]$
+						\item area of the $k$th rectangle $ = (a_k - a_{k-1}) \overline{f}_k$
+					\end{itemize}
+				\item A lower bound:
+					\begin{itemize}
+						\item $\underline{f}_k = \text{Minimal value of $f$ on the subinterval } [a_{k-1}, a_k]$
+						\item area of the $k$th rectangle $ = (a_k - a_{k-1}) \underline{f}_k$
+					\end{itemize}
+			\end{itemize}
+
+			Suppose that a function $f$ is bounded on $[a,b]$ and $f(x) \geq 0$ for all $x \in [a,b]$. If there exists a unique $A \in \mathbb{R}$ such that
+				\begin{align*}
+					\underline{S}_{\mathcal{P}} (f) \leq A \leq \overline{S}_{\mathcal{P}} (f)
+				\end{align*}
+
+			Suppose that a function $f$ is bounded on $[a,b]$. If there exists a unique $I \in \mathbb{R}$ such that
+				\begin{align*}
+					\underline{S}_\mathcal{P}(f) \leq I \leq \overline{S}_\mathcal{P}(f) \quad \text{for every partition $\mathcal{P}$ of } [a,b] ,
+				\end{align*}
+			then
+			\begin{itemize}
+				\item we say that $f$ is Riemann integrable on the interval $[a,b]$,
+				\item we call $I$ the definite integral of $f$ from $a$ to $b$, and write $I = \displaystyle\int_a^b f(x) dx$.
+			\end{itemize}
+
+	\section{Integration using Riemann sums}
+
+		\begin{question}{Example}
+			Suppose that $f(x) = C > 0$. Show that $f$ is Riemann integrable on $[a,b]$ and calculate the area under the graph of $f$ from $a$ to $b$.
+			\\ \\
+			For any partition $\mathcal{P} = \left\{a_0, a_1, \dots, a_n\right\}$ of $[a,b]$,
+			\begin{align*}
+				\overline{S}_{\mathcal{P}}(f) &= \sum_{k=1}^n\overline{f}_k(a_k-a_{k-1}) = C\sum_{k=1}^n(a_k-a_{k-1}) = C(b-a)	\\
+				\underline{S}_{\mathcal{P}}(f) &= \sum_{k=1}^n\underline{f}_k(a_k-a_{k-1}) = \overline{S}_{\mathcal{P}} (f)
+			\end{align*}
+			\begin{flalign*}
+				& \Longrightarrow f \text{ is Riemann integrable}	&\\
+				& \Longrightarrow \int_a^b f(x) dx = C(b-a)			&
+			\end{flalign*}
+		\end{question}
+
+		A function $f:[a,b] \to \mathbb{R}$ is said to be piecewise continuous if it is continuous on $[a,b]$ at all except perhaps a finite number of points.
+
+		If a function $f$ is bounded and piecewise continuous on $[a,b]$, then $f$ is Riemann integrable on $[a,b]$.
+
+		Note: Given that $f$ is Riemann integrable on $[a,b]$, to find its definite integral, it is sufficient to find some partition $\mathcal{P}_n$ of $[a,b]$ such that
+			\begin{align*}
+				\lim_{n\to \infty} \overline{S}_{\mathcal{P}_n}(f) = \lim_{n\to \infty} \underline{S}_{\mathcal{P}_n}(f)
+			\end{align*}
+		Then $\displaystyle\int_a^bf(x)dx = I = $ the common limit.
+
+		\begin{question}{Example}
+			Find $\displaystyle\int_1^4 x^4 dx$ using a "clever" partition.
+				\begin{align*}
+					\alpha &= 2^{\frac{1}{n}} >1.	\\
+					\alpha_0 &= 1			\\
+					\alpha_n &= (2^{\frac{1}{n}})^n = 2
+				\end{align*}
+				\begin{align*}
+					\underline{S}_P &= (\alpha-1) \cdot 1^4 + (\alpha^2 - \alpha)\alpha^4 + (\alpha^3 - \alpha^2)(\alpha^2)^4 + \cdots + (\alpha^n - \alpha^{n-1})(\alpha^{n-1})^4	\\
+									&= (\alpha - 1) \left[1+\alpha^5 + \alpha^{10} + \cdots + (\alpha^{n-1})^5\right]	\\
+									&= (\alpha - 1) \sum_{k=0}^{n-1} \alpha^{5k}	\\
+									&= (\alpha - 1) \frac{1 \cdot (1-\alpha^{5n})}{1-\alpha^5}	\qquad (S_n = \frac{1}{1-r} a (a-r^{n+1}))\\
+									&= \frac{\alpha^{5n} - 1}{\alpha^4 + \alpha^3 + \alpha^2 + \alpha + 1}	\\
+									&= \frac{2^5 - 1}{\alpha^4 + \alpha^3 + \alpha^2 + \alpha + 1}	\qquad (\text{since } \alpha^{5n} = (2^{\frac{1}{n}})^{5n} = 2^5)	\\
+									&\rightarrow \frac{31}{5} \text{ as } n \to \infty \qquad (\text{since } \alpha \to 1 \text{ as } n \to \infty)	\\
+					 \overline{S}_P &= (\alpha-1)\alpha^4 + (\alpha^2-\alpha)(\alpha^2)^4 + (\alpha^3-\alpha^2)(\alpha^3)^4 + \cdots + (\alpha^n - \alpha^{n-1})(\alpha^n)^4	\\
+								    &= \alpha^4 \underline{S}_P	\\
+								    &\rightarrow \frac{31}{5} \text{ as } n \to \infty	\\
+					  \Rightarrow I &= \frac{31}{5}
+				\end{align*}
+		\end{question}
+
+	\section{The Riemann integral and signed area}
+
+		\begin{align*}
+			\int_a^c f(x) dx &= \area(\Omega_1) - \area(\Omega_2)	\\
+							 &= \text{Signed area under the graph of $f$ from $a$ to $c$}
+			\int_a^c |f(x)| dx &= \area(\Omega_1) + \area(\Omega_2)	\\
+							 &= \text{Unsigned area under the graph of $f$ from $a$ to $c$}
+		\end{align*}
+
+	\section{Basic properties of the Riemann integral}
+
+	Suppose that $f,g:{a,b}\to \mathbb{R}$ are integrable.
+	\begin{itemize}
+		\item $\alpha f + \beta g$ is integrable for any $\alpha, \beta \in \mathbb{R}$, and
+			\begin{align*}
+				\int_a^b (\alpha f + \beta g) (x) dx = \alpha \int_a^b f(x) dx + \beta \int_a^b g(x) dx.
+			\end{align*}
+		\item If $a < c < b$, then
+			\begin{align*}
+				\int_a^b f(x) dx = \int_a^c f(x) dx + \int_c^b f(x) dx.
+			\end{
+			align*}
+		\item If $f(x) \geq 0$ for all $x \in [a,b]$, then $\displaystyle\int_a^b f(x) dx \geq 0$.
+		\item If $f(x) \leq g(x)$ for all $x \in [a,b]$, then
+			\begin{align*}
+				\int_a^b f(x) dx \leq \int_a^b g(x) dx.
+			\end{align*}
+		\item If $m \leq f(x) \leq M$ for all $x \in [a,b]$, then
+			\begin{align*}
+				m(b-a) \leq \int_a^b f(x) dx \leq M(b-a)
+			\end{align*}
+		\item $|f|$ is integrable on $[a,b]$, and
+			\begin{align*}
+				\left|\int_a^b f(x) dx\right| \leq \int_a^b |f(x)| dx.
+			\end{align*}
+	\end{itemize}
+
+	Suppose that $b<a$ and that $f$ is integrable on $[b,a]$. Then we define
+		\begin{align*}
+			\int_a^b f(x) dx \coloneq -\int_b^a f dx,
+		\end{align*}
+	and
+		\begin{align*}
+			\int_a^a f(x) \coloneq 0.
+		\end{align*}
+	Suppose that $a,b,c \in \mathbb{R}$ and that $f$ is integrable over some interval containing $a$, $b$ and $c$. THen
+		\begin{align*}
+			\int_a^b f(x) dx = \int_a^c f(x) dx + \int_c^b f(x) dx.
+		\end{align*}
+
+	\section{The first fundamental theorem of calculus}
+
+	For a continuous function $f$ on $[a,b]$, it is integrable on $[a,b]$, and the function $F:[a,b]\to \mathbb{R}$ given by
+	\begin{align*}
+		F(x) = \int_a^x f(t) dt, \quad \forall x \in [a,b]
+	\end{align*}
+	is the signed area on the interval $[a,x]$
+	\begin{itemize}
+		\item If $f(t) > 0$ for all $t \in [a,b]$, then $F$ is an increasing function
+		\item Differentiability:
+			\begin{align*}
+				\frac{F(x + h) - F(x)}{h} \to ?
+			\end{align*}
+	\end{itemize}
+
+	If $f:[a,b] \to \mathbb{R}$ is a continuous function, then the function $F:[a,b] \to \mathbb{R}$ defined by $F(x) = \displaystyle\int_a^x f(t) dt$ is
+	\begin{itemize}
+		\item continuous on $[a,b]$, and
+		\item differentiable on $(a,b)$ with derivative $F'$ given by
+			\begin{align*}
+				F'(x) = f(x), \quad \forall x \in (a,b)
+			\end{align*}
+	\end{itemize}
+
+	Note:
+	\begin{itemize}
+		\item Every continuous $f$ has an antiderivative $F$ given by $F(x) = \int_a^x f(t) dt$
+		\item Every antiderivative of $f$ is of the form $F+\text{constant}$
+		\item Integrate, then differentiate gives back $f$
+		\item Differentiate then integrate may not give back $f$
+	\end{itemize}
+
+	\section{The second fundamental theorem of calculus}
+
+	Suppose that $f$ is a continuous function on $[a,b]$. Let $F$ be a continuous function on $(a,b)$ such that $F$ is an antiderivative of $f$ on $(a,b)$. Then
+	\begin{align*}
+		\int_a^b f(t) dt = F(b) - F(a)
+	\end{align*}
+
+	\subsection{Variable limits of integration}
+
+	Suppose that $f$ is continuous and $a,b$ are differentiable. Let $I(x) = \displaystyle\int_{a(x)}^{b(x)} f(t) dt$. Let $F$ be an antiderivative of $f$. Then
+	\begin{align*}
+		I(x) &= F(b(x)) - f(a(x))	\\
+		\frac{dI(x)}{dx} &= F'(b(x))b'(x) - F'(a(x))a'(x)	\\
+						 &= f(b(x))b'(x) - f(a(x))a'(x).
+	\end{align*}
+
+	\begin{question}{Example}
+		Let $I(x) = \displaystyle\int_x^{x^2} f(t) dt$, $f(t) = \begin{cases} \frac{\sin t}{t}, &\quad t \neq 0 \\ 1, & \quad t = 0\end{cases}$. Find $I'(x)$
+
+		\begin{align*}
+			I'(x) &= f(b(x))b'(x) - f(a(x))a'(x)	\quad \text{ where $a(x) = x, b(x) = x^2$}	\\
+				  &= 2xf(x^2) - f(x)	\\
+				  &= \begin{cases}
+					  2 \frac{\sin (x^2)}{x} - \frac{\sin (x)}{x} & \quad \text{for } x \neq 0	\\
+					  2 \cdot 0 \cdot f(0) - f(0) = -1 &\quad \text{for } x = 0.
+				  \end{cases}
+		\end{align*}
+	\end{question}
+
+	\section{Indefinite integrals}
+
+	An indefinite integral is an integral without limits $\displaystyle\int f(t) dt.$
+	\begin{align*}
+		\int f(t)dt = F(t) + C, \quad C \text{ is a constant of integration}.
+	\end{align*}
+
+	\section{Integration by substitution}
+
+		Identify the integrand in the form $f(g(x))g'(x)$ to make the substitution $u = g(x)$, so that $du = g'(x) dx$
+
+	\subsection{Cases with symmetry}
+
+		Suppose that $f$ is a continuous function and $a \in \mathbb{R}$.
+		\begin{itemize}
+			\item If $f$ is even, then $\displaystyle\int_{-a}^a f(x)dx = 2\int_0^af(x)dx$.
+			\item If $f$ is odd, then $\displaystyle\int_{-a}^a f(x) dx = 0$
+		\end{itemize}
+
+	\section{Integration by parts}
+
+	\begin{question}{Example}
+		\begin{align*}
+		\int x \cos x dx = \int x \left(\frac{d}{dx} \sin(x)\right) dx = x \sin x - \int 1 \cdot \sin(x) dx = x \sin x + \cos x + c
+		\end{align*}
+	\end{question}
+
+	\section{Improper integrals}
+
+	Integrate over $[a,\infty)$ instead of $[a,b]$
+
+	\begin{itemize}
+		\item Suppose that there is $L \in \mathbb{R}$ such that $\displaystyle\int_a^R f(x) dx \to L$ as $R \to \infty$. Then we say
+			\begin{itemize}
+				\item $f$ is integrable over $[a,\infty)$
+				\item the improper integral $\displaystyle\int_a^\infty f(x) dx $is convergent, and write $\displaystyle\int_a^\infty f(x) dx = L$.
+			\end{itemize}
+		\item Suppose that $\displaystyle\int_a^R f(x) dx $does by have a limit as $R \to \infty$. Then we say
+			\begin{itemize}
+				\item $f$ is not integrable over $9[a,\infty)$,
+				\item the integral $\displaystyle\int_a^\infty f(x) dx$ is divergent
+			\end{itemize}
+	\end{itemize}
+
+	\begin{itemize}
+		\item If $f$ is integrable over both $(\infty, 0]$ and $[0, \infty)$, then we say that $f$ is integrable over $(-\infty, \infty)$ and write
+			\begin{align*}
+				\int_{-\infty}^\infty f(x) dx = \int_{-\infty}^0 f(x) dx + \int_0^\infty f(x) dx.
+			\end{align*}
+		\item If $f$ is not integrable on either of the intervals $(-\infty,0]$ or $[0,\infty)$, then we say that the improper integral $\displaystyle\int_{-\infty}^\infty f(x) dx$ diverges.
+	\end{itemize}
+	
+	\section{Comparison tests for improper integrals}
+
+	Let $f$ and $g$ be integrable on finite intervals and $0 \leq f(x) \leq g(x)$ for all $x > a$.
+	\begin{itemize}
+		\item If $\displaystyle\int_a^\infty g(x) dx$ converges, then $\int_a^\infty f(x) dx$ converges
+		\item If $\displaystyle\int_a^\infty f(x) dx$ diverges, then $\int_a^\infty g(x) dx$ diverges
+	\end{itemize}
+	Let $f$ and $g$ be non-negative and bounded on $[a,\infty)$. If $\displaystyle\lim_{x\to \infty} \frac{f(x)}{g(x)} = L \in (0,\infty)$, then $\displaystyle\int_a^\infty f(x) dx$ and $\displaystyle\int_a^\infty g(x) dx$ either both coverge or diverge.
+
+	For $f:[a,b] \to \mathbb{R}$, we may also define
+	\begin{align*}
+		\int_a^b f(x) dx \coloneq \lim_{R\to b^-} \int_a^R f(x) dx, \quad \text{(provided the limit exists)}
+	\end{align*}
+
+\chapter{The logarithmic and exponential functions}
+
+	\section{Powers and logarithms}
+
+	\textbf{Definition}. Suppose that $b > 0$ and $b \neq 1, c \in \mathbb{Q}$ and $a = b^c$. Then
+		\begin{align*}
+			c = \log_b a.
+		\end{align*}
+	
+	\textbf{Properties}. If $x>0$, $y>0$, $b>0$ with $b \neq 1$ and $r \in \mathbb{Q}$, then
+	\begin{itemize}
+		\item $\log_b 1 = 0, \quad \log_b b = 1$
+		\item $\log_b(xy) = \log_b x+\log_b y, \quad \log_b \frac{x}{y} = \log_b x - \log_b y$
+		\item $\log_b (b^r) = r, \quad \log_b (x^r) = r\log_b x$.
+	\end{itemize}
+
+	\section{The natural logarithm function}
+	
+	\textbf{Definition.} The function $\ln :(0,\infty) \to \mathbb{R}$ is defined by the formula
+	\begin{align*}
+		\ln(x) = \int_1^x \frac{1}{t} dt
+	\end{align*}
+
+	\section{The exponential function}
+
+	\textbf{Definition}: The function $\exp: \mathbb{R} \to (0, \infty)$ is defined to be the inverse function of $\ln:(0,\infty) \to \mathbb{R}$. For a real $x \notin \mathbb{Q}$, we define the real number $e^x$ by
+	\begin{align*}
+		e^x = \exp x.
+	\end{align*}
+
+	\section{Exponentials and logarithms with other bases}
+
+	For any $r \in \mathbb{Q}$ and real number $b > 0$,
+	\begin{align*}
+		b^r = \exp(\ln(b^r)) = exp(r\ln b) = e^{r\ln b}.
+	\end{align*}
+
+	\textbf{Definition}: For any real $x \notin \mathbb{Q}$ and $b > 0$, we define the number $b^x$ by
+	\begin{align*}
+		b^x = \exp(x\ln b) = e^{x\ln b}.
+	\end{align*}
+
+	\section{Integration and the $\ln$ function}
+
+	Suppose that $x \neq 0$.
+	\begin{align*}
+		\frac{d}{dx} \left(\ln(x)\right) = \begin{cases}
+			\frac{1}{x} \quad & \text{if } x > 0	\\
+			\frac{1}{-x} \quad & \text{if } x < 0
+		\end{cases}
+	\end{align*}
+
+	\section{Logarithmic differentiation}
+
+	Logarithms can transform
+	\begin{itemize}
+		\item powers into products
+		\item products into sums
+		\item quotients into differences
+	\end{itemize}
+
+	\begin{question}{Example}
+		Find $\frac{dy}{dx}$ for $y = \left(\frac{(3x^2 + 4) (x+2)}{x^3+5x}\right)^{\frac{3}{5}}$
+
+		\begin{align*}
+			\intertext{Take $\ln$ of both sides,}
+				\ln y &= \frac{3}{5} \ln \left(\frac{(3x^2 + 4) (x+2)}{x^3+5x}\right)	\\
+					  &= \left[ \ln\left(3x^2 + 4 \right) + \ln(x+2) - \ln (x^3 + 5x)\right]
+			\intertext{Differentiate both sides,}
+				\frac{1}{y} \frac{dy}{dx} &= \frac{3}{5} \left(\frac{6x}{3x^2 + 4} + \frac{1}{x+2} - \frac{3x^2 + 5}{x^3 + 5x}\right)	\\
+							\frac{dy}{dx} &= \frac{3}{5} \left(\frac{(3x^2 + 4) (x+2)}{x^3+5x}\right)^{\frac{3}{5}} \left(\frac{6x}{3x^2 + 4} + \frac{1}{x+2} - \frac{3x^2 + 5}{x^3 + 5x}\right)
+		\end{align*}
+	\end{question}
+
+	\section{Indeterminate forms with powers}
+
+	The limit $\displaystyle\lim_{x\to 0^+} s^{\sin x}$ is of the indeterminate form $0^0$. The $\ln$ function is continuous, so
+	\begin{align*}
+		\ln \left(\lim_{x\to 0^+} x^{\sin x}\right) = \lim_{x\to 0^+} \ln \left(x^{\sin x}\right) = \lim_{x\to 0^+} \sin x \ln x.
+	\end{align*}
+	Recalling the pinching theorem,
+	\begin{align*}
+		0 \leq \lim_{x\to 0^+} \left|\sin x \ln x\right| \leq \lim_{x\to 0^+} \left|x \ln x\right| = 0 \quad \Longrightarrow \quad \ln \left(\lim_{x\to 0^+} x^{\sin x}\right) = 0
+	\end{align*}
+
+\chapter{Hyperbolic Functions}
+	
+	\section{Hyperbolic sine and cosine functions}
+
+	\textbf{Definition:}
+	\begin{itemize}
+		\item The hyperbolic cosine function $\cosh: \mathbb{R} \to \mathbb{R}$ is defined by
+			\begin{align*}
+				\cosh x = \frac{1}{2} (e^x + e^{-x}), \quad \forall x \in \mathbb{R}
+			\end{align*}
+		\item The hyperbolic sine function $\sinh: \mathbb{R} \to \mathbb{R}$ is defined by
+			\begin{align*}
+				\sinh x = \frac{1}{2} (e^x - e^{-x}), \quad \forall x \in \mathbb{R}
+			\end{align*}
+	\end{itemize}
+
+	Note:
+	\begin{align*}
+		\frac{d}{dx} (\sinh x) = \cosh x, \qquad \frac{d}{dx} (\cosh x) = \sinh x,
+	\end{align*}
+
+	Properties of $\cosh$
+	\begin{itemize}
+		\item $\cosh$ is an even function
+		\item $\cosh = 1, \cosh x \geq 1$ for all $x \in \mathbb{R}$
+		\item $\cosh x$ gets arbitrarily close to $\frac{1}{2} e^{\pm x}$ as $x \to \pm \infty$
+	\end{itemize}
+
+	Properties of $\sinh$
+	\begin{itemize}
+		\item $\sinh$ is an odd function
+		\item $\cosh x$ gets arbitrarily close to $\pm \frac{1}{2} e^{\pm x}$ as $x \to \pm \infty$
+	\end{itemize}
+
+	If $x \in \mathbb{R}$, then $\cosh^2 x - \sinh^2 x = 1$.
+		\begin{align*}
+			\cosh^2 x - \sinh^2 x &= \left(\frac{e^x + e^{-x}}{2}\right)^2 - \left(\frac{e^x - e^{-x}}{2}\right)^2	\\
+								  &= \frac{1}{4} \left[e^{2x} + 2 + e^{-x} - (e^{2x} - 2 + e^{-2x})]	\\
+								  &= 1
+		\end{align*}
+
+	\section{Other hyperbolic functions}
+
+	\begin{align*}
+		\tanh x = \frac{\sinh x}{\cosh x}, \quad \coth x = \frac{\cosh x}{\sinh x},		\\
+		\sech x = \frac{1}{\cosh}, \quad \cosech x = \frac{1}{\sinh}.
+	\end{align*}
+
+	\section{Hyperbolic properties}
+
+	\subsubsection{Difference of squares}
+		
+		\begin{align*}
+			\cosh^2 x - \sinh^2 x &= 1		\\
+			1 - \tanh^2 x &= \sech^2 x		\\
+			\coth^2 x - 1 &= \cosech^2 x
+		\end{align*}
+
+	\subsubsection{Sum and difference}
+
+		\begin{align*}
+			\sinh(x \pm y) &= \sinh x \cosh y \pm \cosh x \sinh y	\\
+			\cosh(x \pm y) &= \cosh x \cosh y \pm \sinh x \sinh y	\\
+			\tanh(x \pm y) &= \frac{\tanh x \pm \tanh y}{1 \pm \tanh x \tanh y}
+		\end{align*}
+
+	\subsubsection{Double-angles}
+
+		\begin{align*}
+			\sinh(2x) &= 2 \sinh x \cosh x	\\
+			\cosh(2x) &= \cosh^2 x + \sinh^2 x	\\
+			\tanh(2x) &= \frac{2 \tanh x}{1 + \tanh^2 x}
+		\end{align*}
+
+	\section{Hyperbolic deriatives and integrals}
+	
+	\subsubsection{Derivatives}
+	
+	i am lazy.
+
+	\section{The inverse hyperbolic functions}
+
+	$\sinh: \mathbb{R} \to \mathbb{R}$ and $\tanh: \mathbb{R} \to \mathbb{R}$ are increasing, so they are invertible. $\cosh$ restricted to the domain $[0,\infty)$ is invertible.
+
+	\begin{question}{Example}
+
+		Evaluate $\sinh\left(\cosh^{-1} \frac{4}{3}\right)$. Note that $\cosh^{-1}(\cosh) = x$ for $x \geq 0$ only.
+
+		\begin{align*}
+			\sinh^2 x = \cosh^2 x - 1 = \left(\frac{4}{3}\right)^2 - 1 = \frac{7}{9} \quad \Rightarrow \quad \sinh \left(\cosh^{-1} \frac{4}{3} \right) = \frac{\sqrt{7}}{3}.
+		\end{align*}
+		
+	\end{question}
+
+	\section{Integration leading to the inverse hyperbolic functions}
+
+	Omitted.
+
+	\section{A summary of important hyperbolic formulae}
+
+	Omitted.
+
+	\section{The catenary}
+
+	Omitted.
 \end{document}
