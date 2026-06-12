@@ -1,0 +1,411 @@
+\documentclass{report}
+
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+\renewcommand{\vec}{\mathbf}
+\DeclareMathOperator{\vectorprojection}{proj}
+\NewDocumentCommand{\proj}{s e{_} m}{%
+    \IfBooleanTF{#1}{#3_{\stretchrel*{\parallel}{\perp}#2}}{\vectorprojection_{#2}#3}
+}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Arg}{\operatorname{Arg}}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+% Custom column vector command
+\newcommand{\cvec}[1]{ \begin{pmatrix} #1 \end{pmatrix} }
+% Custom determinant command
+\newcommand{\det}[1]{ \begin{vmatrix} #1 \end{vmatrix} }
+
+
+% Colors
+\definecolor{yorhabg}{HTML}{131314}
+\definecolor{yorhafg}{HTML}{C9C7CD}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{mred}{HTML}{D67069}
+\definecolor{mblue}{HTML}{6887A1}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{pastel_red}{RGB}{255, 173, 173}
+\definecolor{pastel_orange}{RGB}{255, 214, 165}
+\definecolor{pastel_yellow}{RGB}{253, 255, 182}
+\definecolor{pastel_green}{RGB}{176, 217, 176}
+\definecolor{pastel_blue}{RGB}{167, 199, 231}
+\definecolor{pastel_purple}{RGB}{222, 218, 244}
+
+\pagecolor{yorhabg}		% Set background color
+\color{yorhafg}
+
+\import{preamble.sty}
+
+\usepackage[T1]{fontenc}			% Font package
+
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[skins, most]{tcolorbox}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\DeclareMathOperator{\area}{area}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\cosech}{cosech}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg,%
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{shortcut}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg, coltitle=yorhabg, title=\texttt{Shortcut.}, 
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{question}[1]{
+    enhanced, 
+    colback=yorhabg,
+    colframe=mblue,
+    coltext=yorhafg,
+    coltitle=yorhabg,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=\texttt{#1},
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=5pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\title{\textbf{MATH1141: Higher Mathematics 1B (Algebra)}}
+\author{L. Cheung}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Functions of several variables}
+
+	\section{Motivations, sketching surface, and partial derivatives}
+
+		\subsection{Function of two variables}
+
+			We will consider functions of the type
+				\begin{align*}
+					z = F(x,y), \quad (x,y) \in D
+				\end{align*}
+			where $D \subseteq \mathbb{R}^2$ is the domain of $F$ and $F$ is real-valued. We write $F: D \subseteq \mathbb{R}^2 \to \mathbb{R}$.
+
+			For example:
+			\begin{itemize}
+				\item $F(x,y) = 2x + y^6$ and $D = \mathbb{R}^2$
+				\item $F(x,y) = xe^y$ and $D = \mathbb{R}^2$
+			\end{itemize}
+
+			\textcolor{pastel_yellow}{Note}: if $D = \mathbb{R}^2$, sometimes the domain is not explicitly written.
+
+			\subsubsection{Geometric representation}
+
+				The function of one variable: $y = f(x), \; x \in [a,b]$ can be represented as a curve in $\mathbb{R}^2$.
+
+				Similarly, a function of two variables: $z = F(x,y), \; (x,y) \in D$ can be described as a surface in $\mathbb{R}^3$
+
+		\subsection{Sketching and visualising surfaces}
+
+			Consider a surface defined by 
+				\begin{align*}
+					z = F(x,y).
+				\end{align*}
+
+			Conventionally, $z$ is the distance above or below the $x,y$-plane.
+
+			A \textbf{level curve} of a function, $F:\mathbb{R}^2 \to \mathbb{R}$, is a curve in $\mathbb{R}^2$ defined by $F(x,y) = C$, where $C$ is a constant. This can be visualised by cutting a surface with a plane. Typically this plane is parallel to the $xy$-plane
+
+			\begin{question}{Example}
+				Sketch the surface defined by
+					\begin{align*}
+						z = F(x,y) = x^2 + y^2
+					\end{align*}
+
+				\begin{enumerate}
+					\item Sketch some level curves for different values $C$.
+						\begin{itemize}
+							\item Set $z = C = 0 \Rightarrow \; x^2 + y^2 = 0 \Rightarrow$ Singular point at origin
+							\item Set $z = C = 1 \Rightarrow \; x^2 + y^2 = 1 \Rightarrow$ Circle centred at 0 with radius $1$
+							\item Set $z = C = 4 \Rightarrow \; x^2 + y^2 = 4 \Rightarrow$ Circle centred at 0 with radius $2$
+							\item Set $z = C = 8 \Rightarrow \; x^2 + y^2 = 8 \Rightarrow$ Circle centred at 0 with radius $2 \sqrt{2}$
+						\end{itemize}
+					\item Sketch the curves of intersection between the surface $z = x^2 + y^2$ and the $yz$-plane (set $x = 0$) or $xz$-plane (set $y = 0$).
+						\begin{itemize}
+							\item In this example, both the intersections form parabolas.
+						\end{itemize}
+				\end{enumerate}
+			\end{question}
+
+			\begin{question}{Example}
+				Sketch the surface defined by $x^2 + y^2 - z^2 = 1$.
+
+				\begin{enumerate}
+					\item Level curves
+						\begin{itemize}
+							\item level curves with $z = 0$ is a circle with radius 1
+							\item level curves with $z = \pm 1$ are circles with radius $\sqrt{2}$
+							\item level curves with $z = \pm 2$ are circles with radius $\sqrt{5}$
+						\end{itemize}
+					\item Intersections between the surface and the $yz$-plane gives $y^2 - z^2 = 1$.
+					\item These pieces of information can be put together to form the surface
+				\end{enumerate}
+				
+			\end{question}
+
+		\subsection{Partial differentiation}
+
+			Informally: differentiate with respect to one of the variables by holding the other variable fixed.
+
+			\begin{question}{Definition}
+				If $F: \mathbb{R}^2 \to \mathbb{R}$ is a function of two variables $x$ and $y$, then the partial derivatives of $F(x,y)$ with respect to $x$ and $y$ at the point $(x_0, y_0)$ are defined by
+					\begin{align*}
+						\frac{\partial F}{\partial x} (x_0, y_0) = \lim_{h\to 0} \frac{F(x_0 + h, y_0) - F(x_0, y_0)}{h},
+					\end{align*}
+				and
+					\begin{align*}
+						\frac{\partial F}{\partial y} (x_0, y_0) = \lim_{h\to 0} \frac{F(x_0, y_0 + h) - F(x_0, y_0)}{h},
+					\end{align*}
+				wherever these limits exist.
+			\end{question}
+
+			If a function $F$ has partial derivatives with respect to $x$ and $y$, then:
+				\begin{itemize}
+					\item The partial derivative with respect to $x$ may be denoted by
+						\begin{align*}
+							\frac{\partial F}{\partial x} \equiv F_x \equiv D_1F.
+						\end{align*}
+					\item The partial derivative with respect to $y$ may be denoted by
+						\begin{align*}
+							\frac{\partial F}{\partial y} \equiv F_y \equiv D_2F.
+						\end{align*}
+				\end{itemize}
+
+			The rules for partial derivatives are similar to that of normal derivatives.
+
+			\begin{question}{Example}
+				Consider
+					\begin{align*}
+						F(x,y) = e^{y^2} \cos(x^2y) + e^{x^2y} \sin(y).
+					\end{align*}
+				Compute the partial derivatives of $\frac{\partial F}{\partial x}$ and $\frac{\partial F}{\partial y}$.
+				\begin{align*}
+					\frac{\partial F}{\partial x} &= \frac{\partial}{\partial x} \left[e^{y^2} \cos(x^2y)\right] + \frac{\partial}{\partial x} \left[x^{y^2} \sin(y)\right]	\\
+												  &= e^{y^2} \left[-\sin(x^2y) (2xy)\right] + \sin(y) e^{y^2}(2xy)
+				\end{align*}
+			\end{question}
+
+		\subsection{Geometrical Interpretation}
+
+			Recall that $\frac{\partial F}{\partial x} (x_0, y_0) = \displaystyle\lim_{h\to 0} \frac{F(x_0 + h, y_0) - F(x_0,y_0)}{h}$.
+
+			$\frac{\partial F}{\partial x} (x_0,y_0)$ is the slope of the tangent to the cross section at $(x_0,y_0)$ when the surface $z = F(x,y)$ is intersected with the plane $y = y_0$.
+
+			This can be applied similarly to the derivative $\frac{\partial F}{\partial y}$
+
+		\subsection{Second Order Partial Derivatives}
+
+			A second order partial derivative is a partial derivative of a first order partial derivative.
+				\begin{align*}
+					\frac{\partial^2 F}{\partial x} \equiv \frac{\partial}{\partial x} (\frac{\partial F}{\partial x}) \equiv F_{xx} \equiv D_1D_1F	\\
+					\frac{\partial^2 F}{\partial y} \equiv \frac{\partial}{\partial y} (\frac{\partial F}{\partial y}) \equiv F_{yy} \equiv D_2D_2F	\\
+					\frac{\partial^2 F}{\partial x \partial y} \equiv \frac{\partial}{\partial x} (\frac{\partial F}{\partial y}) \equiv F_{yx} \equiv D_1D_2F	\\
+					\frac{\partial^2 F}{\partial y \partial x} \equiv \frac{\partial}{\partial y} (\frac{\partial F}{\partial x}) \equiv F_{xy} \equiv D_2D_1F	\\
+				\end{align*}
+
+			\begin{question}{The Mixed Derivative Theorem}
+				Suppose that $F$ is a function of two variables. If $F$ and all its first and second order partial derivatives are continuous, then
+					\begin{align*}
+						\frac{\partial^2 F}{\partial x \partial y} = \frac{\partial^2 F}{\partial y \partial x}
+					\end{align*}
+			\end{question}
+
+			\begin{question}{Definition}
+				Consider a function $G$ on $\mathbb{R}^2$ with variables $x$ and $y$. The function $G$ is continuous at the point $(x_0,y_0) \in \mathbb{R}^2$ if
+					\begin{align*}
+						\lim_{\substack{x \to x_0 \\ y \to y_0}} G (x,y) = F(x_0,y_0).
+					\end{align*}
+			\end{question}
+
+			\begin{itemize}
+				\item Finite sums/products of continuous functions are continuous, and compositions of continuous functions are continuous
+				\item The mixed derivative theorem tells us that for a function which can be written as a finite sum/product of a polynomials, sine, cosine, exponential functions, all derivatives of all orders are continuous, and so we get the equality of all mixed derivatives.
+				\item The existence of partial derivatives at a point does not imply continuity at a point
+			\end{itemize}
+
+			\begin{question}{Example}
+				Consider the function
+					\begin{align*}
+						F(x,y) = \begin{cases} \frac{xy}{x^2 + y^2} &\text{for }(x,y)\neq (0,0) \\ 0 &\text{for } (x,y) = (0,0)\end{cases}.
+					\end{align*}
+				We see that $\frac{\partial F}{\partial x} (0,0) = \frac{\partial F}{\partial y} (0,0) = 0$, but $F(x,y)$ is not continuous at $(0,0)$.
+			\end{question}
+
+\chapter{Tangent planes, normal vectors, and error estimation}
+
+	\section{Tangent Lines and Normals}
+
+		Suppose that $(x_0,y_0)$ is a point that lies on the curve $y = f(x)$. If the curve has a tangent line at $(x_0,y_0)$:
+		\begin{itemize}
+			\item The tangent line has the equation
+				\begin{align*}
+					y = y_0 + f'(x_0)(x - x_0).
+				\end{align*}
+			\item A normal vector to the line at $(x_0,y_0)$ is
+				\begin{align*}
+					\cvec{f'(x_0)\\-1}.
+				\end{align*}
+		\end{itemize}
+
+		Suppose that $(x_0,y_0,z_0)$ is a point that lies on the curve $z = F(x,y)$. If the curve has a tangent line at $(x_0,y_0,z_0)$:
+		\begin{itemize}
+			\item The tangent plane has the equation
+				\begin{align*}
+					z = z_0 + F_x(x_0,y_0)(x - x_0) + F_y(x_0,y_0)(y - y_0).
+				\end{align*}
+			\item A normal vector to the surface at $(x_0,y_0,z_0)$ is
+				\begin{align*}
+					\cvec{F_x(x_0,y_0)\\F_y(x_0,y_0)\\-1}.
+				\end{align*}
+		\end{itemize}
+
+		Consider vectors along each of the tangent lines
+		\begin{itemize}
+			\item A vector along the tangent line to the curve $z = F(x,y_0)$ is 
+				\begin{align*}
+					\cvec{1\\0\\F_x(x_0,y_0)}.
+				\end{align*}
+			\item A vector along the tangent line to the curve $z = F(x_0,y)$ is 
+				\begin{align*}
+					\cvec{0\\1\\F_y(x_0,y_0)}.
+				\end{align*}
+		\end{itemize}
+
+		A normal vector to the tangent plane is given by the cross product
+			\begin{align*}
+				\cvec{0\\1\\F_y(x_0,y_0)} \times \cvec{1\\0\\F_x(x_0,y_0)} = \cvec{F_x(x_0,y_0)\\F_y(x_0,y_0)\\-1}.
+			\end{align*}
+
+		The point normal form of the tangent plane
+			\begin{align*}
+				\cvec{F_x(x_0,y_0)\\F_y(x_0,y_0)\\-1} \cdot \cvec{x-x_0\\y-y_0\\z-z_0} = 0
+			\end{align*}
+
+		Rearranging terms gives
+			\begin{align*}
+				z = z_0 + F_x(x_0,y_0)(x-x_0) + F_y(x_0,y_0)(y-y_0).
+			\end{align*}
+
+		\begin{question}{Example}
+			Consider the surface $S$ defined by $z = F(x,y) = -\frac{x^2}{4} - y^2$ . Find the tangent plane of $S$ at $(x_0,y_0,z_0) = (2,-1,-2)$ and the associated normal vector of this tangent plane.
+
+			\begin{align*}
+				F_x &= \frac{\partial F}{\partial x} = -\frac{x}{2}	\\
+				F_y &= \frac{\partial F}{\partial y} = -2y			\\
+				\intertext{At $(x_0,y_0) = (2,-1)$, }				\\
+				F_x(2,-1) &= F_x(x_0,y_0) = -1						\\
+				F_y(2,-1) &= 2										\\
+				\intertext{The normal vector can be given as}		\\
+				\cvec{F_x(2,-1)\\F_y(2,-1)\\-1} &= \cvec{-1,2,-2}	\\
+				\intertext{The tangent plane is}					\\
+				z - z_0 &= F_x(x_0,y_0)(x-x_0) + F_y(x_0,y_0)(y-y_0)	\\
+				z &= -x + 2y + 2
+			\end{align*}
+		\end{question}
+
+	\section{Total Differential Approximation}
+
+		If $F = F(x,y)$, then near a given point $(x_0,y_0)$,
+			\begin{align*}
+				F(x,y) \approx F(x_0,y_0) + F_x(x_0,y_0)(x-x_0) + F_y(x_0,y_0)(y-y_0).
+			\end{align*}
+
+		Define
+			\begin{align*}
+				\Delta F = F(x,y) = F(x_0,y_0)
+			\end{align*}
+		$\Delta F = F_x(x_0,y_0)(x-x_0) + F_y(x_0,y_0)(y-y_0)$ is the total differential approximation. Geometrically this approximates points on the surface $z = F(x,y)$ near $(x_0,y_0)$ by points on the tangent plane near this point.
+
+		If a function $F$ is smooth enough then the tangent plane at the point $(x_0,y_0)$ will provide a good approximation to $F$ for points near to $(x_0,y_0)$. Smooth means that the surface has no corners, sharp peaks, or folds.
+
+		\begin{align*}
+			\text{Error} &= |\Delta F|	\\
+						 &\approx \left| \frac{\partial F}{\partial x} \Delta x + \frac{\partial F}{\partial y} \Delta y \right|	\\
+						 &\leq \left|\frac{\partial F}{\partial x}\right| \left|\Delta x\right| + \left|\frac{\partial F}{\partial y}\right| \left|\Delta y\right|
+		\end{align*}
+
+		\begin{question}{Example}
+			A right circular cone is measured to have a height of 10 cm and a base radius of 30 cm. Estimate an upper bound of the absolute error in the volume if the maximum absolute error in each measurement is 0.1 cm.
+
+			\begin{align*}
+				\begin{cases}
+					\frac{\partial V}{\partial r} = \frac{2}{3} \pi r h	\\
+					\frac{\partial V}{\partial h} = \frac{1}{3} \pi r^2
+				\end{cases} \\
+				V = \frac{1}{3}(\pi r^2)h = F(r,h)
+			\end{align*}
+			\begin{align*}
+				\left| \Delta V\right| \leq \left|\frac{\partial V}{\partial r}(r_0,h_0) \right| \left|\Delta r\right| + \left|\frac{\partial V}{\partial h} (r_0,h_0)\right| \left|\Delta h \right|
+			\end{align*}
+
+			Since $|\Delta r| \leq 0.1$ and $|\Delta j| \leq 0.1$
+			\begin{align*}
+				|\Delta V| &\leq \left|\frac{2}{3} \pi \cdot 30 \cdot 10 \right|(0.1) + \left|\frac{1}{3} \pi 30^2 \right| (0.1)	\\
+						   &= 50 \pi
+			\end{align*}	
+		\end{question}
+
+\chapter{Chain Rules and Functions with three (or more) variables}
+
+	\section{Chain Rules}
+
+		If $F = F(x,y)$ and $x = x(t)$, $y = y(t)$, then
+			\begin{align*}
+				\frac{dF}{dt} = \frac{\partial F}{\partial x} \frac{dx}{dt} + \frac{\partial F}{\partial y} \frac{dy}{dt}
+			\end{align*}
+
+\end{document}

@@ -1,0 +1,289 @@
+%! TEX root = /home/lucas/Desktop/uni/COMP
+
+\documentclass{report}
+
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{minted}
+\usemintedstyle{native}
+\setminted{xleftmargin=4em, autogobble, tabsize=4}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+% Colors
+\definecolor{yorhabg}{HTML}{131314}
+\definecolor{yorhafg}{HTML}{C9C7CD}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{mred}{HTML}{D67069}
+\definecolor{mblue}{HTML}{6887A1}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{pastel_red}{RGB}{255, 173, 173}
+\definecolor{pastel_orange}{RGB}{255, 214, 165}
+\definecolor{pastel_yellow}{RGB}{253, 255, 182}
+\definecolor{pastel_green}{RGB}{176, 217, 176}
+\definecolor{pastel_blue}{RGB}{167, 199, 231}
+\definecolor{pastel_purple}{RGB}{222, 218, 244}
+
+\pagecolor{yorhabg}		% Set background color
+\color{yorhafg}
+
+\import{preamble.sty}
+
+\usepackage[T1]{fontenc}			% Font package
+
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[skins, most]{tcolorbox}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg,%
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{shortcut}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg, coltitle=yorhabg, title=\texttt{Shortcut.}, 
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{question}[1]{
+    enhanced, 
+    colback=yorhabg,
+    colframe=mblue,
+    coltext=yorhafg,
+    coltitle=yorhabg,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=\texttt{#1},
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=5pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+
+
+\title{\textbf{COMP1531: Software Engineering Fundamentals}}
+\author{L. Cheung}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+
+	\section{Course Structure}
+
+		\begin{itemize}
+			\item Lab tasks are worth 10\% in total
+			\item Group project worth 45\% of grade
+			\item The final exam is worth 45\%
+		\end{itemize}
+
+	\section{Introduction to Software Engineering}
+
+		What is the difference between Computer Science and Software Engineering.
+
+		\begin{itemize}
+			\item Computer science focuses on understanding how computers work and function
+			\item Software engineering is about creating software for people to use, and building software that is maintainable over time
+		\end{itemize}
+
+		The Software Development Life Cycle is a structured approach to software development that includes:
+
+			\begin{itemize}
+				\item Requirements analysis
+					\begin{itemize}
+						\item Talk to potential clients
+						\item Work out what is needed of the software
+					\end{itemize}
+				\item Design
+					\begin{itemize}
+						\item Designing an outline for the software
+					\end{itemize}
+				\item Development
+					\begin{itemize}
+						\item Writing the actual code to handle the task
+					\end{itemize}
+				\item Testing
+					\begin{itemize}
+						\item Test the program to see if it meets the initial requirements
+					\end{itemize}
+				\item Deployment
+					\begin{itemize}
+						\item Deploy the software to users
+					\end{itemize}
+				\item Maintenance
+					\begin{itemize}
+						\item Continue to develop, fixing bugs and implementing new features
+					\end{itemize}
+			\end{itemize}
+		
+		Software quality and productivity is supported by three key pillars: people, technology, and processes. 
+
+	\section{Common Software Development Models}
+
+		\begin{itemize}
+			\item Waterfall - linera and structured
+			\item Prototyping - get early feedback
+			\item Iterative development - Continuous improvement and feature addition
+			\item Agile - Iterative development but getting feedback on each feature after it is completed
+		\end{itemize}
+
+	\section{JavaScript}
+
+		\begin{itemize}
+			\item Developed in 1995 so Netscape could add scripting to their browser
+			\item Extensively used by large tech companies
+			\item Front-end software
+			\item NodeJS compiles and runs JavaScript code
+			\item NodeJS is interpreted, ie. a high level language. The code gets interpreted before it gets compiled into machine language.
+			\item JS type shenanigans
+			\item \mintinline{js}{let} creates a variable that can be reassigned
+			\item \mintinline{js}{const} creates a variable that cannot be reassigned. However, objects can still be manipulated.
+			\item \mintinline{js}{${variable}} can be used to insert the value of a variable into a string
+		\end{itemize}
+
+		\begin{itemize}
+			\item Strings
+				\begin{itemize}
+					\item String concatenation can be performed using \mintinline{js}{+}, eg. \mintinline{js}{"some text" + variable}
+					\item Adding variables into strings can be done using string interpolation, eg. \mintinline{js}{`Hello, my name is ${name}`} (where \mintinline{js}{name} is a variable)
+				\end{itemize}
+			\item Control structures
+				\begin{itemize}
+					\item Very similar syntax to C, nothing important to note
+				\end{itemize}
+		\end{itemize}
+
+		\subsection{Data Structures}
+
+			\begin{itemize}
+				\item Data structures are designed to scale complex tasks
+				\item Two important data structures that are both collections of data are
+					\begin{itemize}
+						\item Sequential collections - indexed things such as arrays
+						\item Associative collections - values are referenced by a string key that maps it to a value, in JS is an object
+					\end{itemize}
+			\end{itemize}
+
+			\begin{minted}{js}
+				let student = {};
+
+				student.name = "Jake";			// or student["name"]
+				student.age = 25;
+				student.country = "Australia";
+
+				console.log(student);
+
+				console.log(Object.keys(student));
+				// OUTPUT: [ "name", "age", "country" ]
+
+				console.log(Object.values(student));
+				// OUTPUT: [ "Jake", 25, "Australia" ]
+
+				console.log(Object.entries(student));
+				// OUTPUT: [ 
+				//	["name", "Jake"], 
+				//	["age", 25],
+				//	["country", "Australia"]
+				//]
+			\end{minted}
+
+			\begin{itemize}
+				\item Arrays and objects have methods
+				\item Objects are the only none primitive type
+			\end{itemize}
+
+\chapter{Git}
+
+	To effectively work on large projects with multiple people, we need advanced methods of managing the codebase. Simple file sharing is insufficient.
+
+	Git is a program that allows distributed version control where each user has a full backup. Work can also be stored in the cloud. GitHub, GitLab, and BitBucket are software tools that implement git via a web app (COMP1531 uses GitLab). 
+
+	Git can be used as
+	\begin{enumerate}
+		\item Version control on a single machine
+		\item Version control across multiple of your machines
+		\item Version control across a team of engineers
+	\end{enumerate}
+
+	Files are added to a staging area with \mintinline{bash}{git add .}, where \mintinline{bash}{.} refers to all changes. The staged changes can be committed to the working tree with \mintinline{bash}{git commit -m "message"}. Finally, to export the changes into the cloud, \mintinline{bash}{git push} can be used.
+
+	\mintinline{bash}{git diff} shows the difference between the working directory and staged directory.
+
+\chapter{Unigotchi - Iteration 0}
+
+	\begin{itemize}
+		\item Understand the requirements
+		\item Design the function interfaces
+		\item Set up how the team works together
+		\item Write stub functions only (no mechanics)
+	\end{itemize}
+
+	\begin{enumerate}
+		\item Requirements
+		\item Design
+		\item Stub
+		\item MR
+		\item Review
+		\item Merge
+	\end{enumerate}
+
+\chapter{Importing Libraries}
+	
+	Libraries allow us to use code that other people have written in our own projects. In JavaScript, we can do so by adding the header \mintinline{js}{import fs from 'fs'}. Unlike C, the functions that are important can not be directly called. Instead, the functions exist as methods on objects, where the object name is specified when the library is imported.
+	\\ \\
+	We can also import our own code in other files. The functions that we want to use elsewhere can be exported by adding \mintinline{js}{export} or \mintinline{js}{export default}. The \mintinline{js}{default} keyword means that when the function is imported it will run the defaulted command. This is useful when providing an alias for the function.
+	\\ \\
+	Functions from other people can be downloaded into our directory using npm. Running npm init will create a package.json that has the information required modules to tell other people what to install. Installed packages are added to the node\_modules folder. This folder is gitignored to save space.
+
+\chapter{asdf}
+	function requirements r the important parts
+	non function r optional
+\end{document}

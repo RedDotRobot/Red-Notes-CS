@@ -1,0 +1,440 @@
+\documentclass{report}
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{scalerel}
+
+\renewcommand{\vec}{\mathbf}
+\DeclareMathOperator{\vectorprojection}{proj}
+\NewDocumentCommand{\proj}{s e{_} m}{%
+    \IfBooleanTF{#1}{#3_{\stretchrel*{\parallel}{\perp}#2}}{\vectorprojection_{#2}#3}
+}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Arg}{\operatorname{Arg}}
+\newcommand{\Span}{\operatorname{span}}
+
+% augmented matrix
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+% Custom column vector command
+\newcommand{\cvec}[1]{ \begin{pmatrix} #1 \end{pmatrix} }
+% Custom determinant command
+\newcommand{\det}[1]{ \begin{vmatrix} #1 \end{vmatrix} }
+
+% Colors
+\definecolor{yorhabg}{HTML}{131314}
+\definecolor{yorhafg}{HTML}{C9C7CD}
+\definecolor{yorhagrid}{HTML}{B5AF9C}
+\definecolor{mred}{HTML}{D67069}
+\definecolor{mblue}{HTML}{6887A1}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{pastel_red}{RGB}{255, 173, 173}
+\definecolor{pastel_orange}{RGB}{255, 214, 165}
+\definecolor{pastel_yellow}{RGB}{253, 255, 182}
+\definecolor{pastel_green}{RGB}{176, 217, 176}
+\definecolor{pastel_blue}{RGB}{167, 199, 231}
+\definecolor{pastel_purple}{RGB}{222, 218, 244}
+
+\pagecolor{yorhabg}		% Set background color
+\color{yorhafg}
+
+\import{preamble.sty}
+
+\usepackage[T1]{fontenc}			% Font package
+
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[skins, most]{tcolorbox}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+% Margins
+\topmargin=0in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\AtBeginEnvironment{tcolorbox}{\small}
+
+\newtcolorbox{imp}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg,%
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{shortcut}{enhanced,arc=0mm,colback=yorhabg,colframe=mred,leftrule=10mm,coltext=yorhafg, coltitle=yorhabg, title=\texttt{Shortcut.}, 
+overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[width=6mm]{images/imageb.png}}; }}
+
+\newtcolorbox{question}[1]{
+    enhanced, 
+    colback=yorhabg,
+    colframe=mblue,
+    coltext=yorhafg,
+    coltitle=yorhabg,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=\texttt{#1},
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=5pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+\newcommand\bb[1]{\textcolor{yorhafg}{\textbf{#1}}}
+
+\setlength{\jot}{1.5em}
+\setlength{\thickmuskip}{10}
+\setlength{\medmuskip}{7}
+\setlength{\thinmuskip}{5}
+\setstretch{1.25}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\title{\textbf{MATH1141: Higher Mathematics 1B - Algebra}}
+\author{L. Cheung}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Vector Spaces}
+
+	A field in a non-empty set $\mathbb{F}$ which has two binary operations $+$, $\cdot$, and satisfies all 12 number laws.
+
+	\section{Examples of fields}
+
+		\begin{itemize}
+			\item $\mathbb{Q}, \mathbb{R}, \mathbb{C}$
+			\item $\mathbb{Q}(\sqrt{3}) \coloneq \left\{ a + b\sqrt{3} \;|\; a,b \in \mathbb{Q}\right\}$
+			\item $\mathbb{Q}(i) \coloneq \left\{a + bi \;|\; a,b \in \mathbb{Q}\right\}$, where $i = \sqrt{-1}$
+			\item Every prime number $p$ defines a field
+				\begin{align*}
+					\mathbb{F}_p = GF(p) \coloneq {0,1,2,...,p-1}
+				\end{align*}
+		\end{itemize}
+
+	\section{Definition of Vector Space}
+
+		A vector space over a field $F$ (the set of scalars) is a non-empty set $V$ of elements, vectors, for which addition and scalar multiplication are defined and which obey the following 10 axioms.
+		
+		\begin{enumerate}
+			\item \textbf{Closure under addition}: adding two vectors yields a vector.
+			\item \textbf{Associative law of addition}: $(\vec{u} + \vec{b}) + \vec{w} = \vec{u} + (\vec{b} + \vec{w})$.
+			\item \textbf{Commutative law of addition}: $\vec{u} + \vec{v} = \vec{v} + \vec{u}$.
+			\item \textbf{Existence of zero}: there is an element $\vec{0}$ in $V$ called the zero vector that satisfies the property $\vec{v} + \vec{0} = \vec{v},\; \forall \vec{v} \in V$.
+			\item \textbf{Existence of negative}: for each $\vec{v} \in V$ there exists an element $\vec{w} \in V$ such that $\vec{v} + \vec{w} = \vec{0}$.
+			\item \textbf{Closure under scalar multiplication}: for all $\vec{v} \in V$ and $\lambda \in \mathbb{F}$, $\lambda \vec{v} \in V$.
+			\item \textbf{Associative law of scalar multiplication}: for all $\lambda, \mu \in \mathbb{F}$ and $\vec{v} \in V$,
+				\begin{align*}
+					\lambda ( \mu \vec{v} ) = ( \lambda \mu ) \vec{v}.
+				\end{align*}
+			\item For all $\vec{v} \in  V$, $1 \vec{v} = \vec{v}$.
+			\item \textbf{Scalar distributive law}: for all $\lambda, \mu \in \mathbb{F}$ and $\vec{v} \in V$,
+				\begin{align*}
+					( \lambda + \mu ) \vec{v} = \lambda \vec{v} + \mu \vec{v}.
+				\end{align*}
+			\item \textbf{Vector distributive law} for all $\lambda \in \mathbb{F}$ and $\vec{u}, \vec{v} \in V$,
+				\begin{align*}
+					\lambda (\vec{u} + \vec{v}) = \lambda \vec{u} + \lambda \vec{v}.
+				\end{align*}
+		\end{enumerate}
+
+		\textcolor{pastel_yellow}{Note}: addition in the field and addition in the vector space is different, however this is not distinguished in notation.
+		\begin{itemize}
+			\item Axioms 1-5 say that $(V, +)$ is an abelian group
+			\item Axioms 6-8 describe how $\mathbb{F}$ acts on $V$
+			\item Axioms 9 and 10 describe that addition and scalar multiplication are compatible.
+		\end{itemize}
+		\textcolor{pastel_yellow}{Note}: each axiom (except for 4) are "for all" statements, and apply to all
+
+	\section{Basic Properties}
+
+		In any vector space $V$, the following properties hold
+
+		\begin{enumerate}
+			\item \textbf{Uniqueness of Zero}: There is one and only one zero vector
+
+				\textcolor{pastel_blue}{Proof}: If $\vec{0}' \in V$ satisfies $\vec{v} + \vec{0}' = \vec{v}$ for all $\vec{v} \in V$, then
+					\begin{align*}
+						\vec{0}' = \vec{0}' + \vec{0} = \vec{0} + \vec{0}' = \vec{0}.
+					\end{align*}
+
+			\item \textbf{Cancellation Property}: If $\vec{u},\vec{v},\vec{w} \in V$ satisfy
+				\begin{align*}
+					\vec{u} + \vec{v} = \vec{u} + \vec{w}, \text{ then } \vec{v} = \vec{w}.
+				\end{align*}
+
+			\item \textbf{Uniqueness of Negatives}
+		\end{enumrate}
+
+		\subsection{Additional basic properties}
+
+			Suppose that $\vec{v}$ is a vector in a vector space $V$; $\lambda$ is a scalar; $0$ is the zero scalar; $\vec{0}$ is the zero vector in $V$. Then the following properties hold.
+
+			\begin{itemize}
+				\item $\lambda \vec{0} = \vec{0},$
+				\item $0 \vec{v} = 0$.
+				\item $(-1) \vec{v} = -\vec{v}$. (Here, $-1$ is a scalar and $-\vec{v}$ is the additive inverse of $\vec{v}$).
+				\item If $\lambda \vec{v} = \vec{0}$, then either $\lambda = 0$ or $\vec{v} = \vec{0}$.
+				\item If $\lambda \vec{v} = \mu \vec{v}$, and $\vec{v} \neq \vec{0}$, then $\lambda = \mu$.
+			\end{itemize}
+
+	\section{Standard Examples}
+
+		\textbf{Example 1}
+
+		The set $\mathbb{F}^n = \left\{\cvec{a_1\\a_2\\\vdots\\a_n}: a_i \in \mathbb{F} \forall i \right\}$ is a vector space over $\mathbb{F}$ under the usual (component-wise) addition and multiplication by a scalar.
+
+		\textbf{Example 2}
+
+		The set $M_{m,n}(\mathbb{F})$ of all $m \times n$ matrices with entries in $\mathbb{F}$ is a vector space over $\mathbb{F}$.
+		
+		\textbf{Example 3}
+
+		Let $X$ by any non-empty set. The set  $\mathcal{F}[X] = {f: X \rightarrow \mathbb{F}}$ of all $\mathbb{F}$-valued functions with domain $X$ is a vector space over $\mathbb{F}$ with point-wise addition and scalar multiplication.
+
+		To prove that a system $V$ is a vector space, every axiom must be verified. To prove that $V$ is not a vector space, only one axiom needs to be disproven.
+		
+\chapter{Standard Examples and Subspaces}	
+
+	There are subsets of $\mathcal{R}[\mathbb{R}]$ that are also vector spaces.
+
+	The substructures of a field are called subfields. More precisely:
+
+	\begin{question}{Definition}
+		If $\mathbb{K}$ is a field, then a subset $\mathbb{F} \subseteq \mathbb{K}$ is called a subfield of $\mathbb{K}$, denoted by $\mathbb{F} \leq \mathbb{K}$, if $\mathbb{F}$ is also a field with the same $+$ and $\cdot$ as in $\mathbb{K}$.
+	\end{question}
+	\begin{question}{Definition}
+		Let $V$ be a vector space over a field $\mathbb{F}$. A subset $S \subseteq V$ is called a subspace of $V$ if $S$ is itself a vector space over $\mathbb{F}$ with the same operations for addition and scalar multiplication.
+
+		If $S$ is a subspace of $V$, then $S$ contains the zero vector $\vec{0}_V$ of $V$. Hence, if $\vec{0}_V \notin S$, then $S$ is not a subspace. Ie. a subspace must have the unique zero vector of its larger space.
+	\end{question}
+
+	\textbf{Example}
+		
+		Consider $\mathbb{R}^3$ as a vector space over $\mathbb{R}$.
+
+		\begin{enumerate}
+			\item ${\vec{0}}$ is a subspace. $\mathbb{R}^3$ itself is a subspace.
+			\item Any line through the origin $\vec{0}$ is a subspace.
+			\item Any plane through the origin is a subspace.
+		\end{enumerate}
+
+		These are the only subspaces in $\mathbb{R}^3$
+		
+
+	\section{The Subspace Theorem}
+	\begin{question}{Theorem}
+		A subset $S$ of a vector space $V$ over $\mathbb{F}$ is a subspace if and only if
+
+		\begin{itemize}
+			\item $\vec{0} \in S$,
+			\item $\vec{u} + \vec{v} \in S$ for all $\vec{u}, \vec{v}, \in S$, and
+			\item $\lambda \vec{v} \in S$ for all $\vec{v} \in S$, scalars \lambda \in \mathbb{F}.
+		\end{itemize}
+
+		Alternatively,
+
+		\begin{itemize}
+			\item $\vec{0}_V \in S$, and
+			\item $\lambda \vec{u} + \vec{v} \in S$, and scalars $\lambda \in \mathbb{F}$.
+		\end{itemize}
+	\end{question}
+
+	Note: the only subspaces of $\mathbb{R}^2$ are lines that pass through the origin, ie. contain the zero vector.
+
+	\begin{question}{Example}
+		For which values $a \in \mathbb{R}$ is the set $S_a = \left\{y \in \mathcal{R}[\mathbb{R}] : \frac{d^2y}{dx^2} + 3 \frac{dy}{dx} + 4y = a\right\}$ a subspace of $\mathcal{R}[\mathbb{R}] $?
+		\\ \\
+		Since the zero vector is not defined for values of $a$ other than 0, the only solution is $a = 0$.
+	\end{question}
+
+	\textbf{Finding all subspaces of $\mathbb{F}^n$}
+
+		Suppose $W \leq \mathbb{F}^n$. Then $\vec{0} \in W$. So
+		\begin{itemize}
+			\item either $W = {\vec{0}}$ or $\exists \vec{u} \in W,\; \vec{u} \neq 0$. Then all scalar multiples of $\vec{u}$ are in $W$. Thus, $\left{\lambda \vec{u} \;|\; \lambda \in \mathbb{F}}$
+			\item Thus, either $W = \left\{ \lambda \vec{u} \;|\; \lambda \in \mathbb{F} \right\}$ or $\exists \vec{v} \in W$ with $\vec{v} \neq \lambda \vec{u}$ for all $\lambda \in \mathbb{F}$. So \left\{ \lambda \vec{u} + \mu \vec{v} \;|\; \lambda, \mu \in \mathbb{F} \right\} \leq W. Hence,
+			\item either $W = \left\{ \lambda \vec{u} + \mu \vec{v} \;|\; \lambda, \mu \right\}$ or $\exists \vec{w} \in W$ with $\vec{w} \neq \lambda \vec{u} + \mu \vec{v}$ for all $\lambda, \mu$. Thus, $\left\{ \lambda \vec{u} + \mu \vec{v} + \nu \vec{w} \;|\; \lambda, \mu, \nu \in \mathbb{F} \right\} \leq W$
+			\item If $n = 3$, then $W = \left\{ \lambda\vec{u} + \mu\vec{v} + \nu\vec{w} \;|\; \lambda, \mu, \nu \in \mathbb{F} \right\}$. If $n > 3$, we may continue this construction.
+		\end{itemize}
+
+\chapter{Lin. Combination and Lin. Span}
+
+	\section{Linear Combination}
+
+		Let $V$ be a vector space. We can form a vector in $V$ by adding up scalar multiples of finitely many vectors $\vec{v_1},\dots\vec{v_n}$ in $V$. Such a vector is called a linear combination of $\vec{v_1}, \dots \vec{v_n}$
+		\begin{question}{Definition}
+			A linear combination of finitely many vectors $\vec{v_1}, \dots \vec{v_n}$ in a vector space $V$ over $\mathbb{F}$ is a sum of scalar multiples of the form.
+			\begin{align*}
+				\lambda_1 \vec{v_1} + \dots + \lambda_n \vec{v_n} \text{ with } \lambda_1, \dots, \lambda_n \in \mathbb{F}.
+			\end{align*}
+		\end{question}
+
+		\begin{question}{Example}
+			Consider the subspace
+			\begin{align*}
+				S = \left\{p \in \mathbb{P}_2(\mathbb{R}) \;|\; xp'(x) = 2p(x) \forall x \in \mathbb{R}\right\} \leq \mathbb{P}_2(\mathbb{R})
+			\end{align*}
+		\end{question}
+	
+	\section{Linear Span and Spanning Set}
+
+		\begin{question}{Definition}
+			Let $S$ be a subset of a vector space $V$. Then the span of $S$ is the set $\Span(S)$ of all linear combinations of vectors in $S$:
+			\begin{align*}
+				\Span(S) = \left\{ \lambda_1\vec{v_1} + \cdots + \lambda_n\vec{v_n} \;\middle| \begin{array}{l}\vec{v_1},\dots,\vec{v_n} \in S \\ \lambda_1,\dots,\lambda_n \in \mathbb{F} \end{array}, \; \forall n \in \mathbb{N}\right\}
+			\end{align*}
+
+			If $S = \left\{\vec{v_1},\dots,\vec{v_n}\right\}$, then we write $\text{span}(S) = \text{span}\left\{\vec{v_1},\dots\vec{v_n}\right\}$. If $\text{span}(S) = V$, $S$ is called a spanning set of $V$.
+		\end{question}
+
+		\begin{question}{Example}
+			Let $S$ be a nonempty subset of a vector space $V$. Then $\Span(S)$ is a subspace of $V$, and it is the smallest subspace containing $S$.
+			\\ \\
+			First, for any $\mathbb{v} \in S,\; \vec{0} = 0\vec{v} \in \Span(S)$.
+			If $\vec{v},\vec{u} \in \Span(S)$, then $\vec{v} = \lambda_1 \vec{v_1} + \dots + \lambda_n \vec{v_n}$ and $\vec{u} = \mu_1 \vec{u_1} + \dots + \mu_m \vec{u_m}$ for some $\vec{v_i}, \vec{u_i} \in S$ and $\lambda_i, \mu_i \in \mathbb{F}$. Thus, if $\lambda \in \mathbb{F}$, then
+			\begin{align*}
+				\lambda\vec{v} + \vec{u} &= \lambda(\lambda_1\vec{v_1} + \dots + \lambda_n\vec{v_n}) + \mu_1\vec{u_1} \dots + \mu_m\vec{u_m}	\\
+										 &= (\lambda \lambda_1) \vec{v_1} \dots + (\lambda \lambda_n) \vec{v_n} + \mu_1\vec{u_1} \dots + \mu_m\vec{u_m}
+			\end{align*}
+			is a linear combination of vectors in $S$. Hence, $\lambda\vec{v} + \vec{u} \in \Span(S)$, proving $\Span(S) \leq V$ by the alternative subspace test.
+		\end{question}.
+
+		\begin{question}{Example}
+			What is the geometric interpretation of $\Span \left\{\cvec{1\\2\\-1},\cvec{1\\1\\-1}\right\}$ in $\mathbb{R}^3$?
+
+			It is a plane through the origin with parametric vector form
+			\begin{align*}
+				\vec{x} = \lambda \cvec{1\\2\\-1} + \mu \cvec{1\\1\\-1}
+			\end{align*}
+		\end{question}
+
+		\begin{question}{Example}
+			Let $\vec{u} = \cvec{0\\1\\0}, \vec{v} = \cvec{1\\4\\1} \in \mathbb{R}^3$, and the set $S = \left\{\cvec{1\\3\\4},\cvec{1\\2\\3}\right\}$. Is $\vec{u} \in \Span(S)$
+			\\ \\
+			Check there exists scalars $\lambda, \mu \in \mathbb{R}$ such that
+			\begin{align*}
+				\lambda \cvec{1\\3\\4} + \mu \cvec{1\\2\\3} = \cvec{0\\1\\0} \quad \text{ or } \quad \cvec{1&1\\3&2\\4&3} \cvec{\lambda\\\mu} = \cvec{0\\1\\0}
+			\end{align*}
+			Thus, we need to test the solvability of a linear system $A\vec{x} = \vec{b}$ with augmented matrix $\begin{amatrix}{2}
+				1 & 1 & 1 \\
+				3 & 2 & 0 \\
+				4 & 3 & 1
+			\end{amatrix}$.
+			The matrix can be reduced into row echelon form
+			\begin{align*}
+				\begin{amatrix}{2}
+					1 & 1 & 1	\\
+					0 & -1 & 3	\\
+					0 & 0 & 0	
+				\end{amatrix}.
+			\end{align*}
+			A solution to the system exists, meaning that $\vec{u} \in \Span(S)$. We substitute back to find $\lambda$ and $\mu$, providing $\mu = 3$ and $\lambda = 1 - \mu = -2$.
+
+		\end{question}
+
+		It can also be applied to find an arbitrary vectors. By solving the linear combination of the vectors in the span for $\vec{b}$, a generalised solution for the span can be found.
+
+		Suppose $S = \left\{\vec{v_1},\dots,\vec{v_n}$ and a vector $\vec{b}$ are all in $\mathbb{F}^m$. Then $\vec{b} \in \Span(S)$ if and only if there are scalars $\vec{x_1,\dots,x_n}$ such that
+			\begin{align*}
+				x_1\vec{v_1} + \dots + x_n\vec{v_n} = \vec{b}.
+			\end{align*}
+
+\chapter{Linear Dependence/Independence}
+
+	\begin{question}{Example}
+		Does $\sin^2x$ lie in the span of $\{1, \cos^2x\}$ inside $C(\mathbb{R})$?
+		\\ \\
+		Yes, $\sin^2x = 1 - \cos^2x$
+	\end{question}
+
+	\begin{question}{Example}
+		Does $e^x$ lie in the span of $\{1,x,x^2,\dots\}$ inside $C(\mathbb{R})$?
+		\\ \\
+		No, exponential functions grow faster than any polynomial.
+	\end{question}
+
+	\begin{question}{Definition}
+				The subspace of $\mathbb{F}^m$ spanned by the columns of an $m \times n$ matrix $A$ is called the column space of $A$ and is denoted by $\mathcal{C}(A)$. The subspace $\mathcal{N}(A)$ of the solutions of $A\vec{x} = \vec{0}$ is called the null space of $A$.
+				\\
+				If a vector can be written as a scalar multiple of any of the columns in the matrix, it is in the column space.
+	\end{question}
+
+
+	Suppose $S \subset V$. If we can remove a vector from the set $S$ without changing the span, then the set $S$ is said to be linearly dependent. Otherwise the set is linearly independent.
+
+	If $\vec{0} \in S$, then $S$ is linearly dependent.
+
+	If $S$ is a spanning set of $V$ and $\vec{v} \in V - S$, then $S \cup \{\vec{v}\}$...
+
+	\subsubsection{Testing Linear Dependence/Independence}
+		
+		\begin{question}{Example}
+			\begin{align*}
+				S_1 = \left\{ \cvec{2\\-2},\cvec{-1\\1} \right\}, \quad S_2 = \left\{ \cvec{2\\-2\\-1}, \cvec{-1\\1\\3} \right\}, \quad S_3 = S_u \cup \left\{\cvec{1\\-1\\7}\right\}
+			\end{align*}
+			\begin{itemize}
+				\item $S_1$ is linearly dependent
+				\item $S_2$ is linearly independent
+				\item $S_3$ no vector is a scalar multiple of the other, but the sum of two make the third, therefore it is linearly dependent
+			\end{itemize}
+		\end{question}
+
+		\begin{question}{Definition}
+			Let $S$ be a subset of a vector space.
+
+			\begin{enumerate}
+				\item If there exist distinct vectors $\vec{v_1}, \dots, \vec{v_n} \in S$ and scalars $\lambda_1, \dots, \lambda_n$, not all zero, such that 
+					\begin{align*}
+						\lambda_1\vec{v_1} + \dots + \lambda_n\vec{v_n} = \vec{0},
+					\end{align*}
+					then we say that $S$ is linearly dependent.
+				\item If the opposite case is true, that is that the only solution for the linear combination of vectors in $S = \vec{0}$ is where the scalar multiple for every vector is 0, $S$ is linearly independent.
+			\end{enumerate}
+			
+		\end{question}
+\end{document}
