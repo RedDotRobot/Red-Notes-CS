@@ -408,4 +408,18 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 				\frac{dF}{dt} = \frac{\partial F}{\partial x} \frac{dx}{dt} + \frac{\partial F}{\partial y} \frac{dy}{dt}
 			\end{align*}
 
+\chapter{Trigonometric Integrals and Reduction Formula}
+
+	\begin{question}{Example}
+		Evaluate $\int \cos^4 x \sin^3 x dx$.
+			
+			\begin{align*}
+				\int \cos^4 x \sin^3 x dx &= \int \cos^4 x \sin^2x \sin x dx	\\
+										  &= \int \cos^4 x (1 - \cos^2 x) \frac{d(-\cosx)}{dx} dx	\\
+										  &= \int u^4 (1 - u^2)(-1) du	\\
+										  &= \int (u^6 - u^4) du	\\
+										  &= \frac{u^7}{7} - \frac{u^5}{5} + c	\\
+										  &= \frac{(\cos x)^7}{7} - \frac{(\cos x)^5}{5} + c
+			\end{align*}
+	\end{question}
 \end{document}

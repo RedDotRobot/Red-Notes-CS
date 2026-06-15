@@ -437,4 +437,61 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\end{enumerate}
 			
 		\end{question}
+
+		\begin{question}{Example}
+			Recall the dot product for $\vec{u}, \vec{v} \in \mathbb{R}^n$:
+				\begin{align*}
+					\vec{u} \cdot \vec{v} \coloneq u_1 v_1 + u_2 v_2 + \cdots + u_n v_n
+				\end{align*}
+				In any inner product space, orthogonal vectors are linearly independent. In particular, if $S = \left\{\vec{v_1}, \dots \vec{v_n}\right\} \subset \mathbb{R}^n$ satisfies $\vec{v_i} \neq \vec{0}$ and $\vec{v_i} \cdot \vec{v_j} = 0$ for all $i \neq j$, then $S$ is linearly independent. 
+
+			Suppose
+				\begin{align*}
+					\sum_{i=1}^m x_i \vec{v_i} = \vec{0} \quad \text{for some } x_i \in \mathbb{R}
+				\end{align*}
+			Then for any $1 \leq j \leq m$
+				\begin{align*}
+					0 = \vec{v_j} \cdot \vec{0} = \vec{v_j} \cdot \sum_{i=1}^m x_i \vec{v_i} = \sum_{i=1}^m x_i(\vec{v_j} \cdot \vec{v_i}) \stackrel{\perp}{=} x_j (\vec{v_j} \cdot \vec{v_j})
+				\end{align*}
+				As $\vec{v_j} \cdot \vec{v_j} \neq 0$, this proves that $x_j = 0$.
+
+		\end{question}
+		\begin{question}{Definition}
+			The third definition of linear dependence/independence is as follows:
+			\\ \\
+			Let $V$ be a vector space over $\mathbb{F}$ and $S \subseteq V$. Then
+			\begin{enumerate}
+				\item $S$ is linearly independent if and only if the following condition holds:
+					For all $\vec{v_1}, \dots, \vec{v_n} \in S$ and $\lambda_i, \mu_i \in \mathbb{F}$,
+					\begin{align*}
+						\text{if } \sum_{i=1}^{n} \lambda_i \vec{v_i} = \sum_{i=1}^{n} \mu_i \vec{v_i}, \quad \text{then } \lambda_i = \mu_i, \; \forall i.
+					\end{align*}
+				\item $S$ is linearly dependent if and only if $\exists \vec{u_1}, \dots \vec{u_n} \in S$ and $\alpha_i, \beta_i \in \mathbb{F}$ such that $\sum_{i=1}^{n} \alpha_i \vec{u_i} = \sum_{i=1}^{n} \beta_i \vec{u_i}$ and $alpha_i \neq \beta_i$ for at least one $i$.
+			\end{enumerate}
+		\end{question}
+
+	\section{Bases}
+		\begin{question}{Definition}
+			A set $\mathcal{B}$ of vectors in a vector space $V$ is called a basis for $V$ if $\mathcal{B}$ is linearly independent and $V = \Span(\mathcal{B})$
+
+			\begin{itemize}
+				\item A minimal spanning set is a basis
+				\item A maximal linearly independent set is a basis
+			\end{itemize}
+
+			A subset $\mathcal{B} = \left\{\vec{v_1}, \vec{v_2}, \dots, \vec{v_n}\right\}$ of $V$ forms a basis for $V$ if and only if $\Span(\mathcal{B}) = V$ and every $\vec{v} \in V$ is uniquely expressible as 
+			\begin{align*}
+				\vec{v} = \lambda_1 \vec{v_1} + \lambda_2 \vec{v_2} + \cdots + \lambda_n \vec{v_n}.
+			\end{align*}
+		\end{question}
+
+		In $\mathbb{F}^n$, let $\vec{e_i}$ be the vector with the $i^{\text{th}}$ entry 1 and all other entries 0. The set $\mathcal{S} = \left\{ \vec{e_1}, \vec{e_2}, \dots, \vec{e_n} \right\}$ is a linearly independent spanning set of $\mathbb{F}^n$. Hence, it is a basis; we call it the standard basis of $\mathbb{F}^n$. For example:
+			\begin{itemize}
+				\item In $\mathbb{F}^2$, the standard basis is $\left\{\cvec{1\\0},\cvec{0\\1} \right\}$, and
+				\item in $\mathbb{F}^3$, the standard basis is $\left\{\cvec{1\\0\\0},\cvec{0\\1\\0}, \cvec{0\\0\\1} \right\}$.
+			\end{itemize}
+
+		In $M_{m,n}(\mathbb{F})$, let $E_{ij}$ by the matrix with the ($i,j$)-entry 1 and all other entries 0. The set $\mathcal{S} = \left\{ E_{ij} \middle| 1 \leq i \leq m, 1 \leq j \leq n \right\}$ is a linearly independent spanning set of $M_{m,n}(\mathbb{F})$. Hence, it is a basis which is called the standard basis of $M_{m,n}(\mathbb{F})$.
+
+		The set $\mathcal{S}_n = \left\{ 1, x, \dots, x^n \right\}$ is the standard basis for $\mathbb{P}_n(\mathbb{R})$
 \end{document}
