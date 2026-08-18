@@ -1,0 +1,251 @@
+\documentclass[reqno]{amsart}
+
+% Packages
+\usepackage{import}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{0pt}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{0pt}{25pt}
+
+\usepackage{scalerel}
+
+\renewcommand{\vec}{\mathbf}
+\DeclareMathOperator{\vectorprojection}{proj}
+\NewDocumentCommand{\proj}{s e{_} m}{%
+    \IfBooleanTF{#1}{#3_{\stretchrel*{\parallel}{\perp}#2}}{\vectorprojection_{#2}#3}
+}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Arg}{\operatorname{Arg}}
+
+% Custom perms and combs commands
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+% Custom column vector command
+\newcommand{\cvec}[1]{ \begin{pmatrix} #1 \end{pmatrix} }
+% Custom determinant command
+\newcommand{\det}[1]{ \begin{vmatrix} #1 \end{vmatrix} }
+
+% Colors
+% \usepackage[T1]{fontenc}			% Font package
+\usepackage{fouriernc}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc, shadows.blur}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{3d}
+
+\setlength{\jot}{1.5em}
+\setlength{\thickmuskip}{10}
+\setlength{\medmuskip}{7}
+\setlength{\thinmuskip}{5}
+\setstretch{1.35}
+
+\title{%
+	MATH1241: Higher Mathematics 1B \\
+	Assignment (Applied Mathematics Flavour)}
+\author{L. Cheung (z5763342)}
+\date{July 14, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{\LARGE{Question 1}}
+
+	The function $T: \mathbb{R}^3 \to \mathbb{R}^2$ is defined by
+	\begin{align*}
+		T\cvec{x_1\\x_2\\x_3} = \cvec{3x_2 - 2x_3\\-2x_1 - 4x_3} \quad \text{for all } \cvec{x_1\\x_2\\x_3} \in \mathbb{R}^3.
+	\end{align*}
+	Show that $T$ is linear.
+	\\ \\
+	The function $T$ is a linear map if it preserves both vector addition and scalar multiplication. Let $\vec{u}$ and $\vec{v}$ be vectors in $\mathbb{R}^3$,
+	\begin{align*}
+		T(\vec{u} + \vec{v}) &= T\cvec{u_1 + v_1\\u_2 + v_2\\u_3 + v_3}	\\
+							 &= \cvec{3(u_2 + v_2) - 2(u_3 + v_3) \\ -2(u_1 + v_1) - 4(u_3 + v_3)}	\\
+							 &= \cvec{3u_2 + 3v_2 - 2u_3 - 2v_3 \\ -2u_1 -2v_1 - 4u_3 - 4v_3}	\\
+							 &= \cvec{3u_2 - 2u_3 \\ -2u_1 - 4u_3} + \cvec{3v_2 - 2v_3 \\ -2v_1 - 4v_3}	\\
+							 &= T(\vec{u}) + T(\vec{v}).
+	\end{align*}
+	Since $T(\vec{u} + \vec{v}) = T(\vec{u}) + T(\vec{v})$, the map $T$ preserves vector addition. Furthermore, let $\lambda \in \mathbb{F}$,
+	\begin{align*}
+		T(\lambda \vec{u}) &= T\cvec{\lambda u_1\\\lambda u_2\\\lambda u_3}	\\
+						   &= \cvec{3(\lambda u_2) - 2(\lambda u_3) \\ -2(\lambda u_1) - 4(\lambda u_3)}	\\
+						   &= \cvec{3\lambda u_2 - 2\lambda u_3 \\ -2\lambda u_1 - 4\lambda u_3}	\\
+						   &= \cvec{\lambda (3u_2 - 2u_3) \\ \lambda (-2u_1 - 4u_3)}	\\
+						   &= \lambda \cvec{3u_2 - 2u_3 \\-2u_1 - 4u_3}	\\
+						   &= \lambda T(\vec{u}).
+	\end{align*}
+	Since $T(\lambda \vec{u}) = \lambda T(\vec{u})$, the function $T$ preserves scalar multiplication. The mapping $T$ passes both conditions of a linear transformation, hence $T$ is linear.
+
+\newpage
+\section*{\LARGE{Question 2}}
+
+	Show that
+	\begin{align*}
+		S = \left\{ x \in \mathbb{R}^4 : 4x_1 - 6x_2 + 7x_3 - 9x_4 = 0 \right\}
+	\end{align*}
+	is a subspace of $\mathbb{R}^4$.
+	\\ \\
+	A subset $S$ of a vector space $V$ over $\mathbb{F}$ is a subspace if and only if $S$ contains the zero vector of the vector space $V$, $S$ is closed under vector addition, and $S$ is closed under scalar multiplication.
+
+	The given subset $S$ contains the zero vector of $\mathbb{R}^4$, $\vec{x} = \cvec{0\\0\\0\\0}$. Consider two vectors in the subset $S$, $\vec{u}$ and $\vec{v}$. By definition, each vector satisfies
+	\begin{align}
+		\tag{i}
+		4u_1 - 6u_2 + 7u_3 - 9u_4 = 0,		\\
+		\tag{ii}
+		4v_1 - 6v_2 + 7v_3 - 9v_4 = 0,
+	\end{align}
+	respectively. Substituting the sum of the two vectors, $\vec{u} + \vec{v}$, into the defining expression yields
+	\begin{align*}
+		4(u_1 + v_1) - 6(u_2 + v_2) + 7(u_3 + v_3) - 9(u_4 + v_4) &= (4u_1 - 6u_2 + 7u_3 - 9u_4) + (4v_1 - 6v_2 + 7v_3 - 9v_4)	\\
+																  &= 0 + 0 \quad \text{by (i) and (ii)}	\\
+																  &= 0.
+	\end{align*}
+	Since $\vec{u} + \vec{v}$ satisfies the defining equation of $S$, the subset is closed under vector addition. Furthermore, let $\vec{u}$ be an arbitrary vector in $S$, and $c$ be an arbitrary scalar in $\mathbb{R}$. Consider the scalar multiple of $\vec{u}$ by c,
+	\begin{align*}
+		c\vec{u} &= \cvec{c u_1 \\ c u_2 \\ c u_3 \\ c u_4}.
+	\end{align*}
+	This resulting vector must be contained within $S$, that is
+	\begin{align*}
+		4cu_1 - 6cu_2 + 7cu_3 - 9cu_4 &= c \cdot (4u_1 - 6u_2 + 7u_3 - 9u_4)	\\
+				  					  &= c \cdot 0 \quad \text{from (i)}	\\
+				  					  &= 0.
+	\end{align*}
+	Since $S$ contains the zero vector, is closed under vector addition, and is closed under scalar multiplication, the Subspace Theorem states that it is a subspace of $\mathbb{R}^4$.
+
+\newpage
+\section*{\LARGE{Question 3}}
+
+	Let $\mathbb{P}_n$ be the set of real polynomials of degree at most $n$. Show that
+	\begin{align*}
+		S = \left\{P \in \mathbb{P}_7: p(-6) = p(7) \right\}
+	\end{align*}
+	is a subspace of $\mathbb{P}_7$.
+	\\ \\
+	By the Subspace Theorem, the set $S$ is a subspace of $V$ if and only if it contains the zero vector of $V$, $S$ is closed under vector addition, and closed under scalar multiplication.
+	\\ \\	
+	Let $\vec{0}$ denote the zero polynomial $\vec{0}(x) = 0 \; \forall x \in \mathbb{R}$. Therefore we have
+	\begin{align*}
+		\vec{0}(-6) = 0 \quad \text{and} \quad \vec{0}(7) = 0.
+	\end{align*}
+	Since $\vec{0}(-6) = \vec{0}(7)$, the zero polynomial satisfies the defining condition of $S$, so $\vec{0} \in S$.
+	\\ \\
+	Let $p,q \in S$ be arbitrary polynomials. By definition,
+	\begin{align*}
+		\tag{i}
+		p(-6) = p(7),	\\
+		\tag{ii}
+		q(-6) = q(7).
+	\end{align*}
+	The sum $p + q$ is contained in the vector space $\mathbb{P}_7$ since the sum of two polynomials of degree at most 7 results in a polynomial of degree at most 7. Evaluating $p + q$ at $-6$ and $7$ gives
+	\begin{align*}
+		(p + q)(-6) &= p(-6) + q(-6)		\\
+					&= p(7) + q(7) \quad \text{by (i) and (ii)}			\\
+					&= (p + q)(7).
+	\end{align*}
+	Since $(p + q)(-6) = (p + q)(7)$, the set $S$ is closed under addition.
+	\\ \\
+	Finally, let $p \in S$ be arbitrary such that
+	\begin{align*}
+		\tag{iii}
+		p(-6) = p(7),
+	\end{align*}
+	and let $c$ be an arbitrary scalar. The scalar multiple $cp \in \mathbb{P}_7$ since a scalar multiple of a polynomial of degree at most 7 is a polynomial of degree at most 7. Evaluating $cp$ at $-6$ and $7$ gives
+	\begin{align*}
+		(cp)(-6) &= c \cdot p(-6)	\\
+				 &= c \cdot p(7) \quad \text{by (iii)}	\\
+				 &= (cp)(7).
+	\end{align*}
+	Since $(cp)(-6) = (cp)(7)$, $cp \in S$ and the subset $S$ is closed under scalar multiplication. Since the subset of $\mathbb{P}_7$, $S$, contains the zero vector, is closed under vector addition, and closed under scalar multiplication, it is a subspace of $\mathbb{P}_7$.
+
+\newpage
+\section*{\LARGE{Question 4}}
+
+	The air in a 84 cubic metre kitchen is initially clean, but when Ian burns his toast while making breakfast, smoke is mixed with the room's air at a rate of 0.05 mg per second. An air conditioning system exchanges the mixture of air and smoke with clean air at a rate of 9 cubic metres per minute. Assume that the pollutant is mixed uniformly throughout the room and that burnt toast is taken outside after 72 seconds. Let $S(t)$ be the amount of smoke in mg in the room at time $t$ (in seconds) after the toast first began to burn.
+
+	\begin{enumerate}[(a)]
+		\item Find a differential equation obeyed by $S(t)$.
+			\\ \\
+			Smoke enters the room at a constant rate of 0.05 mg and leaves at a rate proportional to the current concentration, giving the equation
+			\begin{align*}
+				\frac{dS}{dt} = 0.05 - \frac{0.15}{84} \cdot S = 0.05 - \frac{S}{560} \quad \text{for } 0 \leq t \leq 72.
+			\end{align*}
+			\\
+		\item Find $S(t)$ for $0 \leq t \leq 72$ by solving the differential equation in (a) with an appropriate initial condition.
+			\\ \\
+			The differential equation is a first-order separable ODE and can be solved using an integrating factor. Rearranging the equation gives
+			\begin{align*}
+				\frac{dS}{dt} + \frac{1}{560} \cdot S = 0.05.
+			\end{align*}
+			The integrating factor can be calculated as $e^{\int \frac{1}{560} dt} = e^{\frac{t}{560}}$. Multiplying both sides of the differential equation by the integrating factor gives
+			\begin{align*}
+				e^{\frac{t}{560}} \left[\frac{dS}{dt} + \frac{1}{560} \cdot S\right] &= e^{\frac{t}{560}} \cdot 0.05	\\
+				e^{\frac{t}{560}} \frac{dS}{dt} + \frac{1}{560} e^{\frac{t}{560}} \cdot S &=							\\
+				\frac{d}{dt} \left[e^{\frac{t}{560}} \cdot S\right] &= e^{\frac{t}{560}} \cdot 0.05.
+			\end{align*}
+			Integrating this simplified equation with respect to $t$ provides
+			\begin{align*}
+				e^{\frac{t}{560}} \cdot S &= 0.05 \int e^{\frac{t}{560}} dt	\\
+										  &= 28 e^{\frac{t}{560}} + C \quad \text{where $C$ is a constant},
+			\end{align*}
+			and finally reduces to 
+			\begin{align*}
+				S(t) = 28 + Ce^{\frac{-t}{560}}.
+			\end{align*}
+			It is given that the air is initially clean, that is at $t = 0$, $S(0) = 0$. Substituting this into $S(t)$ gives
+			\begin{align*}
+				S(0) &= 28 + Ce^{\frac{0}{560}} = 0	\\
+				C &= -28.
+			\end{align*}
+			Therefore, $S(t)$ for $0 \leq t \leq 72$ is given by
+			\begin{align*}
+				S(t) &= 28 - 28e^{\frac{-t}{560}}	\\
+					 &= 28 \left(1 - e^{\frac{-t}{560}}\right).
+			\end{align*}
+			\\
+		\item What is the level of pollution in mg per cubic metre after 72 seconds.
+			\\ \\
+			The level of pollution in the room is given by $\frac{S(72)}{84}$ since the room contains 84 cubic metres of air. Hence, the level of pollution in the room after 72 seconds is
+			\begin{align*}
+				\frac{S(72)}{84} &= \frac{28 \cdot \left(1 - e^{\frac{-72}{560}}\right)}{84}	\\
+								 &= \frac{1}{3} \cdot \left(1 - e^{\frac{-9}{70}}\right)		\\
+								 &\approx 0.04021641686 \; \text{mg m$^{-3}$ (10 s.f.)}.
+			\end{align*}
+			\\
+		\item How long does it take for the level of pollution to fall to 0.005 mg per cubic metre after the toast is taken outside.
+			\\ \\
+			After the toast is taken outside, smoke is no longer entering the room. Therefore, after 72 seconds the smoke leaving the room is governed by the equation
+			\begin{align*}
+				\frac{dS_n}{dt} = -\frac{S_n}{560}.
+			\end{align*}
+			This equation can be solved simply as
+			\begin{align*}
+				S_n(t) = S_0 e^{\frac{-t}{560}},
+			\end{align*}
+			where $S_0 = \frac{S(72)}{84} = \frac{1}{3} \cdot \left(1 - e^{\frac{-9}{70}}\right)$ and $t$ is time in seconds after the toast was removed. Solving for $\frac{S_n(t)}{84} = 0.005$ gives
+			\begin{align*}
+				\frac{S_n(t)}{84} &= 0.005	\\
+				\frac{1}{3} \cdot \left(1 - e^{\frac{-9}{70}}\right) \cdot e^{\frac{-t}{560}} &= 0.005	\\
+				e^{\frac{-t}{560}} &= \frac{3}{200 \cdot \left(1 - e^{\frac{-9}{70}}\right)}			\\
+				\frac{-t}{560} &= \ln \left( \frac{3}{200 \cdot \left(1 - e^{\frac{-9}{70}}\right)} \right)	\\
+				t &= -560 \cdot \ln\left( \frac{3}{200 \cdot \left(1 - e^{\frac{-9}{70}}\right)} \right)	\\
+				  &\approx 1167.508933 \; \text{seconds (10 s.f.)}.
+			\end{align*}
+			Therefore it takes appropriately 1167.508933 seconds after the toast is removed from the room for the level of pollution to fall to 0.005 mg per cubic metre.
+	\end{enumerate}
+\end{document}

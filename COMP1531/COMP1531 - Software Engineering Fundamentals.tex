@@ -169,10 +169,10 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 	\section{Common Software Development Models}
 
 		\begin{itemize}
-			\item Waterfall - linera and structured
-			\item Prototyping - get early feedback
-			\item Iterative development - Continuous improvement and feature addition
-			\item Agile - Iterative development but getting feedback on each feature after it is completed
+			\item Waterfall $\rightarrow$ linear and structured
+			\item Prototyping $\rightarrow$ get early feedback
+			\item Iterative development $\rightarrow$ Continuous improvement and feature addition
+			\item Agile $\rightarrow$ Iterative development but getting feedback on each feature after it is completed
 		\end{itemize}
 
 	\section{JavaScript}
@@ -182,7 +182,7 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 			\item Extensively used by large tech companies
 			\item Front-end software
 			\item NodeJS compiles and runs JavaScript code
-			\item NodeJS is interpreted, ie. a high level language. The code gets interpreted before it gets compiled into machine language.
+			\item NodeJS is interpreted, ie.\ a high level language. The code gets interpreted before it gets compiled into machine language.
 			\item JS type shenanigans
 			\item \mintinline{js}{let} creates a variable that can be reassigned
 			\item \mintinline{js}{const} creates a variable that cannot be reassigned. However, objects can still be manipulated.
@@ -207,8 +207,8 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 				\item Data structures are designed to scale complex tasks
 				\item Two important data structures that are both collections of data are
 					\begin{itemize}
-						\item Sequential collections - indexed things such as arrays
-						\item Associative collections - values are referenced by a string key that maps it to a value, in JS is an object
+						\item Sequential collections $\rightarrow$ indexed things such as arrays
+						\item Associative collections $\rightarrow$ values are referenced by a string key that maps it to a value, in JS is an object
 					\end{itemize}
 			\end{itemize}
 
@@ -253,11 +253,10 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 		\item Version control across a team of engineers
 	\end{enumerate}
 
-	Files are added to a staging area with \mintinline{bash}{git add .}, where \mintinline{bash}{.} refers to all changes. The staged changes can be committed to the working tree with \mintinline{bash}{git commit -m "message"}. Finally, to export the changes into the cloud, \mintinline{bash}{git push} can be used.
 
 	\mintinline{bash}{git diff} shows the difference between the working directory and staged directory.
 
-\chapter{Unigotchi - Iteration 0}
+\chapter{Unigotchi --- Iteration 0}
 
 	\begin{itemize}
 		\item Understand the requirements
@@ -284,6 +283,285 @@ overlay={\node[anchor=west,outer sep=2pt] at (frame.west) {\includegraphics[widt
 	Functions from other people can be downloaded into our directory using npm. Running npm init will create a package.json that has the information required modules to tell other people what to install. Installed packages are added to the node\_modules folder. This folder is gitignored to save space.
 
 \chapter{asdf}
-	function requirements r the important parts
-	non function r optional
+	function requirements are the important parts
+	non function are optional
+
+\chapter{Dynamic Verification}
+
+	\begin{itemize}
+		\item Writing tests are critical to ensure an application works, behaves as expected, and meets requirements
+		\item Approaching testing the right way will yield better results
+	\end{itemize}
+
+	\textbf{Types of software testing}
+	\begin{itemize}
+		\item Acceptance
+		\item Integration
+		\item Unit
+		\item Usability
+		\item Functional
+		\item Performance
+	\end{itemize}
+
+	\subsection{Coverage}
+	\begin{itemize}
+		\item A general measure of how thorough our tests are
+		\item Test coverage is how much of the feature set is covered with tests
+		\item Code coverage measure the percentage of lines of code that is covered in tests
+	\end{itemize}
+
+\chapter{Static Verification}
+
+	\begin{itemize}
+		\item TypeScript is similar to JavaScript but with explicit typing
+	\end{itemize}
+
+\chapter{Continuous Integration}
+
+	Practice of automating the integration of code changes into master. Typically continuous integration consists of a series of operations that are executed on any commit that is pushed to the repository. In gitlab, the \mintinline{bash}{.gitlab-ci.yml} file within the root folder allows users to create tests that are run in stages before code can be merged onto master.
+
+\chapter{Advanced Functions}
+
+	\begin{itemize}
+		\item Writing long code causes longer loading times
+		\item Since JavaScript is implemented on the web, the size of the files should be minimised.
+	\end{itemize}
+
+	\begin{minted}{js}
+		// The traditional way of writing a function
+		function Volume(length, width, height) {
+			return length * width * height;
+		}
+
+		// The same function can be written 
+		const volume = function (length, width, height) => {
+			return length * width * height;
+		}
+
+		// and more succinctly
+		const volume = (length, width, height) => {
+			return length * width * height;
+		}
+
+		// condensed into one line
+		const volume = (length, width, height) => length * width * height;
+
+	\end{minted}
+
+	\begin{itemize}
+		\item In JavaScript, functions are treated like variables, they can be stored, passed, or returned.
+			\begin{itemize}
+				\item First class function
+			\end{itemize}
+		\item A higher class function is able to return a function
+	\end{itemize}
+
+	\begin{minted}{ts}
+
+		type Fmrt = (str: string) => string;
+		const bracket = (str: string) => `(${str})`;
+		const fullstop = (str: string) => `${str}.`;
+
+		function SayHi(name: string, format: Fmtr) {
+			return `Hi $(format(name))`;
+		}
+
+		console.log(SayHi("Name"), fullstop)
+	\end{minted}
+
+	\section{Map, Reduce, Filter}
+
+		\begin{itemize}
+			\item Are array methods that perform iterative functions
+			\item Map: Modify an array
+				\begin{itemize}
+					\item Takes an array of size $n$, and produces a new array of size $n$ having modified all elements of the array.
+				\end{itemize}
+			\item Filter: Select from an array
+				\begin{itemize}
+					\item Takes an array of size $n$ and produces a new array of size 0-$n$
+				\end{itemize}
+			\item Reduce: Summarise an array
+		\end{itemize}
+
+\chapter{HTTP Servers}
+
+	\begin{itemize}
+		\item Web servers are a fundamental part of web-based full-stack software
+		\item Network: A group of interconnected computers that can communicate
+		\item Internet: A global infrastructure for networking computers around the world
+		\item Nodejs express allows users to run a server locally
+	\end{itemize}
+
+	\begin{minted}{js}
+		import express, { Request, Response } from 'express';
+
+		// Create an instance
+		const app = express();
+		const port: number = 3000;
+
+		app.use(express.text()):
+
+		app.get('whatsup', (req: Request, res: Response) => {
+			res.send('Hello!');
+		})
+
+		app.listen(port, () => {
+			console.log('Listening on port ${port}');
+		})
+	\end{minted}
+
+\chapter{Persistence}
+	
+	\textbf{Why data persistence?}
+
+		\begin{itemize}
+			\item Persistence allows information to be retained even after the program stops running.
+			\item Ensures consistency and reliability across multiple sessions or users.
+			\item Data is also critical to allow an application to function as it allows for the storage of state.
+		\end{itemize}
+
+	\textbf{Data layers}
+		
+		\begin{itemize}
+			\item In-memory (non-persistent)
+			\item In-file (filesystem direct storage)
+			\item In-database (Relational SQL, NoSQL)
+		\end{itemize}
+
+\chapter{Exceptions}
+	
+\chapter{Authentication and Authorisation}
+
+	\begin{itemize}
+		\item Authentication $\rightarrow$ the process of verifying who a user is
+		\item Authorisation $\rightarrow$ the process of determining what an authenticated user is allowed to do
+		\item To keep passwords safe, we use hashing, a one way encryption method
+		\item Encryption is hashing with a key so it can be decrypted
+	\end{itemize}
+
+\chapter{Session}
+
+	\begin{itemize}
+		\item Simple json tokens are easy to take
+		\item Hash them with smth
+	\end{itemize}
+
+\chapter{Modelling}
+
+	\begin{itemize}
+		\item A model is a simplified representation of a more complex system that helps us understand, communicate, or reason about that system
+		\item Conceptual model is a type of model that captures a system in a conceptual rather than physical model, tending to be diagramatic or visual
+		\item Behavioural model
+			\begin{itemize}
+				\item Distinct states a system can be in
+				\item Transitions between states triggered by events/actions
+				\item Some variation in notation, typically states are circles, transitions are labelled arrows
+			\end{itemize}
+	\end{itemize}
+
+\chapter{Software Complexity}
+
+	\begin{itemize}
+		\item Essential
+			\begin{itemize}
+				\item Complexity that is inherent to the problem
+				\item Eg.\ if the user or client requires the program to do 30 different things, then those 30 things are essential
+			\end{itemize}
+		\item Accidental
+			\begin{itemize}
+				\item Complexity that is not inherent to the problem
+				\item Eg.\ generating or parsing data in specific formats
+			\end{itemize}
+		\item Coupling
+			\begin{itemize}
+				\item A measure of how closely connected different software components are
+				\item Usually expressed as a simple ordinal measure of `loose' or `tight'
+				\item Eg.\ web applications tend to have a front-end that is loosely coupled from the backend
+				\item Loose coupling is good
+			\end{itemize}
+		\item Cohesion
+			\begin{itemize}
+				\item The degree to which elements of a module belong together
+				\item Elements belong together if they are somehow related
+				\item High cohesion is good
+			\end{itemize}
+		\item Cyclomatic complexity
+			\begin{itemize}
+				\item A measure of the branching complexity of functions
+				\item Computed by counting the number of linearly-independent paths through a function
+				\item Convert function into a control flow graph
+					\begin{align*}
+						V(G) = e - n + 2
+					\end{align*}
+					where $e$ is the number of edges and $n$ is the number of nodes.
+				\item Low cyclomatic complexity is better
+			\end{itemize}
+	\end{itemize}
+
+\chapter{Agile Software Engineering}
+
+	\begin{itemize}
+		\item What is agile?
+			\begin{itemize}
+				\item Agile is a software development philosophy that focuses on delivering valuable software through small, frequent releases rather than one large release at the end of a project
+				\item Unlike traditional approaches, Agile assumes that requirements will change as customers learn more about their needs
+				\item The goal is not simply writing code, but continuously delivering value to users
+			\end{itemize}
+			\begin{itemize}
+				\item In 1990s many software projects failed because teams spent months gathering requirements, writing documentation, and producing detailed designs before writing code
+				\item Customer needs changed
+				\item Competitors released better products faster
+			\end{itemize}
+		\item Agile practices
+			\begin{itemize}
+				\item Build small pieces of working software
+				\item Release frequently
+				\item Gather customer feedback early
+				\item Adapt to changing requirements
+				\item Continuously improve the product
+			\end{itemize}
+			\begin{enumerate}
+				\item Satisfy customers through early delivery
+				\item Welcome changing requirements
+				\item Deliver software frequently
+				\item Developers and customers work together
+				\item Build projects around motivated people
+				\item Face-to-face conversations are the most effective way to share information
+				\item Working software is the primary measure of progress
+				\item Maintain sustainable development
+				\item Pursue technical excellence
+				\item Keep solutions simple
+			\end{enumerate}
+			\begin{itemize}
+				\item \textbf{Key Agile Values}
+					\begin{itemize}
+						\item Individuals and interactions over processes and tools
+						\item Working software over comprehensive documentation
+						\item Customer collaboration over contract negotiation
+						\item Responding to change over following a plan
+					\end{itemize}
+				\item Successful Agile teams commonly use
+					\begin{itemize}
+						\item User stories
+						\item Test driven development
+					\end{itemize}
+			\end{itemize}
+		\item Why agile works
+			\begin{itemize}
+				\item Agile succeeds because it shortens the feedback loop
+				\item Fast feedback means fewer mistakes
+			\end{itemize}
+		\item Some examples
+	\end{itemize}
+
+	\section{Validation}
+
+		\begin{itemize}
+			\item It's important to understand the difference between verification and validation
+			\item Validation in a system life cycle context is a set of activities ensuring and gaining confidence that a system is able to accomplish its intended use, goals and objectives.
+		\end{itemize}
+	
+	\section{Deployment}
+
 \end{document}
